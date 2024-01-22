@@ -1,3 +1,5 @@
+package csx55.overlay;
+
 import java.io.*;
 
 public class TCPReceiverThread implements Runnable {
@@ -6,7 +8,7 @@ public class TCPReceiverThread implements Runnable {
 
     public TCPReceiverThread(Socket socket) throws IOException {
         this.socket = socket;
-        data_in = new DataInputStream;
+        data_in = new DataInputStream();
     } // End TCPRecieverThread constructor
 
     public void run() {
