@@ -11,7 +11,7 @@ public enum Protocol {
     PROTOCOL,
     TASKCOMPLETE,
     TASKINITIATE,
-    TASKSUMMARY,
+    TASKSUMMARYREQUEST,
     TASKSUMMARYRESPONSE // Ends with 10
 
 } // End Protocol enum
