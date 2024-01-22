@@ -38,7 +38,6 @@ public class EventFactory implements Protocol {
             case TASKSUMMARYRESPONSE:
                 temp = new TaskSummaryResponse();
                 break;
-
         } // End switch protocol
 
         return temp;
