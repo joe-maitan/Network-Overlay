@@ -50,7 +50,7 @@ public class Resgistry {
             server_socket = new ServerSocket(PORT_NUM);
 
             System.out.println("Waiting for clients to join...");
-            /* minimum of 10 clients can join the server */
+            /* minimum of 10 clients can join the server, with a default of 4 */
             // write code for a minimum of 10 clients but for now will be working with 2 nodes/clients
             for (int i = 0; i < num_clients; ++i) {
                 client_sockets[i] = server_socket.accept();
