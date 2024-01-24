@@ -31,9 +31,7 @@ public class Resgistry {
         } // End try-catch block
     } // End clean_up() method
 
-    public static void main(String[] args) throws IOException {
-        final int PORT_NUM = Integer.parseInt(args[0]);
-        
+    public static void starting_server(final int PORT_NUM) {
         /* validate the port number read in from the terminal is within bounds */
         try {
             if (PORT_NUM < 1024 || PORT_NUM > 65535) {
@@ -50,16 +48,25 @@ public class Resgistry {
             System.out.println("Host name: " + InetAddress.getLocalHost());
 
             server_socket = new ServerSocket(PORT_NUM);
-            
+
             System.out.println("Waiting for clients to join...");
             for (int i = 0; i < num_clients; ++i) {
                 client_sockets[i] = server_socket.accept();
-
+                // create a new node object and then have be client[i]?
+                // register the node with the registry
             } // End for loop
-            System.out.println("Clients (nodes) are connected");
+            System.out.println("Clients (nodes) are connected and registered");
         } catch (IOException e) {
             System.err.println(e.getMessage());
         } // End try-catch block
+    }
+
+    public static void main(String[] args) throws IOException {
+        final int PORT_NUM = Integer.parseInt(args[0]);
+
+        starting_server(PORT_NUM); /* start the server, and accept connections from clients (different machines) */
+
+        
     } // End main method
 
 } // End Registry class
