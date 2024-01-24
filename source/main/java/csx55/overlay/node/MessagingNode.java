@@ -8,6 +8,8 @@ public class MessagingNode implements Node { // The MessageNode class can be tho
     private String message;
     private String type_of_message; // What is the protocol?
 
+    public static int number_of_connections = 0;
+
     /* Every node has key parts. A data in stream (read), a data out stream (write),
      * and a client_socket: This is what is going to establish our connection to the 
      * registry/server
@@ -28,6 +30,7 @@ public class MessagingNode implements Node { // The MessageNode class can be tho
         try {
             client_socket = new Socket(HOST_NAME, PORT_NUM);
             MessagingNode new_node = new MessagingNode(client_socket.getInetAddress());
+            // Do we increment our number of connections?
             // Do we add it to the registry list here?
         } catch (IOException e) {
             System.err.println(e.getMessage());

@@ -9,9 +9,9 @@ public class Resgistry {
     /* The DataInputStream and DataOutputStream are arrays because we are
      * going to be communicating with a lot of nodes
      */
-    static DataInputStream[] registry_read;
+    static DataInputStream[] registry_read; // Do we need these or would we be using the TCPSender and Reciever threads?
     static DataOutputStream[] registry_send;
-    static ServerSocket server_socket; // The Registry is our one server
+    static ServerSocket server_socket; // The Registry is our one server, do we use the TCPServerThread?
     static Socket[] client_sockets = new Socket[2];
     static ArrayList<MessagingNode> list_of_nodes = new ArrayList<>();
 
