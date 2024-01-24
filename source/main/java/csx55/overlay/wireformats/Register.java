@@ -7,12 +7,12 @@ public class Register implements Event {
     String IP_address;
     int port_number;
 
-    public void register_node() {
+    // public void register_node() {
 
-    } // End register_node() method
+    // } // End register_node() method
 
-    public void deregister_node() {
+    // public void deregister_node() {
 
-    } // End deregister_node() method
+    // } // End deregister_node() method
     
 } // End Register class
