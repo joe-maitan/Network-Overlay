@@ -63,7 +63,7 @@ public class Resgistry {
         } catch (IOException e) {
             System.err.println(e.getMessage());
         } // End try-catch block
-    }
+    } // End start_server() method
 
     public static void main(String[] args) throws IOException {
         final int PORT_NUM = Integer.parseInt(args[0]);
