@@ -63,6 +63,11 @@ public class Resgistry {
         } // End try-catch block
     } // End start_server() method
 
+    public static void construct_overlay() {
+        // In the directions, page 1. Part 1.D. It says that the registry can enable the consturction of the overlay, connecting the
+        // messaging nodes with one another
+    } // End construct_overlay() method
+
     public static void main(String[] args) throws IOException {
         final int PORT_NUM = Integer.parseInt(args[0]);
 
