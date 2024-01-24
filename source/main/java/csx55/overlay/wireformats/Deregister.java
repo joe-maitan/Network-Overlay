@@ -6,4 +6,4 @@ public class Deregister implements Event {
     String IP_address;
     int port_number;
     
-}
+} // End Deregister class
