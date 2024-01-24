@@ -4,6 +4,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
+import java.util.ArrayList;
 
 public class Resgistry {
 
@@ -14,6 +15,7 @@ public class Resgistry {
     static DataOutputStream[] registry_send;
     static ServerSocket server_socket; // The Registry is our one server
     static Socket[] client_sockets = new Socket[2];
+    static ArrayList<MessagingNode> list_of_nodes = new ArrayList<>();
 
     public static void send_message(String msg, int node_index) {
 
@@ -31,7 +33,7 @@ public class Resgistry {
         } // End try-catch block
     } // End clean_up() method
 
-    public static void starting_server(final int PORT_NUM) {
+    public static void start_server(final int PORT_NUM) {
         /* validate the port number read in from the terminal is within bounds */
         try {
             if (PORT_NUM < 1024 || PORT_NUM > 65535) {
@@ -64,7 +66,7 @@ public class Resgistry {
     public static void main(String[] args) throws IOException {
         final int PORT_NUM = Integer.parseInt(args[0]);
 
-        starting_server(PORT_NUM); /* start the server, and accept connections from clients (different machines) */
+        start_server(PORT_NUM); /* start the server, and accept connections from clients (different machines) */
 
         
     } // End main method
