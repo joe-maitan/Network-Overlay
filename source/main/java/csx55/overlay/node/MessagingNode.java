@@ -3,7 +3,7 @@ package csx55.overlay;
 import java.io.*;
 import java.net.*;
 
-public class MessagingNode { // The MessageNode class can be thought of as our client code
+public class MessagingNode implements Node { // The MessageNode class can be thought of as our client code
     private String node_name; // Node names, are these the machine names?
     private String message;
     private String type_of_message; // What is the protocol?
@@ -17,8 +17,12 @@ public class MessagingNode { // The MessageNode class can be thought of as our c
     static Socket client_socket;
 
     public MessagingNode(String name) {
+        this.node_name = name;
+    } // End MessagingNode() constructor
 
-    }
+    public void onEvent(Event type_of_event) {
+
+    } // End onEvent() method
 
     public static void initialize_connection_to_server(final String HOST_NAME, final int PORT_NUM) {
         try {
@@ -37,5 +41,6 @@ public class MessagingNode { // The MessageNode class can be thought of as our c
         initialize_connection_to_server(HOST_NAME, PORT_NUM);
 
 
-    }
+    } // End main method
+
 } // End MessagingNode class
