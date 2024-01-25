@@ -24,8 +24,8 @@ public class MessagingNode implements Node { // The MessageNode class can be tho
 
     public void onEvent(String event) {
         /* connect the event to the kind of event in the event factory? And then based on that have the 
-         * event factory send the message to the corresponding node
-         */
+        * event factory send the message to the corresponding node
+        */
 
         // factory(Event.getType(event));
 

@@ -22,10 +22,10 @@ public class TCPReceiverThread implements Runnable {
                 byte[] data = new byte[data_length];
                 data_in.readFully(data, 0, data_length);
             } catch (SocketException se) {
-                System.out.println("SocketException - TCPRecieverThread class - public void run().\n");
+                System.out.println("SocketException - TCPRecieverThread class - SocketException - public void run().\n");
                 break;
             } catch (IOException ioe) {
-                System.out.println("IOException - TCPRecieverThread class - public void run().\n");
+                System.out.println("IOException - TCPRecieverThread class - IOException - public void run().\n");
                 break;
             } // End try-catch block
         } // End while loop
