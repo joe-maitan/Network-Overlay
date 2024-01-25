@@ -4,7 +4,7 @@ import javax.swing.DebugGraphics;
 
 public class EventFactory implements Protocol {
     
-    public static Event facory(int protocol) {
+    public static Event factory(int protocol) {
         Event temp = null;
 
         switch (protocol) {

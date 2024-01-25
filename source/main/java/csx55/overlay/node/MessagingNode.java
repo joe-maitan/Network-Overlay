@@ -22,10 +22,13 @@ public class MessagingNode implements Node { // The MessageNode class can be tho
         this.node_name = name;
     } // End MessagingNode() constructor
 
-    public void onEvent(String type_of_event) {
-        /* connect the type_of_event to the kind of event in the event factory? And then based on that have the 
+    public void onEvent(String event) {
+        /* connect the event to the kind of event in the event factory? And then based on that have the 
          * event factory send the message to the corresponding node
          */
+
+        // factory(Event.getType(event));
+
     } // End onEvent() method
 
     public static void initialize_connection_to_server(final String HOST_NAME, final int PORT_NUM) {
