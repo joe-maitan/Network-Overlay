@@ -46,7 +46,7 @@ public class Resgistry {
             /* Create our server socket, wait for connections from other machines (nodes)
              * and then start having them communciate
              */
-            System.out.println("Host name: " + InetAddress.getLocalHost());
+            System.out.println("Registry host name: " + InetAddress.getLocalHost());
 
             server_socket = new ServerSocket(PORT_NUM);
 
