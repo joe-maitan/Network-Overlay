@@ -22,14 +22,16 @@ public class MessagingNode implements Node { // The MessageNode class can be tho
         this.node_name = name;
     } // End MessagingNode() constructor
 
-    public void onEvent(Event type_of_event) {
-
+    public void onEvent(String type_of_event) {
+        /* connect the type_of_event to the kind of event in the event factory? And then based on that have the 
+         * event factory send the message to the corresponding node
+         */
     } // End onEvent() method
 
     public static void initialize_connection_to_server(final String HOST_NAME, final int PORT_NUM) {
         try {
             client_socket = new Socket(HOST_NAME, PORT_NUM);
-            MessagingNode new_node = new MessagingNode(client_socket.getInetAddress());
+            MessagingNode new_node = new MessagingNode(client_socket.getInetAddress().getLocalHost());
             // Do we increment our number of connections?
             // Do we add it to the registry list here?
         } catch (IOException e) {
@@ -39,7 +41,7 @@ public class MessagingNode implements Node { // The MessageNode class can be tho
 
     public static void main(String[] args) {
         final String HOST_NAME = args[0];
-        final int PORT_NUM = args[1];
+        final int PORT_NUM = Integer.parseInt(args[1]);
 
         initialize_connection_to_server(HOST_NAME, PORT_NUM);
 
