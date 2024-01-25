@@ -14,9 +14,9 @@ public class MessagingNode extends Node { // The MessageNode class can be though
      * and a client_socket: This is what is going to establish our connection to the 
      * registry/server
      */
-    static DataInputStream din;
-    static DataOutputStream dout;
-    static Socket client_socket;
+    // static DataInputStream din; TCPReceiverThread
+    // static DataOutputStream dout; TCPSenderThread
+    // static Socket client_socket;
 
     public MessagingNode(String name) {
         this.node_name = name;

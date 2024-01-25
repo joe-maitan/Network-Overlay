@@ -33,13 +33,11 @@ public class Resgistry extends Node {
     } // End clean_up() method
 
     public static void start_server(final int PORT_NUM) {
-        // TCPServerThread registry_server_thread = new TCPServerThread();
-        // registry_server_thread.run();
-        // /* validate the port number read in from the terminal is within bounds */
+        /* validate the port number read in from the terminal is within bounds */
         try {
             if (PORT_NUM < 1024 || PORT_NUM > 65535) {
                 throw new Exception("Resigstry.java - main method - Port number is out of bounds");
-            }
+            } // End if statement
         } catch (Exception e) {
             e.printStackTrace();
         } // End try-catch block

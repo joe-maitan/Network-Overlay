@@ -10,11 +10,14 @@ public class TCPSender implements Runnable {
 
     public TCPSender(Socket socket) throws IOException {
         this.socket = socket;
-        data_out = new DataOutputStream(data_out);
+        
     } // End TCPSender(socket) constructor
 
-    public void run() {
+    public void send(Socket new_socket, byte[] msg) {
 
-    } // End run() method
+        data_out = new DataOutputStream(new_socket.getData);
+        data_out.send(msg);
+        data_out.flush();
+    } // End send() method
     
 } // End TCPSender class

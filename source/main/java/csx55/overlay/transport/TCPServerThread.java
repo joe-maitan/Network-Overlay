@@ -6,9 +6,22 @@ import java.net.*;
 public class TCPServerThread {
 
     static ServerSocket our_server;
+    public ArrayList<Socket> sockets = new ArrayList<>();
+    volatile boolean done = false;
+
+    public TCPServerThread() {
+        
+    } // End TCPServerThread
 
     public void run(final int PORT_NUM) {
         initialize_server();
+        
+        int new_socket = 0;
+        while (!done) {
+            Socket s = our_server.accept();
+            sockets.add(s);
+            TCPReceiverThread temp = new TCPReceiverThread(s);
+        } // End while loop
     } // End run() method
 
     public static void initialize_server() {
