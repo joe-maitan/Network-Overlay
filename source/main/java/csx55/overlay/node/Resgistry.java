@@ -34,7 +34,7 @@ public class Resgistry extends Node {
 
     public static void start_server(final int PORT_NUM) {
         TCPServerThread registry_server_thread = new TCPServerThread();
-        registry_server_thread.initialize_server
+        // registry_server_thread.run();
         // /* validate the port number read in from the terminal is within bounds */
         // try {
         //     if (PORT_NUM < 1024 || PORT_NUM > 65535) {
