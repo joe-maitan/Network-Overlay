@@ -54,10 +54,10 @@ public class Resgistry extends Node {
             /* minimum of 10 clients can join the server */
             /* at minium they will connect with 4 other nodes */
             // write code for a minimum of 10 clients but for now will be working with 2 nodes/clients
-            for (int i = 0; i < MessagingNode.number_of_connections; ++i) {
-                client_sockets[i] = server_socket.accept();
-                // Do we create the new messagingNode here or in MessagingNode?
-                // register the node with the registry here
+            for (int i = 0; i < 10; ++i) {
+                Node new_node = new Node(); // Inside of new_node it would create the connection to our server
+                // server_socket.accept();
+                list_of_nodes.add(new_node);
             } // End for loop
             System.out.println("Clients (nodes) are connected and registered");
         } catch (IOException e) {
