@@ -8,7 +8,7 @@ public class TCPServerThread {
     static ServerSocket our_server;
 
     public void run(final int PORT_NUM) {
-        initialize_server();
+        initialize_server(PORT_NUM);
     } // End run() method
 
     public static void initialize_server() {
@@ -24,7 +24,6 @@ public class TCPServerThread {
     } // End initialize_server() method
 
     public static void initialize_server(final int PORT_NUM) {
-
         if (PORT_NUM == null) { /* port number is empty */
             int port_num = 1025;
             while (our_server == null) {
