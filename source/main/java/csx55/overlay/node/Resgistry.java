@@ -13,7 +13,8 @@ public class Resgistry {
     static DataOutputStream[] registry_send;
     static ServerSocket server_socket; // The Registry is our one server, do we use the TCPServerThread?
     static Socket[] client_sockets = new Socket[2];
-    static ArrayList<MessagingNode> list_of_nodes = new ArrayList<>();
+    
+    static ArrayList<MessagingNode> list_of_nodes = new ArrayList<>(); // Keep track of our MessagingNodes that have been registered and deregistered
 
     public static void send_message(String msg, int node_index) {
 
@@ -50,7 +51,8 @@ public class Resgistry {
             server_socket = new ServerSocket(PORT_NUM);
 
             System.out.println("Waiting for clients to join...");
-            /* minimum of 10 clients can join the server, with a default of 4 */
+            /* minimum of 10 clients can join the server */
+            /* at minium they will connect with 4 other nodes */
             // write code for a minimum of 10 clients but for now will be working with 2 nodes/clients
             for (int i = 0; i < MessagingNode.number_of_connections; ++i) {
                 client_sockets[i] = server_socket.accept();
