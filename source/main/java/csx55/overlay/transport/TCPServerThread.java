@@ -9,15 +9,16 @@ public class TCPServerThread {
 
     public void run() {
         initialize_server();
-    }
+    } // End run() method
 
     public static void initialize_server() {
         int port_num = 1025;
-        while () {
+        while (our_server == null) {
             try {
                 our_server = new ServerSocket(port_num);
             } catch (SocketException e) {
-                System.err.println(e.getMessage());
+                // System.err.println(e.getMessage());
+                ++port_num; // Increment the port_num every time we cannot initialize our_server
             } // End try-catch block
         } // End while loop
     } // End initialize_server() method

@@ -12,5 +12,9 @@ public class TCPSender implements Runnable {
         this.socket = socket;
         data_out = new DataOutputStream(data_out);
     } // End TCPSender(socket) constructor
+
+    public void run() {
+
+    } // End run() method
     
 } // End TCPSender class

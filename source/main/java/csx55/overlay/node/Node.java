@@ -2,14 +2,15 @@ package csx55.overlay;
 
 public class Node {
 
-    ServerSocket node_socket;
-    Socket[] sockets;
+    Socket[] sockets; // The node class needs a structure to keep track of the accepeted connections to a given node
 
-    // Spawn the TCPServerThread
-    // for each accept, new connect, keep a record of sockets created,
-    // and spawn a TCPRecieverThread and TCPSenderThread
+    TCPServerThread new_node_server = new TCPServerThread(); // Spawn the TCPServerThread
 
-
+    public static void looking_for_nodes() {
+        // for each accept, new connect, keep a record of sockets created,
+        // and spawn a TCPRecieverThread and TCPSenderThread
+    }
+    
     public void onEvent(Event new_event) {
 
     } // End onEvent() method
