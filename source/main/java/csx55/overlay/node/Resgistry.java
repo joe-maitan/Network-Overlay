@@ -4,13 +4,13 @@ import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
 
-public class Resgistry {
+public class Resgistry extends Node {
 
     /* The DataInputStream and DataOutputStream are arrays because we are
      * going to be communicating with a lot of nodes
      */
-    static DataInputStream[] registry_read; // Do we need these or would we be using the TCPSender and Reciever threads?
-    static DataOutputStream[] registry_send;
+    // static DataInputStream[] registry_read; // Do we need these or would we be using the TCPSender and Reciever threads?
+    // static DataOutputStream[] registry_send;
     static ServerSocket server_socket; // The Registry is our one server, do we use the TCPServerThread?
     static Socket[] client_sockets = new Socket[2];
     
@@ -33,14 +33,16 @@ public class Resgistry {
     } // End clean_up() method
 
     public static void start_server(final int PORT_NUM) {
-        /* validate the port number read in from the terminal is within bounds */
-        try {
-            if (PORT_NUM < 1024 || PORT_NUM > 65535) {
-                throw new Exception("Resigstry.java - main method - Port number is out of bounds");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } // End try-catch block
+        TCPServerThread registry_server_thread = new TCPServerThread();
+        registry_server_thread.initialize_server
+        // /* validate the port number read in from the terminal is within bounds */
+        // try {
+        //     if (PORT_NUM < 1024 || PORT_NUM > 65535) {
+        //         throw new Exception("Resigstry.java - main method - Port number is out of bounds");
+        //     }
+        // } catch (Exception e) {
+        //     e.printStackTrace();
+        // } // End try-catch block
 
         try {
             /* Create our server socket, wait for connections from other machines (nodes)

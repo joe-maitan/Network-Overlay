@@ -3,7 +3,7 @@ package csx55.overlay;
 import java.io.*;
 import java.net.*;
 
-public class MessagingNode implements Node { // The MessageNode class can be thought of as our client code
+public class MessagingNode extends Node { // The MessageNode class can be thought of as our client code
     private String node_name; // Node names, are these the machine names?
     private String message;
     private String type_of_message; // What is the protocol?

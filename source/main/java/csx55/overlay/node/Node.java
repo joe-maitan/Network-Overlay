@@ -9,7 +9,7 @@ public class Node {
     public static void looking_for_nodes() {
         // for each accept, new connect, keep a record of sockets created,
         // and spawn a TCPRecieverThread and TCPSenderThread
-    }
+    } // End looking_for_nodes() method
     
     public void onEvent(Event new_event) {
 
