@@ -4,11 +4,23 @@ import java.io.*;
 import java.net.*;
 import java.util.*;
 
-public class TCPServerThread implements runnable {
+public class TCPServerThread extends runnable {
 
     static ServerSocket our_server;
-    public ArrayList<Socket> sockets = new ArrayList<>();
-    volatile boolean done = false;
+    public ArrayList<Socket> other_node_sockets = new ArrayList<>();
+    static volatile boolean connection_is_active = false;
+
+    public static boolean is_active() {
+        if (connection_is_active == true) {
+            return true;
+        } else {
+            return false;
+        }
+    } // End is_active() method
+
+    public static boolean set_connection(boolean status) {
+        connection_is_active = status;
+    } // End set_connection() method
 
     /* This TCPServerThread takes in a port number passed in from the MessagingNode/Node it has spawned from.
      * From there, we check if the PORT_NUM passed in is a valid port number, else, we increment the new port #
@@ -17,8 +29,7 @@ public class TCPServerThread implements runnable {
      */
     public TCPServerThread(final int PORT_NUM) {
         if (PORT_NUM > 1024 && PORT_NUM < 65536) {
-            /* the given port is valid */
-            our_server = new ServerSocket(PORT_NUM);
+            our_server = new ServerSocket(PORT_NUM); /* the given port is valid */
         } else {
             int new_port_num = 1025;
 
@@ -29,15 +40,14 @@ public class TCPServerThread implements runnable {
                     ++new_port_num; // Increment the port_num every time we cannot initialize our_server
                 } // End try-catch block
             } // End the while loop
-        }
-
-        Thread t = new Thread(TCPServerThread);
+        } // End if-else statment
     } // End TCPServerThread
 
     public void run() {
-    
+        /* every node connects to a default number of 4 other nodes. NODES not MessagingNodes. Every MessagingNode will spawn its own node and follow this sequence */
+        while (is_active()) {
+            /* look for other nodes to connect to and keep track of the other nodes we will connect to */
+        }
     } // End run() method
 
-    
-    
 } // End TCPServerThread class

@@ -5,7 +5,7 @@ import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
 
-public class Registry implements Node {
+public class Registry extends Node {
 
     static ServerSocket registry_server;
     static Socket[] messaging_node_sockets; /* Keep track of how many messaging nodes connect to the regsitry */

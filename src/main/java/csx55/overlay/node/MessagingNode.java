@@ -4,7 +4,7 @@ import csx55.overlay.wireformats.*;
 import java.io.*;
 import java.net.*;
 
-public class MessagingNode implements Node  {
+public class MessagingNode extends Node  {
 
     private String messaging_node_name; /* The machine name of the messagingNode (Client) */
     private String message;
