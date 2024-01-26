@@ -28,6 +28,16 @@ public class MessagingNode implements Node  {
         // spawn a TCPSender
 
     } // End MessagingNode() constructor
+    public static void main(String[] args) {
+        if (args.length < 2) {
+            System.exit(1);
+        }
+        
+        final String REGISTRY_HOST_NAME = args[0];
+        final int PORT_NUM = Integer.parseInt(args[1]);
+
+        initialize_connection_to_registry(REGISTRY_HOST_NAME, PORT_NUM);
+    } // End main method
 
     @Override
     public void onEvent(Event type_of_event) {
@@ -43,17 +53,5 @@ public class MessagingNode implements Node  {
             System.err.println(e.getMessage());
         } // End try-catch block
     } // End initialize_connection_to_server() method
-
-
-    public static void main(String[] args) {
-        if (args.length < 2) {
-            System.exit(1);
-        }
-        
-        final String REGISTRY_HOST_NAME = args[0];
-        final int PORT_NUM = Integer.parseInt(args[1]);
-
-        initialize_connection_to_registry(REGISTRY_HOST_NAME, PORT_NUM);
-    } // End main method
-
+    
 } // End MessagingNode class

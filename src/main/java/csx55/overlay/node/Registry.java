@@ -43,16 +43,20 @@ public class Registry implements Node {
             registry_server = new ServerSocket(PORT_NUM);
 
             System.out.println("Waiting for clients to join...");
-            /* minimum of 10 messaging nodes will join the Registry */
+            
             /* at minimum those messaging nodes will connect with 4 other nodes. */
             
-            int NUMBER_OF_MACHINES = 2; 
-            messaging_node_sockets = new Socket[NUMBER_OF_MACHINES]; /* hard code 2 right now but change to 10 when done */
+            final int NUMBER_OF_MESSAGING_NODES = 2; /* minimum of 10 messaging nodes will join the Registry */
+            messaging_node_sockets = new Socket[NUMBER_OF_MESSAGING_NODES]; /* hard code 2 right now but change to 10 when done */
             /* need to get two MessagingNodes connected to the registry */
-            for (int i = 0; i < NUMBER_OF_MACHINES; ++i) {
-                messaging_node_sockets[NUMBER_OF_MACHINES] = registry_server.accept();
-                MessagingNode new_node = new MessagingNode(messaging_node_sockets[NUMBER_OF_MACHINES].getInetAddress().getHostName(), NUMBER_OF_MACHINES);
-                register_node(new_node);
+            for (int i = 0; i < NUMBER_OF_MESSAGING_NODES; ++i) {
+                if (i < NUMBER_OF_MESSAGING_NODES) {
+                    messaging_node_sockets[i] = registry_server.accept();
+                    MessagingNode new_node = new MessagingNode(messaging_node_sockets[i].getInetAddress().getHostName(), i);
+                    register_node(new_node);
+                } else {
+                    System.out.println("Cannot add another messaging node to the registry");
+                } // End if-else statement
             } // End for loop
             
             System.out.println("MessagingNodes are connected and registered.");
@@ -64,7 +68,7 @@ public class Registry implements Node {
 
     public void onEvent(Event type_of_event) {
 
-    } // End onEvent
+    } // End onEvent() method
 
     public static void main(String[] args) {
         if (args.length < 1) {

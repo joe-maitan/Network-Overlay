@@ -10,6 +10,6 @@ gradle build
 
 Go into this directory for the jar: ~/CS455/csx55/build/libs$
 
-How to run the Registry code: java -cp csx55.jar csx55.overlay.node.Registry 5505
+How to run the Registry code: java -cp build/libs/csx55.jar csx55.overlay.node.Registry 5505
 
-How to run the MessagingNode code: java -cp csx55.jar csx55.overlay.node.MessagingNode <hostname> <port-number>
+How to run the MessagingNode code: java -cp build/libs/csx55.jar csx55.overlay.node.MessagingNode <hostname> <port-number>
