@@ -4,7 +4,7 @@ import java.io.*;
 import java.net.*;
 import java.util.*;
 
-public class TCPServerThread {
+public class TCPServerThread implements runnable {
 
     // static ServerSocket our_server;
     // public ArrayList<Socket> sockets = new ArrayList<>();
