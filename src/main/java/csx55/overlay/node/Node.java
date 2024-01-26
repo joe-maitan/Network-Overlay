@@ -1,4 +1,4 @@
-package csx55.overlay.node_1;
+package csx55.overlay.node;
 import csx55.overlay.wireformats.*;
 
 public interface Node {

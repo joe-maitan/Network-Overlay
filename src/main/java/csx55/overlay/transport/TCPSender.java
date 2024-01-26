@@ -19,5 +19,9 @@ public class TCPSender implements Runnable {
     //     data_out.send(msg);
     //     data_out.flush();
     // } // End send() method
+
+    public void run() {
+
+    } // End run() method
     
 } // End TCPSender class

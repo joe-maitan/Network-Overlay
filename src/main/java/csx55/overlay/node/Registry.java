@@ -1,10 +1,11 @@
-package csx55.overlay.node_1;
+package csx55.overlay.node;
+import csx55.overlay.wireformats.*;
 
 import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
 
-public class Registry {
+public class Registry implements Node {
 
     static ServerSocket registry_server;
     static Socket[] messaging_node_sockets; /* Keep track of how many messaging nodes connect to the regsitry */
@@ -61,7 +62,15 @@ public class Registry {
         } // End try-catch block
     } // End start_server() method
 
+    public void onEvent(Event type_of_event) {
+
+    } // End onEvent
+
     public static void main(String[] args) {
+        if (args.length < 1) {
+            System.exit(1);
+        }
+
         int PORT_NUM = Integer.parseInt(args[0]);
         start_registry_server(PORT_NUM);
     }

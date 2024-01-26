@@ -1,4 +1,4 @@
-package csx55.overlay.node_1;
+package csx55.overlay.node;
 import csx55.overlay.wireformats.*;
 
 import java.io.*;
@@ -46,6 +46,10 @@ public class MessagingNode implements Node  {
 
 
     public static void main(String[] args) {
+        if (args.length < 2) {
+            System.exit(1);
+        }
+        
         final String REGISTRY_HOST_NAME = args[0];
         final int PORT_NUM = Integer.parseInt(args[1]);
 
