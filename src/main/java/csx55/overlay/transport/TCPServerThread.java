@@ -18,6 +18,7 @@ public class TCPServerThread implements runnable {
     public TCPServerThread(final int PORT_NUM) {
         if (PORT_NUM > 1024 && PORT_NUM < 65536) {
             /* the given port is valid */
+            our_server = new ServerSocket(PORT_NUM);
         } else {
             int new_port_num = 1025;
 

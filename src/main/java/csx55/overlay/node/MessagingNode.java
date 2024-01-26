@@ -48,7 +48,7 @@ public class MessagingNode implements Node  {
         try {
             messaging_node_socket = new Socket(HOST_NAME, PORT_NUM); /* the Registry's ServerSocket is listening for this connection. Hopefully connects to the server */
             System.out.println(messaging_node_socket.getInetAddress().getHostName() + " successfully connected to Registry");
-            Node new_node = new Node();
+            Node new_node = new Node(PORT_NUM);
         } catch (IOException e) {
             System.err.println(e.getMessage());
         } // End try-catch block
