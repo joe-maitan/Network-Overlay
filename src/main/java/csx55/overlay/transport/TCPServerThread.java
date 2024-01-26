@@ -6,36 +6,36 @@ import java.util.*;
 
 public class TCPServerThread {
 
-    static ServerSocket our_server;
-    public ArrayList<Socket> sockets = new ArrayList<>();
-    volatile boolean done = false;
+    // static ServerSocket our_server;
+    // public ArrayList<Socket> sockets = new ArrayList<>();
+    // volatile boolean done = false;
 
-    public TCPServerThread() {
+    // public TCPServerThread() {
         
-    } // End TCPServerThread
+    // } // End TCPServerThread
 
-    public void run(final int PORT_NUM) {
-        initialize_server();
+    // public void run(final int PORT_NUM) {
+    //     initialize_server();
         
-        int new_socket = 0;
-        while (!done) {
-            Socket s = our_server.accept();
-            sockets.add(s);
-            TCPReceiverThread temp = new TCPReceiverThread(s);
-        } // End while loop
-    } // End run() method
+    //     int new_socket = 0;
+    //     while (!done) {
+    //         Socket s = our_server.accept();
+    //         sockets.add(s);
+    //         TCPReceiverThread temp = new TCPReceiverThread(s);
+    //     } // End while loop
+    // } // End run() method
 
-    public static void initialize_server() {
-        int port_num = 1025;
-        while (our_server == null && port_num < 65536) {
-            try {
-                our_server = new ServerSocket(port_num);
-            } catch (SocketException e) {
-                // System.err.println(e.getMessage());
-                ++port_num; // Increment the port_num every time we cannot initialize our_server
-            } // End try-catch block
-        } // End while loop
-    } // End initialize_server() method
+    // public static void initialize_server() {
+    //     int port_num = 1025;
+    //     while (our_server == null && port_num < 65536) {
+    //         try {
+    //             our_server = new ServerSocket(port_num);
+    //         } catch (SocketException e) {
+    //             // System.err.println(e.getMessage());
+    //             ++port_num; // Increment the port_num every time we cannot initialize our_server
+    //         } // End try-catch block
+    //     } // End while loop
+    // } // End initialize_server() method
 
     // public static void initialize_server(final int PORT_NUM) {
     //     if (PORT_NUM == null) { /* port number is empty */

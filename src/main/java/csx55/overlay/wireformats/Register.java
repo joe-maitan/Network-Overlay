@@ -14,5 +14,19 @@ public class Register implements Event {
     // public void deregister_node() {
 
     // } // End deregister_node() method
+
+    public String getType(){
+        String s = "";
+        
+        return s;
+    } // Gives us the protocol type
+
+    public int getBytes(){
+        return 0;
+    } // Marshalling
+
+    public void setBytes(byte[] arr){
+
+    } // Unmarshalling
     
 } // End Register class
