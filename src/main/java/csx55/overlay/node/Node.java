@@ -12,8 +12,12 @@ public class Node {
 
     public Node(final int PORT_NUM) {
         node_server = new TCPServerThread(PORT_NUM);
-        Thread t = new Thread();
+        Thread t = new Thread(node_server);
         t.start();
     } // End Node constructor
-    
+
+    public static void start_server() {
+        
+    }
+
 } // End Node interface

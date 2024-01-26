@@ -6,7 +6,7 @@ import java.util.*;
 
 public class TCPServerThread extends runnable {
 
-    static ServerSocket our_server;
+    static ServerSocket node_server;
     public ArrayList<Socket> other_node_sockets = new ArrayList<>();
     static volatile boolean connection_is_active = false;
 
@@ -29,13 +29,13 @@ public class TCPServerThread extends runnable {
      */
     public TCPServerThread(final int PORT_NUM) {
         if (PORT_NUM > 1024 && PORT_NUM < 65536) {
-            our_server = new ServerSocket(PORT_NUM); /* the given port is valid */
+            node_server = new ServerSocket(PORT_NUM); /* the given port is valid */
         } else {
             int new_port_num = 1025;
 
-            while (our_server == null && new_port_num < 65536) {
+            while (node_server == null && new_port_num < 65536) {
                 try {
-                    our_server = new ServerSocket(new_port_num);
+                    node_server = new ServerSocket(new_port_num);
                 } catch (SocketException e) {
                     ++new_port_num; // Increment the port_num every time we cannot initialize our_server
                 } // End try-catch block
@@ -47,7 +47,12 @@ public class TCPServerThread extends runnable {
         /* every node connects to a default number of 4 other nodes. NODES not MessagingNodes. Every MessagingNode will spawn its own node and follow this sequence */
         while (is_active()) {
             /* look for other nodes to connect to and keep track of the other nodes we will connect to */
-        }
+            try {
+                Socket s = node_server.accept(); // This connects the node (A) to the other node (B)
+            } catch(Exception e) {
+                System.out.println(e.getMessage());
+            }
+        } // End while loop
     } // End run() method
 
 } // End TCPServerThread class

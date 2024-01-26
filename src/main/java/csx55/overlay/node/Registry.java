@@ -12,6 +12,14 @@ public class Registry extends Node {
 
     static ArrayList<MessagingNode> registered_messaging_nodes = new ArrayList<>();
 
+    public Registry() {
+        
+    } // End Registry constructor
+
+    public Registry(int port_number) {
+        super(port_number);
+    } // End Registry constructor
+
     public static void register_node(MessagingNode new_node) {
         if (!registered_messaging_nodes.contains(new_node)) {
             registered_messaging_nodes.add(new_node);
@@ -77,7 +85,8 @@ public class Registry extends Node {
 
         int PORT_NUM = Integer.parseInt(args[0]);
         start_registry_server(PORT_NUM);
-    }
-
+        
+        Resgistry reg = new Registry(PORT_NUM);
+    } // End main method
 
 } // End Registry class
