@@ -14,7 +14,7 @@ public class TCPServerThread {
         
     // } // End TCPServerThread
 
-    // public void run(final int PORT_NUM) {
+    public void run(final int PORT_NUM) {
     //     initialize_server();
         
     //     int new_socket = 0;
@@ -23,7 +23,7 @@ public class TCPServerThread {
     //         sockets.add(s);
     //         TCPReceiverThread temp = new TCPReceiverThread(s);
     //     } // End while loop
-    // } // End run() method
+    } // End run() method
 
     // public static void initialize_server() {
     //     int port_num = 1025;

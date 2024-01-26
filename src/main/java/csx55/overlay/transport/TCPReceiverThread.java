@@ -12,7 +12,7 @@ public class TCPReceiverThread implements Runnable {
     //     data_in = new DataInputStream();
     // } // End TCPRecieverThread(socket) constructor
 
-    // public void run() {
+    public void run() {
     //     int data_length;
 
     //     while (socket != null) {
@@ -29,6 +29,6 @@ public class TCPReceiverThread implements Runnable {
     //             break;
     //         } // End try-catch block
     //     } // End while loop
-    // } // End run() method
+    } // End run() method
 
 } // End TCPReceiverThread class
