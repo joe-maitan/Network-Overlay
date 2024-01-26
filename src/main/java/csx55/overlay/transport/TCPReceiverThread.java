@@ -4,13 +4,13 @@ import java.io.*;
 import java.net.*;
 
 public class TCPReceiverThread implements Runnable {
-    // private Socket socket;
-    // private DataInputStream data_in;
+    private Socket socket;
+    private DataInputStream data_in;
 
-    // public TCPReceiverThread(Socket socket) throws IOException {
-    //     this.socket = socket;
-    //     data_in = new DataInputStream();
-    // } // End TCPRecieverThread(socket) constructor
+    public TCPReceiverThread(Socket socket) throws IOException {
+        this.socket = socket;
+        data_in = new DataInputStream();
+    } // End TCPRecieverThread(socket) constructor
 
     public void run() {
     //     int data_length;

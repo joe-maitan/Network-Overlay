@@ -15,9 +15,5 @@ public class Node {
         Thread t = new Thread(node_server);
         t.start();
     } // End Node constructor
-
-    public static void start_server() {
-        
-    }
-
+    
 } // End Node interface
