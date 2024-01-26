@@ -20,7 +20,7 @@ public class MessagingNode implements Node  {
         this.messaging_node_name = machine_name;
         this.registry_index = index;
 
-        // Node new_node = new Node(); /* Everytime a new messaging node is created, it spawns a node */
+         /* Everytime a new messaging node is created, it spawns a node */
         // node_server = new ServerSocket(); /* instead of spawning a new socket do we create a new TCPServerThread? */
         // node_connections = new Socket();
 
@@ -47,8 +47,8 @@ public class MessagingNode implements Node  {
     public static void initialize_connection_to_registry(final String HOST_NAME, final int PORT_NUM) {
         try {
             messaging_node_socket = new Socket(HOST_NAME, PORT_NUM); /* the Registry's ServerSocket is listening for this connection. Hopefully connects to the server */
-            System.out.println("Successfully connected to Registry");
-            /* Should we create the Node here? */
+            System.out.println(messaging_node_socket.getInetAddress().getHostName() + " successfully connected to Registry");
+            Node new_node = new Node();
         } catch (IOException e) {
             System.err.println(e.getMessage());
         } // End try-catch block

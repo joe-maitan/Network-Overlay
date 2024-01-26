@@ -6,23 +6,28 @@ import java.util.*;
 
 public class TCPServerThread implements runnable {
 
-    // static ServerSocket our_server;
-    // public ArrayList<Socket> sockets = new ArrayList<>();
-    // volatile boolean done = false;
+    static ServerSocket our_server;
+    public ArrayList<Socket> sockets = new ArrayList<>();
+    volatile boolean done = false;
 
-    // public TCPServerThread() {
-        
-    // } // End TCPServerThread
+    public TCPServerThread(final int PORT_NUM) {
+        if (PORT_NUM > 1024 && PORT_NUM < 65536) {
+            /* the given port is valid */
+        } else {
+            int new_port_num = 1025;
 
-    public void run(final int PORT_NUM) {
-    //     initialize_server();
-        
-    //     int new_socket = 0;
-    //     while (!done) {
-    //         Socket s = our_server.accept();
-    //         sockets.add(s);
-    //         TCPReceiverThread temp = new TCPReceiverThread(s);
-    //     } // End while loop
+            while (our_server == null && new_port_num < 65536) {
+                try {
+                    our_server = new ServerSocket(new_port_num);
+                } catch (SocketException e) {
+                    ++new_port_num; // Increment the port_num every time we cannot initialize our_server
+                } // End try-catch block
+            } // End the while loop
+        }
+    } // End TCPServerThread
+
+    public void run() {
+    
     } // End run() method
 
     // public static void initialize_server() {
