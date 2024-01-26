@@ -11,7 +11,9 @@ public class Node {
     } // End onEvent() method
 
     public Node(final int PORT_NUM) {
-        node_server = new TCPServerThread();
+        node_server = new TCPServerThread(PORT_NUM);
+        Thread t = new Thread(node_server);
+        t.start();
     } // End Node constructor
 
     

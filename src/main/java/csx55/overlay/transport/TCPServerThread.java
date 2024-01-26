@@ -10,6 +10,11 @@ public class TCPServerThread implements runnable {
     public ArrayList<Socket> sockets = new ArrayList<>();
     volatile boolean done = false;
 
+    /* This TCPServerThread takes in a port number passed in from the MessagingNode/Node it has spawned from.
+     * From there, we check if the PORT_NUM passed in is a valid port number, else, we increment the new port #
+     * While our_server is not intialized and the new_port_num is less that 65546 we keep incrementing it until
+     * a valid port is found and the ServerSocket is initialized.
+     */
     public TCPServerThread(final int PORT_NUM) {
         if (PORT_NUM > 1024 && PORT_NUM < 65536) {
             /* the given port is valid */
@@ -24,46 +29,14 @@ public class TCPServerThread implements runnable {
                 } // End try-catch block
             } // End the while loop
         }
+
+        Thread t = new Thread(TCPServerThread);
     } // End TCPServerThread
 
     public void run() {
     
     } // End run() method
 
-    // public static void initialize_server() {
-    //     int port_num = 1025;
-    //     while (our_server == null && port_num < 65536) {
-    //         try {
-    //             our_server = new ServerSocket(port_num);
-    //         } catch (SocketException e) {
-    //             // System.err.println(e.getMessage());
-    //             ++port_num; // Increment the port_num every time we cannot initialize our_server
-    //         } // End try-catch block
-    //     } // End while loop
-    // } // End initialize_server() method
-
-    // public static void initialize_server(final int PORT_NUM) {
-    //     if (PORT_NUM == null) { /* port number is empty */
-    //         int port_num = 1025;
-    //         while (our_server == null) {
-    //             try {
-    //                 our_server = new ServerSocket(port_num);
-    //             } catch (SocketException e) {
-    //                 // System.err.println(e.getMessage());
-    //                 ++port_num; // Increment the port_num every time we cannot initialize our_server
-    //             } // End try-catch block
-    //         } // End while loop
-    //     } else {
-    //         /* validate the port number read in from the terminal is within bounds */
-    //         try {
-    //             if (PORT_NUM < 1024 || PORT_NUM > 65535) {
-    //                 throw new Exception("TCPServerThread.java - .initialize_server(PORT_NUM) - Port number is out of bounds");
-    //             } // End if statement
-    //         } catch (Exception e) {
-    //             e.printStackTrace();
-    //         } // End try-catch block
-    //     } // End if-else statement
-        
-    // } // End initialize_server()
+    
     
 } // End TCPServerThread class
