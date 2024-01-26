@@ -31,12 +31,13 @@ public class MessagingNode extends Node { // The MessageNode class can be though
 
     } // End onEvent() method
 
-    public static void initialize_connection_to_server(final String HOST_NAME, final int PORT_NUM) {
+    public static void initialize_connection_to_registry(final String HOST_NAME, final int PORT_NUM) {
         try {
             client_socket = new Socket(HOST_NAME, PORT_NUM);
             MessagingNode new_node = new MessagingNode(client_socket.getInetAddress().getLocalHost());
             // Do we increment our number of connections?
             // Do we add it to the registry list here?
+            list_of_nodes.add(new_node);
         } catch (IOException e) {
             System.err.println(e.getMessage());
         } // End try-catch block
@@ -46,7 +47,7 @@ public class MessagingNode extends Node { // The MessageNode class can be though
         final String HOST_NAME = args[0];
         final int PORT_NUM = Integer.parseInt(args[1]);
 
-        initialize_connection_to_server(HOST_NAME, PORT_NUM);
+        initialize_connection_to_registry(HOST_NAME, PORT_NUM);
 
 
     } // End main method
