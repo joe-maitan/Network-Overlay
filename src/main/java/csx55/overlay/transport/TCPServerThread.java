@@ -14,11 +14,13 @@ public class TCPServerThread implements Runnable {
     public int number_of_nodes_connected_to = 0;
 
     public TCPServerThread(final String machine_host_name, final int PORT_NUM) {
+        /* when spawing in the server thread, the Registry can hold a minimum of 10 connections
+         * and the messagingNodes can be connected to 4 other nodes. How are we supposed to differentiate?
+         */
         if (PORT_NUM > 1024 && PORT_NUM < 65536) { /* given a valid port number create the ServerSocket */
             try {
                 /* the given port is valid */
-                /* create the node_server. This server will listen for up to 10 connections */
-                node_server = new ServerSocket(PORT_NUM, 10); 
+                node_server = new ServerSocket(PORT_NUM); 
                 connection_is_active = true;
             } catch (IOException err) {
                 System.out.println(err.getMessage());

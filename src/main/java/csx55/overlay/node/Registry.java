@@ -47,6 +47,8 @@ public class Registry extends Node {
         int port = Integer.parseInt(args[0]);
         Registry our_registry = new Registry(port); /* creates a new Node object that will host our Registry Server */
 
+        System.out.println("Registry is up");
+        
         Scanner user_in = new Scanner(System.in);
         String registry_input = null;
         while (registry_input != "exit") {
@@ -54,12 +56,16 @@ public class Registry extends Node {
 
             switch(registry_input) {
                 case "list-messaging-nodes":
+                    System.out.println("listing messaging nodes");
                     break;
                 case "list-weights":
+                    System.out.println("listing link weights");
                     break;
                 case "setup-overlay number-of-connections":
+                    System.out.println("Setting up overlay");
                     break;
                 case "send-overlay-link-weights":
+                    System.out.println("Sending overlay link weights");
                     break;
                 default:
                     System.out.println("Unrecognized command please try again.");
