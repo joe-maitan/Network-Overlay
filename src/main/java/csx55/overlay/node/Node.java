@@ -11,9 +11,10 @@ public class Node {
     here or in TCPServerThread?
     */
 
-    int message_type; /* register request */
     String machine_host_name;
     int port_number;
+    int message_type; /* register request */
+    
 
     public void onEvent(Event type_of_event) {} // End onEvent() method
 
@@ -21,7 +22,7 @@ public class Node {
 
     public Node(final int PORT_NUM) {
         this.port_number = PORT_NUM;
-        node_server = new TCPServerThread(this.machine_host_name, this.port_number);
+        node_server = new TCPServerThread(this.port_number);
         // this.machine_host_name = node_server.getInetAddress().getHostName();
         Thread t = new Thread(node_server);
         t.start();
