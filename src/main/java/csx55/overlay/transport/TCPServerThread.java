@@ -1,10 +1,10 @@
-package csx55.overlay;
+package csx55.overlay.transport;
 
 import java.io.*;
 import java.net.*;
 import java.util.*;
 
-public class TCPServerThread implements runnable {
+public class TCPServerThread implements Runnable {
 
     static ServerSocket node_server;
     public ArrayList<Socket> other_node_sockets = new ArrayList<>();
@@ -18,7 +18,7 @@ public class TCPServerThread implements runnable {
         }
     } // End is_active() method
 
-    public static boolean set_connection(boolean status) {
+    public static void set_connection(boolean status) {
         connection_is_active = status;
     } // End set_connection() method
 
@@ -29,14 +29,18 @@ public class TCPServerThread implements runnable {
      */
     public TCPServerThread(final int PORT_NUM) {
         if (PORT_NUM > 1024 && PORT_NUM < 65536) {
-            node_server = new ServerSocket(PORT_NUM); /* the given port is valid */
+            try {
+                node_server = new ServerSocket(PORT_NUM); /* the given port is valid */
+            } catch (IOException err) {
+                System.out.println(err.getMessage());
+            }
         } else {
             int new_port_num = 1025;
 
             while (node_server == null && new_port_num < 65536) {
                 try {
                     node_server = new ServerSocket(new_port_num);
-                } catch (SocketException e) {
+                } catch (IOException e) {
                     ++new_port_num; // Increment the port_num every time we cannot initialize our_server
                 } // End try-catch block
             } // End the while loop
@@ -49,6 +53,7 @@ public class TCPServerThread implements runnable {
             /* look for other nodes to connect to and keep track of the other nodes we will connect to */
             try {
                 Socket s = node_server.accept(); // This connects the node (A) to the other node (B)
+                other_node_sockets.add(s);
             } catch(Exception e) {
                 System.out.println(e.getMessage());
             }

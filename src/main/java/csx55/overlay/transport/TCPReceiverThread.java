@@ -1,21 +1,21 @@
-package csx55.overlay;
+package csx55.overlay.transport;
 
 import java.io.*;
 import java.net.*;
 
 public class TCPReceiverThread implements Runnable {
-    private Socket socket;
+    private Socket receiver_socket;
     private DataInputStream data_in;
 
     public TCPReceiverThread(Socket socket) throws IOException {
-        this.socket = socket;
-        data_in = new DataInputStream(this.socket.getInputStream());
+        this.receiver_socket = socket;
+        data_in = new DataInputStream(this.receiver_socket.getInputStream());
     } // End TCPRecieverThread(socket) constructor
 
     public void run() {
         int data_length;
 
-        while (socket != null) {
+        while (receiver_socket != null) {
             try {
                 data_length = data_in.readInt();
 
