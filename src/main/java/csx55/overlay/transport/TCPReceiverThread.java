@@ -4,28 +4,28 @@ import java.io.*;
 import java.net.*;
 
 public class TCPReceiverThread implements Runnable {
-    private Socket receiver_socket;
-    private DataInputStream data_in;
-
+    private Socket socket;
+    private DataInputStream din;
+    
     public TCPReceiverThread(Socket socket) throws IOException {
-        this.receiver_socket = socket;
-        data_in = new DataInputStream(this.receiver_socket.getInputStream());
-    } // End TCPRecieverThread(socket) constructor
-
+        this.socket = socket;
+        din = new DataInputStream(socket.getInputStream());
+    } // End TCPReceiver(socket) constructor
+    
     public void run() {
         int data_length;
 
-        while (receiver_socket != null) {
+        while (socket != null) {
             try {
-                data_length = data_in.readInt();
+                data_length = din.readInt();
 
                 byte[] data = new byte[data_length];
-                data_in.readFully(data, 0, data_length);
+                din.readFully(data, 0, data_length);
             } catch (SocketException se) {
-                System.out.println("SocketException - TCPRecieverThread class - SocketException - public void run().\n");
+                System.out.println(se.getMessage());
                 break;
             } catch (IOException ioe) {
-                System.out.println("IOException - TCPRecieverThread class - IOException - public void run().\n");
+                System.out.println(ioe.getMessage());
                 break;
             } // End try-catch block
         } // End while loop

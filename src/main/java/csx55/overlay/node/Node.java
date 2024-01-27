@@ -9,7 +9,11 @@ public class Node {
 
     public void onEvent(Event type_of_event) {} // End onEvent() method
 
-    public Node() {} // default node constructor
+    public Node() {
+        node_server = new TCPServerThread();
+        Thread t = new Thread(node_server);
+        t.start();
+    } // default node constructor
 
     public Node(final int PORT_NUM) {
         node_server = new TCPServerThread(PORT_NUM);

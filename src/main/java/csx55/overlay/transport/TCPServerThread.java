@@ -31,27 +31,15 @@ public class TCPServerThread implements Runnable {
      * a valid port is found and the ServerSocket is initialized.
      */
     public TCPServerThread(final int PORT_NUM) {
-        if (this instanceof Registry) {
-            /* we activate the Registry Server with the given port number */
-            if (PORT_NUM > 1024 && PORT_NUM < 65536) {
-                try {
-                    node_server = new ServerSocket(PORT_NUM); /* the given port is valid */
-                    System.out.println("Registry host name: " + node_server.getInetAddress().getHostName());
-                    System.out.println("Registry is up and running");
-                } catch (IOException err) {
-                    System.out.println(err.getMessage());
-                }
-        } else if (this.node instanceof MessagingNode) {
-            if (PORT_NUM > 1024 && PORT_NUM < 65536) {
-                try {
-                    node_server = new ServerSocket(PORT_NUM); /* the given port is valid */
-                    System.out.println("MessagingNode host name: " + node_server.getInetAddress().getHostName());
-                    System.out.println(node_server.getInetAddress().getHostName() + " is connected to Registry");
-                    Registry.register_node(this);
-                } catch (IOException err) {
-                    System.out.println(err.getMessage());
-                }
-        } else { /* we are creating the MessagingNodes server to be able to connect to other nodes */
+        if (PORT_NUM > 1024 && PORT_NUM < 65536) { /* given a valid port number create the ServerSocket */
+            try {
+                node_server = new ServerSocket(PORT_NUM); /* the given port is valid */
+                // System.out.println("Registry host name: " + node_server.getInetAddress().getHostName());
+                // System.out.println("Registry is up and running");
+            } catch (IOException err) {
+                System.out.println(err.getMessage());
+            } // End try-catch block
+        } else { 
             int new_port_num = 1025;
 
             while (node_server == null && new_port_num < 65536) {
