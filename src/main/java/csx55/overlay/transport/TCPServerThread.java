@@ -4,11 +4,14 @@ import java.io.*;
 import java.net.*;
 import java.util.*;
 
+import csx55.overlay.node.Registry;
+
 public class TCPServerThread implements Runnable {
 
     static ServerSocket node_server;
     public ArrayList<Socket> other_node_sockets = new ArrayList<>();
     static volatile boolean connection_is_active = false;
+    public int number_of_nodes_connected_to = 0;
 
     public static boolean is_active() {
         if (connection_is_active == true) {
@@ -28,13 +31,27 @@ public class TCPServerThread implements Runnable {
      * a valid port is found and the ServerSocket is initialized.
      */
     public TCPServerThread(final int PORT_NUM) {
-        if (PORT_NUM > 1024 && PORT_NUM < 65536) {
-            try {
-                node_server = new ServerSocket(PORT_NUM); /* the given port is valid */
-            } catch (IOException err) {
-                System.out.println(err.getMessage());
-            }
-        } else {
+        if (this instanceof Registry) {
+            /* we activate the Registry Server with the given port number */
+            if (PORT_NUM > 1024 && PORT_NUM < 65536) {
+                try {
+                    node_server = new ServerSocket(PORT_NUM); /* the given port is valid */
+                    System.out.println("Registry host name: " + node_server.getInetAddress().getHostName());
+                    System.out.println("Registry is up and running");
+                } catch (IOException err) {
+                    System.out.println(err.getMessage());
+                }
+        } else if (this.node instanceof MessagingNode) {
+            if (PORT_NUM > 1024 && PORT_NUM < 65536) {
+                try {
+                    node_server = new ServerSocket(PORT_NUM); /* the given port is valid */
+                    System.out.println("MessagingNode host name: " + node_server.getInetAddress().getHostName());
+                    System.out.println(node_server.getInetAddress().getHostName() + " is connected to Registry");
+                    Registry.register_node(this);
+                } catch (IOException err) {
+                    System.out.println(err.getMessage());
+                }
+        } else { /* we are creating the MessagingNodes server to be able to connect to other nodes */
             int new_port_num = 1025;
 
             while (node_server == null && new_port_num < 65536) {
@@ -52,8 +69,12 @@ public class TCPServerThread implements Runnable {
         while (is_active()) {
             /* look for other nodes to connect to and keep track of the other nodes we will connect to */
             try {
-                Socket s = node_server.accept(); // This connects the node (A) to the other node (B)
-                other_node_sockets.add(s);
+                if (number_of_nodes_connected_to < 4) {
+                    Socket s = node_server.accept(); // This connects the node (A) to the other node (B)
+                    other_node_sockets.add(s);
+                } else {
+                    /* cannot add anymore connections to the node */
+                } // End if-else statement
             } catch(Exception e) {
                 System.out.println(e.getMessage());
             }
