@@ -11,6 +11,7 @@ public class Registry extends Node {
     static Socket[] messaging_node_sockets; /* Keep track of how many messaging nodes connect to the regsitry */
 
     static ArrayList<MessagingNode> registered_messaging_nodes = new ArrayList<>();
+    private Map<String, MessagingNode> registered_msg_nodes = new HashMap<>();
 
     public Registry() {} // End Registry default constructor
 
@@ -29,6 +30,14 @@ public class Registry extends Node {
             registered_messaging_nodes.remove(node);
         } /* else do not remove it from the registry */
     } // End deregister_node
+
+    public void construct_overlay() {
+
+    }
+
+    public void assign_link_weights() {
+        
+    }
 
     public void onEvent(Event type_of_event) {
 
