@@ -6,12 +6,8 @@ import java.net.*;
 import java.util.*;
 
 public class Registry extends Node {
-
-    static ServerSocket registry_server;
-    static Socket[] messaging_node_sockets; /* Keep track of how many messaging nodes connect to the regsitry */
-
     static ArrayList<MessagingNode> registered_messaging_nodes = new ArrayList<>();
-    private Map<String, MessagingNode> registered_msg_nodes = new HashMap<>();
+     // private Map<String, MessagingNode> registered_msg_nodes = new HashMap<>();
 
     public Registry() {} // End Registry default constructor
 
@@ -48,13 +44,8 @@ public class Registry extends Node {
             System.exit(1);
         }
 
-        int PORT_NUM = Integer.parseInt(args[0]);
-        
-        Registry our_registry = new Registry(PORT_NUM);
-
-        /* since our_registry is created and the server thread is active do we accept connections here and
-         * add them to the list or?
-         */
+        int port = Integer.parseInt(args[0]);
+        Registry our_registry = new Registry(port); /* creates a new Node object that will host our Registry Server */
 
         Scanner user_in = new Scanner(System.in);
         String registry_input = null;

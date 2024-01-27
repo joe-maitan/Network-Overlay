@@ -7,18 +7,24 @@ public class Node {
 
     TCPServerThread node_server;
 
+    /* Do we implement a data structure here for keeping track of the nodes 
+    here or in TCPServerThread?
+    */
+
+    int message_type; /* register request */
+    String machine_host_name;
+    int port_number;
+
     public void onEvent(Event type_of_event) {} // End onEvent() method
 
-    public Node() {
-        node_server = new TCPServerThread();
-        Thread t = new Thread(node_server);
-        t.start();
-    } // default node constructor
+    public Node() {} // default node constructor
 
     public Node(final int PORT_NUM) {
-        node_server = new TCPServerThread(PORT_NUM);
+        this.port_number = PORT_NUM;
+        node_server = new TCPServerThread(this.machine_host_name, this.port_number);
+        // this.machine_host_name = node_server.getInetAddress().getHostName();
         Thread t = new Thread(node_server);
         t.start();
     } // End Node constructor
     
-} // End Node interface
+} // End Node class
