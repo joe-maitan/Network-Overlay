@@ -8,8 +8,8 @@ public class TCPSender {
     private Socket socket;
     private DataOutputStream dout;
     
-    public TCPSender(Socket socket) throws IOException {
-        this.socket = socket; /* this is going to the socket that we are sending data to */
+    public TCPSender(Socket s) throws IOException {
+        this.socket = s; /* this is going to the socket that we are sending data to */
         dout = new DataOutputStream(socket.getOutputStream());
     } // End TCPSender(socket) constructor
 

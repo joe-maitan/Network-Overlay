@@ -10,7 +10,10 @@ public class TCPServerThread implements Runnable {
     private static ServerSocket server = null; /* originally had static */
     public volatile boolean done = false;
 
-    public ArrayList<Socket> other_node_sockets = new ArrayList<>();
+    int server_port_number = 1024;
+    String server_ip_address;
+
+    public ArrayList<Socket> socket_connetions = new ArrayList<>();
 
     // public TCPServerThread() {
     //     System.out.println("TCPServerThread(): Creating new server");
@@ -34,11 +37,27 @@ public class TCPServerThread implements Runnable {
 
         if (PORT_NUM > 1024 && PORT_NUM < 65536) { /* given a valid port number create the ServerSocket */
             try {
-                server = new ServerSocket(PORT_NUM); 
+                this.server_port_number = PORT_NUM;
+                
+                server = new ServerSocket(this.server_port_number); 
+                // this.server_ip_address = string(server.getInetAddress()); Figure out how to parse the IP address
             } catch (IOException err) {
                 System.out.println(err.getMessage());
             } // End try-catch block
-        } // End if-statement 
+        } else {
+            boolean not_set = false;
+
+            while (!not_set) {
+                try {
+                    server = new ServerSocket(server_port_number);
+                    not_set = !not_set;
+                    System.out.println("Created new server thread at port #: " + this.server_port_number);
+                    System.out.println("IP address " + server.getInetAddress()); /* cannot read your own IP address */
+                } catch (IOException err) {
+                    ++this.server_port_number;
+                } // End try-catch block
+            }
+        } 
 
         System.out.println("TCPServerThread(port): Finished creating new server");
         System.out.println("Host name: " + server.getInetAddress());
@@ -51,16 +70,17 @@ public class TCPServerThread implements Runnable {
             server.close();
         } catch (IOException err) {
             System.err.println(err.getMessage());
-        }
-        
+        } // End try-catch block
     } // End close_server() method
 
     public void run() {
-        if (server == null) {
+        if (server != null) {
             while (!done) {
                 try {
+                    // System.out.println("Creating a new socket");
                     Socket s = server.accept();
                     System.out.println(s.getInetAddress() + " has connected!"); /* validation that something that has connected */
+                    socket_connetions.add(s); /* keep track of the sockets we are connected to */
                 } catch (IOException err) {
                     System.out.println(err.getMessage());
                 } // End try-catch block

@@ -6,8 +6,11 @@ import csx55.overlay.wireformats.*;
 public class Node {
 
     private TCPServerThread node_server;
+    private TCPSender node_send;
 
-    String machine_host_name;
+    // Socket Container
+
+    String ip_address;
     int port_number;
     int message_type; /* register request */
     
