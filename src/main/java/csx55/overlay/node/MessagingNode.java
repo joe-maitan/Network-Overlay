@@ -1,17 +1,17 @@
 package csx55.overlay.node;
 import csx55.overlay.wireformats.*;
 
-import java.io.*;
-import java.net.*;
+// import java.io.*;
+// import java.net.*;
 
 public class MessagingNode extends Node  {
 
-    private String messaging_node_name; /* The machine name of the messagingNode (Client) */
-    private String message;
+    // private String messaging_node_name; /* The machine name of the messagingNode (Client) */
+    // private String message;
     
-    private int type_of_message; /* the message protocol that the Node wants to send to another Node */
-    private String ip_address;
-    private int PORT_NUM;
+    // private int type_of_message; /* the message protocol that the Node wants to send to another Node */
+    // private String ip_address;
+    // private int PORT_NUM;
 
     // static Socket messaging_node_socket;
 
@@ -34,6 +34,7 @@ public class MessagingNode extends Node  {
 
         // initialize_connection_to_registry(REGISTRY_HOST_NAME, PORT_NUM);
         MessagingNode new_messaging_node = new MessagingNode(REGISTRY_HOST_NAME, PORT_NUM);
+        
     } // End main method
 
 } // End MessagingNode class
