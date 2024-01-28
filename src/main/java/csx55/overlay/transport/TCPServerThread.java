@@ -1,10 +1,9 @@
 package csx55.overlay.transport;
+import csx55.overlay.node.Registry;
 
 import java.io.*;
 import java.net.*;
 import java.util.*;
-
-import csx55.overlay.node.Registry;
 
 public class TCPServerThread implements Runnable {
 
@@ -13,6 +12,7 @@ public class TCPServerThread implements Runnable {
     static volatile boolean connection_is_active = false;
     public int number_of_nodes_connected_to = 0;
 
+    // comment out?
     public TCPServerThread() {
         System.out.println("TCPServerThread(): Creating new server");
         /* this creates a server thread with no specifed port # */
