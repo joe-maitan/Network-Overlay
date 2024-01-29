@@ -10,7 +10,7 @@ public class WireFormatWidget {
     private String identifier;
     private int tracker;
 
-    public byte[] getBytes() throws IOException { /* marshalls/encodes our message */
+    public byte[] getBytes() throws IOException implements Event { /* marshalls/encodes our message */
         byte[] marshalledBytes = null;
         ByteArrayOutputStream baOutputStream = new ByteArrayOutputStream();
         DataOutputStream dout = new DataOutputStream(new BufferedOutputStream(baOutputStream));

@@ -7,26 +7,18 @@ public class Register implements Event {
     String IP_address;
     int port_number;
 
-    // public void register_node() {
-
-    // } // End register_node() method
-
-    // public void deregister_node() {
-
-    // } // End deregister_node() method
-
     public String getType(){
         String s = "";
         
         return s;
     } // Gives us the protocol type
 
-    public int getBytes(){
+    public int getBytes() { // Marshalling
         return 0;
-    } // Marshalling
+    } // End getBytes() method
 
-    public void setBytes(byte[] arr){
+    public void setBytes(byte[] arr) { // Unmarshalling
 
-    } // Unmarshalling
+    } // End setBytes() method
     
 } // End Register class

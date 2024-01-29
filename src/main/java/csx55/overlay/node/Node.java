@@ -8,11 +8,9 @@ public class Node {
     private TCPServerThread node_server;
     private TCPSender node_send;
 
-    // Socket Container
-
     String node_ip_address;
     int node_port_number;
-    int node_message_type; /* register request */
+    
     
     public Node() {} // default node constructor
 
@@ -27,5 +25,9 @@ public class Node {
     } // End Node constructor
 
     public void onEvent(Event type_of_event) {} // End onEvent() method
+
+    public void send_message(int socket_index, byte[] arr, String message) {
+        this.node_server.senders.get(socket_index).sendData(arr);
+    } // End send_message() method
     
 } // End Node class

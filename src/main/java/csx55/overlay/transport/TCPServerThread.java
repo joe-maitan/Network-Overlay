@@ -7,12 +7,16 @@ import java.util.*;
 
 public class TCPServerThread implements Runnable {
 
-    private static ServerSocket server = null; /* originally had static */
+    private static ServerSocket server = null;
+    // private static TCPSender send = null;
+    // private static TCPReceiverThread read = null;
     public volatile boolean done = false;
 
     int server_port_number;
 
     public ArrayList<Socket> socket_connetions = new ArrayList<>();
+    public Arraylist<TCPSender> senders = new ArrayList<>();
+    public ArrayList<TCPReceiverThread> readers = new ArrayList<>();
 
     public TCPServerThread(final int PORT_NUM) {
         // System.out.println("TCPServerThread(port): Creating a new server");
@@ -22,7 +26,7 @@ public class TCPServerThread implements Runnable {
                 this.server_port_number = PORT_NUM;
                 
                 server = new ServerSocket(this.server_port_number); 
-                // this.server_ip_address = string(server.getInetAddress()); Figure out how to parse the IP address
+                
             } catch (IOException err) {
                 System.out.println(err.getMessage());
             } // End try-catch block
@@ -35,15 +39,14 @@ public class TCPServerThread implements Runnable {
                 try {
                     server = new ServerSocket(server_port_number);
                     not_set = !not_set;
+                    System.out.println("Created new MessagingNode server thread at port #: " + this.server_port_number);
+                    /* parse all messagingNode  */
                 } catch (IOException err) {
                     ++this.server_port_number;
                 } // End try-catch block
-                System.out.println("Created new MessagingNode server thread at port #: " + this.server_port_number);
-            }
-        } 
-
-        // System.out.println("TCPServerThread(port): Finished creating new server");
-        // System.out.println("Host name: " + server.getInetAddress());
+            } // End while loop
+        } // End if-else statement
+      
     } // End TCPServerThread(port) constructor
 
     public void close_server() {
@@ -64,13 +67,20 @@ public class TCPServerThread implements Runnable {
                     Socket s = server.accept();
                     System.out.println(s.getInetAddress() + " has connected!"); /* validation that something that has connected */
                     socket_connetions.add(s); /* Add the socket to the ArrayList containing them */
+
+                    TCPSender send = new TCPSender(s);
+                    senders.add(send);
+                    TCPReceiverThread read = new TCPReceiverThread(s);
+                    readers.add(read);
+                    
+                    /* TODO: Create TCP Receiver start the thread for the new reader to check that if the thread */
+
                 } catch (IOException err) {
                     System.out.println(err.getMessage());
                 } // End try-catch block
                 } // End while loop
             
         } // End if statment
-
     } // End run() method
 
 } // End TCPServerThread class

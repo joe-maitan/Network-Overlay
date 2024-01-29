@@ -6,9 +6,7 @@ import java.net.*;
 import java.util.*;
 
 public class Registry extends Node {
-    static ArrayList<MessagingNode> registered_messaging_nodes = new ArrayList<>();
-     // private Map<String, MessagingNode> registered_msg_nodes = new HashMap<>();
-
+    
     public Registry() {} // End Registry default constructor
 
     public Registry(int port_number) {
@@ -53,8 +51,6 @@ public class Registry extends Node {
 
         System.out.println("Registry is up"); /* The registry TCPServerThread is up and is looking for active connections */
 
-        
-        
         Scanner user_in = new Scanner(System.in);
         String registry_input = null;
         while (registry_input != "exit") {
