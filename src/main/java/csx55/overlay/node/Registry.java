@@ -18,7 +18,11 @@ public class Registry extends Node {
     public void register_node(MessagingNode new_node) {
         if (!registered_messaging_nodes.contains(new_node)) {
             registered_messaging_nodes.add(new_node);
-        } /* else we do not add it to the registry */
+        } else { /* else we do not add it to the registry */
+            /* print an error message that the node we are trying to register, has already been
+             * registered.
+             */
+        } // End if-else statement
     } // End register_node() method
 
     public void deregister_node(MessagingNode node) {
@@ -28,7 +32,7 @@ public class Registry extends Node {
     } // End deregister_node
 
     public void construct_overlay() {
-        
+         
     }
 
     public void assign_link_weights() {
@@ -68,6 +72,9 @@ public class Registry extends Node {
                     break;
                 case "send-overlay-link-weights":
                     System.out.println("Sending overlay link weights");
+                    break;
+                case "exit":
+                    System.exit(1);
                     break;
                 default:
                     System.out.println("Unrecognized command please try again.");

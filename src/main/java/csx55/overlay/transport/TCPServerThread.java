@@ -35,10 +35,10 @@ public class TCPServerThread implements Runnable {
                 try {
                     server = new ServerSocket(server_port_number);
                     not_set = !not_set;
-                    System.out.println("Created new MessagingNode server thread at port #: " + this.server_port_number);
                 } catch (IOException err) {
                     ++this.server_port_number;
                 } // End try-catch block
+                System.out.println("Created new MessagingNode server thread at port #: " + this.server_port_number);
             }
         } 
 
