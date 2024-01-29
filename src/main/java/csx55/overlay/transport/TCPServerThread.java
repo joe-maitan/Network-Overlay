@@ -15,23 +15,6 @@ public class TCPServerThread implements Runnable {
 
     public ArrayList<Socket> socket_connetions = new ArrayList<>();
 
-    // public TCPServerThread() {
-    //     System.out.println("TCPServerThread(): Creating new server");
-    //     /* this creates a server thread with no specifed port # */
-    //     int new_port_num = 1025;
-    //     while (server == null && new_port_num < 65536) {
-    //         try {
-    //             server = new ServerSocket(new_port_num);
-    //             connection_is_active = true;
-    //         } catch (IOException e) {
-    //             ++new_port_num; // Increment the port_num every time we cannot initialize our_server
-    //         } // End try-catch block
-    //     } // End the while loop 
-
-    //     System.out.println("TCPServerThread(): Finished creating new server");
-    //     System.out.println("host name: " + server.getInetAddress().getHostAddress());
-    // } // End TCPReceiverThread() default constructor
-
     public TCPServerThread(final int PORT_NUM) {
         System.out.println("TCPServerThread(port): Creating a new server");
 
@@ -44,7 +27,7 @@ public class TCPServerThread implements Runnable {
             } catch (IOException err) {
                 System.out.println(err.getMessage());
             } // End try-catch block
-        } else {
+        } else if (PORT_NUM == 0) {
             boolean not_set = false;
 
             while (!not_set) {
@@ -52,7 +35,6 @@ public class TCPServerThread implements Runnable {
                     server = new ServerSocket(server_port_number);
                     not_set = !not_set;
                     System.out.println("Created new server thread at port #: " + this.server_port_number);
-                    System.out.println("IP address " + server.getInetAddress()); /* cannot read your own IP address */
                 } catch (IOException err) {
                     ++this.server_port_number;
                 } // End try-catch block
@@ -77,10 +59,10 @@ public class TCPServerThread implements Runnable {
         if (server != null) {
             while (!done) {
                 try {
-                    // System.out.println("Creating a new socket");
+                    System.out.println("Creating a new socket");
                     Socket s = server.accept();
                     System.out.println(s.getInetAddress() + " has connected!"); /* validation that something that has connected */
-                    socket_connetions.add(s); /* keep track of the sockets we are connected to */
+                    socket_connetions.add(s); /* Add the socket to the ArrayList containing them */
                 } catch (IOException err) {
                     System.out.println(err.getMessage());
                 } // End try-catch block

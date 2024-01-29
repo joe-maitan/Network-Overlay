@@ -4,7 +4,7 @@ How to run HW1 for CSX55
 
 2. gradle build - To build the jar file we will be executing
 
-gradle clean - To
+3. gradle clean - If you need to clear the build directory
 
 Go into this directory for the jar: ~/CS455/csx55/build/libs$
 
