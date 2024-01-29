@@ -13,11 +13,14 @@ public class MessagingNode extends Node  {
     static Socket messaging_node_socket;
 
     public MessagingNode(String machine_name, final int PORT_NUM) {
-        super(0);
+        super(0); /* This creates a new node object, with a TCPServerThread, it will look for a new empty server socket and start the server there */
         
         try {
             System.out.println("Creating new MessagingNode socket");
-            Socket messaging_node_socket = new Socket(machine_name, PORT_NUM);
+            Socket messaging_node_socket = new Socket(machine_name, PORT_NUM); /* This allows the MessagingNode to connect to the Registry */
+
+            System.out.println("Our messagingNodes IP: " + messaging_node_socket.getInetAddress())
+            /* Add the new messaging_node to the regsitry? registering its IP, Port, and MessageType */
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
