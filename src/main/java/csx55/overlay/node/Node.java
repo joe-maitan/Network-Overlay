@@ -19,7 +19,7 @@ public class Node {
     public Node(final int PORT_NUM) {
         this.node_port_number = PORT_NUM;
         
-        node_server = new TCPServerThread(this.port_number);
+        node_server = new TCPServerThread(this.node_port_number);
         
         Thread t = new Thread(node_server);
         

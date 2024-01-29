@@ -28,7 +28,7 @@ public class Registry extends Node {
     } // End deregister_node
 
     public void construct_overlay() {
-
+        
     }
 
     public void assign_link_weights() {
@@ -48,6 +48,8 @@ public class Registry extends Node {
         Registry our_registry = new Registry(port); /* creates a new Node object that will host our Registry Server */
 
         System.out.println("Registry is up"); /* The registry TCPServerThread is up and is looking for active connections */
+
+        
         
         Scanner user_in = new Scanner(System.in);
         String registry_input = null;

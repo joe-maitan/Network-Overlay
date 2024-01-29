@@ -10,13 +10,12 @@ public class TCPServerThread implements Runnable {
     private static ServerSocket server = null; /* originally had static */
     public volatile boolean done = false;
 
-    int server_port_number = 1024;
-    String server_ip_address;
+    int server_port_number;
 
     public ArrayList<Socket> socket_connetions = new ArrayList<>();
 
     public TCPServerThread(final int PORT_NUM) {
-        System.out.println("TCPServerThread(port): Creating a new server");
+        // System.out.println("TCPServerThread(port): Creating a new server");
 
         if (PORT_NUM > 1024 && PORT_NUM < 65536) { /* given a valid port number create the ServerSocket */
             try {
@@ -30,19 +29,21 @@ public class TCPServerThread implements Runnable {
         } else if (PORT_NUM == 0) {
             boolean not_set = false;
 
-            while (!not_set) {
+            this.server_port_number = 1024; /* start at 1024 */
+
+            while (!not_set && this.server_port_number < 65536) {
                 try {
                     server = new ServerSocket(server_port_number);
                     not_set = !not_set;
-                    System.out.println("Created new server thread at port #: " + this.server_port_number);
+                    System.out.println("Created new MessagingNode server thread at port #: " + this.server_port_number);
                 } catch (IOException err) {
                     ++this.server_port_number;
                 } // End try-catch block
             }
         } 
 
-        System.out.println("TCPServerThread(port): Finished creating new server");
-        System.out.println("Host name: " + server.getInetAddress());
+        // System.out.println("TCPServerThread(port): Finished creating new server");
+        // System.out.println("Host name: " + server.getInetAddress());
     } // End TCPServerThread(port) constructor
 
     public void close_server() {
@@ -59,7 +60,7 @@ public class TCPServerThread implements Runnable {
         if (server != null) {
             while (!done) {
                 try {
-                    System.out.println("Creating a new socket");
+                    // System.out.println("Creating a new socket");
                     Socket s = server.accept();
                     System.out.println(s.getInetAddress() + " has connected!"); /* validation that something that has connected */
                     socket_connetions.add(s); /* Add the socket to the ArrayList containing them */

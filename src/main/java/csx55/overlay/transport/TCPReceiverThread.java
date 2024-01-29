@@ -23,7 +23,7 @@ public class TCPReceiverThread implements Runnable {
                 din.readFully(data, 0, data_length);
 
                 /* get the event protocol */
-                Event.event_factory(din);
+                // Event.event_factory(din);
             } catch (SocketException se) {
                 System.out.println(se.getMessage());
                 break;
