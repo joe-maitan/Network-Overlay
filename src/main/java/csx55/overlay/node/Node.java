@@ -10,14 +10,14 @@ public class Node {
 
     // Socket Container
 
-    String ip_address;
-    int port_number;
-    int message_type; /* register request */
+    String node_ip_address;
+    int node_port_number;
+    int node_message_type; /* register request */
     
     public Node() {} // default node constructor
 
     public Node(final int PORT_NUM) {
-        this.port_number = PORT_NUM;
+        this.node_port_number = PORT_NUM;
         
         node_server = new TCPServerThread(this.port_number);
         
