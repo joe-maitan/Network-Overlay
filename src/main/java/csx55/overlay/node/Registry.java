@@ -6,7 +6,9 @@ import java.net.*;
 import java.util.*;
 
 public class Registry extends Node {
-    
+
+    ArrayList<MessagingNode> registered_messaging_nodes = new ArrayList<>();
+
     public Registry() {} // End Registry default constructor
 
     public Registry(int port_number) {
