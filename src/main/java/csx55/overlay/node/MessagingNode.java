@@ -24,7 +24,7 @@ public class MessagingNode extends Node  {
             Socket messaging_node_socket = new Socket(machine_name, PORT_NUM); /* This allows the MessagingNode to connect to the Registry */
 
             Register register_req = new Register();
-            send_msg(0, register_req.getBytes(), null);
+            node_send.send_message(0, register_req.getBytes(), null);
             /* Add the new messaging_node to the regsitry? registering its IP, Port, and MessageType */
             
         } catch (Exception e) {

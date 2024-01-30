@@ -6,7 +6,7 @@ import csx55.overlay.wireformats.*;
 public class Node {
 
     private TCPServerThread node_server;
-    private TCPSender node_send;
+    public TCPSender node_send;
 
     String node_ip_address;
     int node_port_number;
