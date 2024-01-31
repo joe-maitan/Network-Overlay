@@ -8,8 +8,8 @@ import java.util.*;
 public class TCPServerThread implements Runnable {
 
     private static ServerSocket server = null;
-    // private static TCPSender send = null;
-    // private static TCPReceiverThread read = null;
+    private static TCPSender send = null;
+    private static TCPReceiverThread read = null;
     public volatile boolean done = false;
 
     int server_port_number;
@@ -40,7 +40,12 @@ public class TCPServerThread implements Runnable {
                     server = new ServerSocket(server_port_number);
                     not_set = !not_set;
                     System.out.println("Created new MessagingNode server thread at port #: " + this.server_port_number);
-                    /* parse all messagingNode  */
+                    
+                    /* parse all messagingNode information needed */
+                    // What object do we use to help us grab this information?
+                    // mn_ip_address = server.getInetAddress();
+                    // mn_port_number = this.server_port_number;
+
                 } catch (IOException err) {
                     ++this.server_port_number;
                 } // End try-catch block
@@ -68,9 +73,9 @@ public class TCPServerThread implements Runnable {
                     System.out.println(s.getInetAddress() + " has connected!"); /* validation that something that has connected */
                     socket_connetions.add(s); /* Add the socket to the ArrayList containing them */
 
-                    TCPSender send = new TCPSender(s);
+                    send = new TCPSender(s); /* to send messages */
                     senders.add(send);
-                    TCPReceiverThread read = new TCPReceiverThread(s);
+                    read = new TCPReceiverThread(s); /* to read messages */
                     readers.add(read);
                     
                     /* TODO: Create TCP Receiver start the thread for the new reader to check that if the thread */
