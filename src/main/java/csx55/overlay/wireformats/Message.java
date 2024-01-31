@@ -1,18 +1,27 @@
 package csx55.overlay.wireformats;
 
+import java.io.IOException;
+
 public class Message implements Event {
-    public String getType(){
-        String s = "";
-        
-        return s;
-    } // Gives us the protocol type
 
-    public int getBytes(){
-        return 0;
-    } // Marshalling
+    @Override
+    public int getType() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getType'");
+    }
 
-    public void setBytes(byte[] arr){
+    @Override
+    public byte[] getBytes() throws IOException {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getBytes'");
+    }
 
-    } // Unmarshalling
+    @Override
+    public void setBytes(byte[] arr) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'setBytes'");
+    }
+    
+    
     
 } // End Message class

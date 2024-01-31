@@ -51,7 +51,7 @@ public class MessagingNode extends Node  {
 
         MessagingNode new_messaging_node = new MessagingNode(REGISTRY_HOST_NAME, PORT_NUM);
 
-        /* Spawn TCPSender */
+        /* do we start reading input for the messaging node now? */
     } // End main method
 
 } // End MessagingNode class

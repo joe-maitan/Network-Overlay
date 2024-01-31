@@ -50,6 +50,19 @@ public class WireFormatWidget implements Event {
         return marshalledBytes;
     } // End getBytes() method
 
-    
-    
+    @Override
+    public int getType() {
+        return this.type;
+    } // End getType() method
+
+    @Override
+    public void setBytes(byte[] arr) {
+        try {
+            // create a new WireFormatWidget object?
+            WireFormatWidget new_widget = new WireFormatWidget(arr);
+        } catch (IOException err) {
+            System.err.println(err.getMessage());
+        }
+    } // End setBytes() method
+
 } // End WireFormatWidget class
