@@ -11,3 +11,6 @@ Go into this directory for the jar: ~/CS455/csx55/build/libs$
 3. How to run the Registry code: java -cp build/libs/csx55.jar csx55.overlay.node.Registry <port-number>
 
 4. How to run the MessagingNode code: java -cp build/libs/csx55.jar csx55.overlay.node.MessagingNode <hostname> <port-number>
+
+Last Left off:
+I got the MessagingNodes to send the RegisterReq but it is not parsing and sending it well
