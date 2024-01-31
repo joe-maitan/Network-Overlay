@@ -1,7 +1,5 @@
 package csx55.overlay.wireformats;
 
-import javax.swing.DebugGraphics;
-
 public class EventFactory {
     
     public static Event event_factory(int protocol) {

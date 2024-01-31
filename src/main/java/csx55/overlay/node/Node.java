@@ -29,7 +29,8 @@ public class Node {
 
     public void onEvent(Event type_of_event) {} // End onEvent() method
 
-    public void send_message(int socket_index, byte[] arr, String message) {
+    public int send_message(int socket_index, byte[] arr, String message) {
+        int status = 0;
         this.node_send = this.node_server.senders.get(socket_index); /* constructs our TCPSender obj */
         
         try {
@@ -37,6 +38,8 @@ public class Node {
         } catch (IOException err) {
             System.err.println(err.getMessage());
         } // End try-catch block
+
+        return status;
     } // End send_message() method
 
     public void receive_message(int socket_index, byte[]arr, String message) {

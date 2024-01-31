@@ -29,15 +29,15 @@ public class Registry extends Node {
         if (registered_messaging_nodes.contains(node)) {
             registered_messaging_nodes.remove(node);
         } /* else do not remove it from the registry */
-    } // End deregister_node
+    } // End deregister_node() method
 
     public void construct_overlay() {
          
-    }
+    } // End construct_overlay() method
 
     public void assign_link_weights() {
         
-    }
+    } // End assign_link_weights() method
 
     public void onEvent(Event type_of_event) {
 
