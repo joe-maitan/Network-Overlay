@@ -4,7 +4,7 @@ import csx55.overlay.wireformats.Protocol;
 
 public class EventFactory {
     
-    public static Event event_factory(int protocol) {
+    public Event event_factory(int protocol) {
         Event temp = null;
 
         // switch (protocol) {
