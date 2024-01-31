@@ -73,12 +73,15 @@ public class TCPServerThread implements Runnable {
                     System.out.println(s.getInetAddress() + " has connected!"); /* validation that something that has connected */
                     socket_connetions.add(s); /* Add the socket to the ArrayList containing them */
 
-                    send = new TCPSender(s); /* to send messages */
-                    senders.add(send);
-                    read = new TCPReceiverThread(s); /* to read messages */
-                    readers.add(read);
+                    send = new TCPSender(s); /* Assign the TCPSender obj to send messages  */
+                    senders.add(send); /* Keep track of how many nodes have TCPSender objects */
                     
-                    /* TODO: Create TCP Receiver start the thread for the new reader to check that if the thread */
+                    read = new TCPReceiverThread(s); /* Assign the TCPReceieverThread obj to read messages */
+                    readers.add(read); /* Keep track of how many nodes have TCPReceiver objects */
+                    
+                    /* Create TCP Receiver start the thread for the new reader to check that if the thread */
+                    Thread server_read_thread = new Thread(read);
+                    server_read_thread.start(); /* starts the TCPReceiver thread and begins to read in information while it has information to read */
 
                 } catch (IOException err) {
                     System.out.println(err.getMessage());
