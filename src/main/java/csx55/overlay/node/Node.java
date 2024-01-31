@@ -1,5 +1,7 @@
 package csx55.overlay.node;
 
+import java.io.IOException;
+
 import csx55.overlay.transport.*;
 import csx55.overlay.wireformats.*;
 
@@ -7,6 +9,7 @@ public class Node {
 
     private TCPServerThread node_server;
     public TCPSender node_send;
+    public TCPReceiverThread node_read;
 
     String node_ip_address;
     int node_port_number;
@@ -27,7 +30,24 @@ public class Node {
     public void onEvent(Event type_of_event) {} // End onEvent() method
 
     public void send_message(int socket_index, byte[] arr, String message) {
-        this.node_server.senders.get(socket_index).sendData(arr);
+        this.node_send = this.node_server.senders.get(socket_index); /* constructs our TCPSender obj */
+        
+        try {
+            this.node_send.sendData(arr);
+        } catch (IOException err) {
+            System.err.println(err.getMessage());
+        } // End try-catch block
     } // End send_message() method
+
+    public void receive_message(int socket_index, byte[]arr, String message) {
+        this.node_read = this.node_server.readers.get(socket_index); /* constructs our TCPReciever obj */
+
+        try {
+            Thread read = new Thread(this.node_read);
+            read.start(); /* start the TCPReceiver thread obj */
+        } catch(Exception err) {
+            System.out.println(err.getMessage());
+        } // End try-catch block
+    } // End receive_message() method
     
 } // End Node class
