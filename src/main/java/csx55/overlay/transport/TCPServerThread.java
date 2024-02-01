@@ -1,6 +1,6 @@
 package csx55.overlay.transport;
-import csx55.overlay.node.Registry;
 
+import csx55.overlay.node.*;
 import java.net.*;
 import java.io.*;
 import java.util.*;
@@ -24,9 +24,7 @@ public class TCPServerThread implements Runnable {
         if (PORT_NUM > 1024 && PORT_NUM < 65536) { /* given a valid port number create the ServerSocket */
             try {
                 this.server_port_number = PORT_NUM;
-                
-                server = new ServerSocket(this.server_port_number); 
-                
+                server = new ServerSocket(this.server_port_number);
             } catch (IOException err) {
                 System.out.println(err.getMessage());
             } // End try-catch block
@@ -41,9 +39,9 @@ public class TCPServerThread implements Runnable {
                     not_set = !not_set;
                     System.out.println("Created new MessagingNode server thread at port #: " + this.server_port_number);
                     
-                    /* parse all messagingNode information needed */
+                    /* TODO: parse all messagingNode information needed */
                     // What object do we use to help us grab this information?
-                    // mn_ip_address = server.getInetAddress();
+                    // this.mn_ip_address = server.getInetAddress();
                     // mn_port_number = this.server_port_number;
 
                 } catch (IOException err) {

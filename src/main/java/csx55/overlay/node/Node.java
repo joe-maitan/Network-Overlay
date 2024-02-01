@@ -1,7 +1,6 @@
 package csx55.overlay.node;
 
 import java.io.IOException;
-
 import csx55.overlay.transport.*;
 import csx55.overlay.wireformats.*;
 
@@ -18,13 +17,15 @@ public class Node {
     public Node() {} // default node constructor
 
     public Node(final int PORT_NUM) {
-        this.node_port_number = PORT_NUM;
-        
         node_server = new TCPServerThread(this.node_port_number);
         
-        Thread t = new Thread(node_server);
+        /* TODO: Parse in the correct information */
+        this.node_port_number = PORT_NUM;
+        this.node_ip_address = "";
         
-        t.start(); /* start the TCPServerThread */
+        Thread t = new Thread(node_server);
+
+        t.start(); /* start the TCPServerThread, calls the run method below */
     } // End Node constructor
 
     public void onEvent(Event type_of_event) {

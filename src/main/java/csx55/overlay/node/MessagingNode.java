@@ -1,6 +1,6 @@
 package csx55.overlay.node;
-import csx55.overlay.wireformats.*;
 
+import csx55.overlay.wireformats.*;
 import java.io.*;
 import java.net.*;
 
