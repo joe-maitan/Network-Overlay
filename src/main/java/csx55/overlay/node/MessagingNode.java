@@ -29,6 +29,13 @@ public class MessagingNode extends Node  {
             /* TODO: Read the information sent from the registry back to the node */
             /* TODO: Read the status when we send the message and see what we have to do next */
             /* Add the new messaging_node to the regsitry? registering its IP, Port, and MessageType */
+            
+            // try {
+            //     Registry.register_node(this);
+            // } catch (Exception e) {
+            //     System.err.println(e.getMessage());
+            // }
+            
         } catch (Exception e) {
             System.err.println(e.getMessage());
         } // End try-catch block
@@ -42,6 +49,7 @@ public class MessagingNode extends Node  {
         final int PORT_NUM = Integer.parseInt(args[1]);
 
         MessagingNode new_messaging_node = new MessagingNode(REGISTRY_HOST_NAME, PORT_NUM);
+        new_messaging_node.t.start(); /* start our TCPServerThread associated with our new_messaging_node object */
 
         /* do we start reading input for the messaging node now? */
     } // End main method

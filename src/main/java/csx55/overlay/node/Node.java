@@ -10,6 +10,8 @@ public class Node {
     public TCPSender node_send;
     public TCPReceiverThread node_read;
 
+    public Thread t;
+
     String node_ip_address;
     int node_port_number;
     
@@ -23,9 +25,9 @@ public class Node {
         this.node_port_number = PORT_NUM;
         this.node_ip_address = "";
         
-        Thread t = new Thread(node_server);
+        t = new Thread(node_server);
 
-        t.start(); /* start the TCPServerThread, calls the run method below */
+        // t.start(); /* start the TCPServerThread, calls the run method below */
     } // End Node constructor
 
     public void onEvent(Event type_of_event) {
