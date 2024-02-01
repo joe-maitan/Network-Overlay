@@ -27,6 +27,7 @@ public class Node {
         
         t = new Thread(node_server);
 
+        /* DO NOT START THE THREAD IN THE CONSTRUCTOR */
         // t.start(); /* start the TCPServerThread, calls the run method below */
     } // End Node constructor
 

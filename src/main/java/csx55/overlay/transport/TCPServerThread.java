@@ -14,6 +14,7 @@ public class TCPServerThread implements Runnable {
 
     int server_port_number;
 
+    /* TODO: Consider changing the containers we are using to contain our objects */
     public ArrayList<Socket> socket_connetions = new ArrayList<>();
     public ArrayList<TCPSender> senders = new ArrayList<>();
     public ArrayList<TCPReceiverThread> readers = new ArrayList<>();
