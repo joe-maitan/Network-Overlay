@@ -1,8 +1,10 @@
 package csx55.overlay.node;
 
+import csx55.overlay.transport.TCPSender;
 import csx55.overlay.wireformats.*;
 import java.io.*;
 import java.net.*;
+import java.util.ArrayList;
 
 public class MessagingNode extends Node  {
 
@@ -11,6 +13,8 @@ public class MessagingNode extends Node  {
     public int mn_port_number;
 
     static Socket messaging_node_socket;
+
+    // static ArrayList<Socket> list_of_mn_sockets = new ArrayList<>();
 
     public MessagingNode(String machine_name, final int PORT_NUM) {
         super(0); /* Creates a TCPServerThread for the messaging node. This is what we will use to connect other messaging nodes */
@@ -22,9 +26,12 @@ public class MessagingNode extends Node  {
         try {
             // System.out.println("Creating new MessagingNode socket");
             Socket messaging_node_socket = new Socket(machine_name, PORT_NUM); /* This allows the MessagingNode to connect to the Registry */
+            
+            this.node_server.add_socket(messaging_node_socket);
 
             Register register_request = new Register(this); /* we then create a new register request */
-            this.send_message(0, register_request.getBytes(), null); /* and send it to the registry */
+            
+            node_server.send_msg(0, register_request.getBytes());
 
             /* TODO: Read the information sent from the registry back to the node */
             /* TODO: Read the status when we send the message and see what we have to do next */

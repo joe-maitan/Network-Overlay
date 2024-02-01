@@ -7,10 +7,12 @@ public class TCPSender {
 
     private Socket socket;
     private DataOutputStream dout;
+    public int index;
     
-    public TCPSender(Socket s) throws IOException {
+    public TCPSender(Socket s, int array_list_index) throws IOException {
         this.socket = s; /* this is going to the socket that we are sending data to */
         dout = new DataOutputStream(socket.getOutputStream());
+        this.index = array_list_index;
     } // End TCPSender(socket) constructor
 
     public void sendData(byte[] dataToSend) throws IOException {

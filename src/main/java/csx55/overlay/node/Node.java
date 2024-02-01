@@ -1,12 +1,13 @@
 package csx55.overlay.node;
 
-import java.io.IOException;
+import java.io.*;
+import java.net.*;
 import csx55.overlay.transport.*;
 import csx55.overlay.wireformats.*;
 
 public class Node {
 
-    private TCPServerThread node_server;
+    protected TCPServerThread node_server;
     public TCPSender node_send;
     public TCPReceiverThread node_read;
 
@@ -58,5 +59,9 @@ public class Node {
             System.out.println(err.getMessage());
         } // End try-catch block
     } // End receive_message() method
+
+    public void add_socket(Socket s) {
+        node_server.add_socket(s);
+    } // End add_socket() method
     
 } // End Node class
