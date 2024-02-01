@@ -21,15 +21,10 @@ public class Node {
 
     public Node(final int PORT_NUM) {
         node_server = new TCPServerThread(PORT_NUM);
-        
-        /* TODO: Parse in the correct information */
         this.node_port_number = node_server.server_port_number;
-        this.node_ip_address = node_server.getInetAddress();
+        this.node_ip_address = node_server.ip_address;
         
         t = new Thread(node_server);
-
-        /* DO NOT START THE THREAD IN THE CONSTRUCTOR */
-        // t.start(); /* start the TCPServerThread, calls the run method below */
     } // End Node constructor
 
     public void onEvent(Event type_of_event) {

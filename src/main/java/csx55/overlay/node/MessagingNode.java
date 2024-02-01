@@ -18,8 +18,6 @@ public class MessagingNode extends Node  {
 
     public MessagingNode(String machine_name, final int PORT_NUM) {
         super(0); /* Creates a TCPServerThread for the messaging node. This is what we will use to connect other messaging nodes */
-        
-        /* TODO: after parsing the correct information in node we copy the data here */
         this.mn_port_number = this.node_port_number;
         this.mn_ip_address = this.node_ip_address;
 

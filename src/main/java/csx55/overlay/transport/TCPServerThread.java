@@ -12,6 +12,7 @@ public class TCPServerThread implements Runnable {
     private static TCPReceiverThread read = null;
     public volatile boolean done = false;
 
+    public String ip_address;
     public int server_port_number;
 
     public ArrayList<Socket> socket_connetions = new ArrayList<>();
@@ -25,6 +26,7 @@ public class TCPServerThread implements Runnable {
             try {
                 this.server_port_number = PORT_NUM;
                 server = new ServerSocket(this.server_port_number);
+                this.ip_address = server.getInetAddress().getHostAddress();
             } catch (IOException err) {
                 System.out.println(err.getMessage());
             } // End try-catch block
@@ -36,14 +38,9 @@ public class TCPServerThread implements Runnable {
             while (!not_set && this.server_port_number < 65536) {
                 try {
                     server = new ServerSocket(server_port_number);
+                    this.ip_address = server.getInetAddress().getHostAddress();
                     not_set = !not_set;
                     System.out.println("Created new MessagingNode server thread at port #: " + this.server_port_number);
-                    
-                    /* TODO: parse all messagingNode information needed */
-                    // What object do we use to help us grab this information?
-                    // this.mn_ip_address = server.getInetAddress();
-                    // mn_port_number = this.server_port_number;
-
                 } catch (IOException err) {
                     ++this.server_port_number;
                 } // End try-catch block
