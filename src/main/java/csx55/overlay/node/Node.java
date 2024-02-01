@@ -27,7 +27,9 @@ public class Node {
         t.start(); /* start the TCPServerThread */
     } // End Node constructor
 
-    public void onEvent(Event type_of_event) {} // End onEvent() method
+    public void onEvent(Event type_of_event) {
+        // EventFactory fac = new EventFactory(type_of_event.getType());
+    } // End onEvent() method
 
     public int send_message(int socket_index, byte[] arr, String message) {
         int status = 0;
