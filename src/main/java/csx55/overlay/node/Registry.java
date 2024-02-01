@@ -75,10 +75,14 @@ public class Registry extends Node {
             System.exit(1);
         }
 
-        int port = Integer.parseInt(args[0]);
 
+        int port = Integer.parseInt(args[0]);
+        System.out.println("Registry port #: " + port);
+
+        System.out.println("Creating our_registry object");
         Registry our_registry = new Registry(port); /* creates a new Node object that will host our Registry Server */
 
+        System.out.println("Starting our_registry thread");
         our_registry.t.start(); /* starts our TCPServerThread that was created in our_registry obj */
         
         System.out.println("Registry is up"); /* The registry TCPServerThread is up and is looking for active connections */
