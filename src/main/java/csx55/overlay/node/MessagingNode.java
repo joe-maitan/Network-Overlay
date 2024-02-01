@@ -15,7 +15,7 @@ public class MessagingNode extends Node  {
     public MessagingNode(String machine_name, final int PORT_NUM) {
         super(0); /* Creates a TCPServerThread for the messaging node. This is what we will use to connect other messaging nodes */
         
-        /* after parsing the correct information in node we copy the data here */
+        /* TODO: after parsing the correct information in node we copy the data here */
         this.mn_port_number = this.node_port_number;
         this.mn_ip_address = this.node_ip_address;
 
@@ -26,21 +26,13 @@ public class MessagingNode extends Node  {
             Register register_request = new Register(this); /* we then create a new register request */
             this.send_message(0, register_request.getBytes(), null); /* and send it to the registry */
 
-            // check the status of the returned message, if 0 success, if 1, no success
-            // if
-
-
+            /* TODO: Read the information sent from the registry back to the node */
+            /* TODO: Read the status when we send the message and see what we have to do next */
             /* Add the new messaging_node to the regsitry? registering its IP, Port, and MessageType */
-            
         } catch (Exception e) {
             System.err.println(e.getMessage());
         } // End try-catch block
     } // End MessagingNode() constructor
-
-    @Override
-    public void onEvent(Event type_of_event) {
-        
-    } // End onEvent() method
     public static void main(String[] args) {
         if (args.length < 2) {
             System.exit(1);
