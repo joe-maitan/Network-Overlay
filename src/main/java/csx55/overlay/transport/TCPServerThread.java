@@ -66,7 +66,7 @@ public class TCPServerThread implements Runnable {
                     // System.out.println("Creating a new socket");
                     Socket s = server.accept();
                     System.out.println(s.getInetAddress() + " has connected!"); /* validation that something that has connected */
-                   
+                    add_socket(s);
                 } catch (IOException err) {
                     System.out.println(err.getMessage());
                 } // End try-catch block

@@ -1,7 +1,7 @@
 package csx55.overlay.wireformats;
 
 import csx55.overlay.node.*;
-import csx55.overlay.wireformats.Register;
+import csx55.overlay.wireformats.*;
 import java.util.*;
 import java.net.*;
 import java.io.*;
@@ -10,7 +10,7 @@ public class Register implements Event {
 
     String IP_address;
     int port_number;
-    int message_protocol; /* TODO: Should I change this to protocol or keep it as int. Uncomment line 19 when known */
+    int message_protocol = Protocol.REGISTER; /* TODO: Should I change this to protocol or keep it as int. Uncomment line 19 when known */
 
     public Register(MessagingNode new_msg_node) {
         this.IP_address = new_msg_node.mn_ip_address;
@@ -21,7 +21,6 @@ public class Register implements Event {
     @Override
     public int getType() {
         return this.message_protocol;
-        // throw new UnsupportedOperationException("Unimplemented method 'getType'");
     } // End getType() method
 
     @Override
@@ -31,6 +30,7 @@ public class Register implements Event {
         DataOutputStream dout = new DataOutputStream(new BufferedOutputStream(baOutputStream));
 
         try {
+            dout.writeInt(getType());
             dout.writeInt(port_number);
             dout.writeChars(IP_address);
 

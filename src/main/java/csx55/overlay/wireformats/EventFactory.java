@@ -4,38 +4,38 @@ import csx55.overlay.wireformats.*;
 
 public class EventFactory {
     
-    public Event event_factory(Protocol protocol) {
+    public Event event_factory(int protocol) {
         Event temp = null;
 
         switch (protocol) {
-            case REGISTER:
+            case 0:
                 // temp = new Register();
                 break;
-            case DEREGISTER:
+            case 1:
                 temp = new Deregister();
                 break;
-            case LINKWEIGHTS:
+            case 2:
                 temp = new LinkWeights();
                 break;
-            case MESSAGE:
+            case 3:
                 temp = new Message();
                 break;
-            case MESSAGINGNODESLIST:
+            case 4:
                 temp = new MessagingNodesList();
                 break;
             // case PROTOCOL:
             //     temp = new Protocol();
             //     break;
-            case TASKCOMPLETE:
+            case 5:
                 temp = new TaskComplete();
                 break;
-            case TASKINITIATE:
+            case 6:
                 temp = new TaskInitiate();
                 break;
-            case TASKSUMMARYREQUEST:
+            case 7:
                 temp = new TaskSummaryRequest();
                 break;
-            case TASKSUMMARYRESPONSE:
+            case 8:
                 temp = new TaskSummaryResponse();
                 break;
         } // End switch protocol

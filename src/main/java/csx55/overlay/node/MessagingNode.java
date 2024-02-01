@@ -56,6 +56,9 @@ public class MessagingNode extends Node  {
         MessagingNode new_messaging_node = new MessagingNode(REGISTRY_HOST_NAME, PORT_NUM);
         new_messaging_node.t.start(); /* start our TCPServerThread associated with our new_messaging_node object */
 
+        System.out.println("MessagingNode.java - My ip is: " + new_messaging_node.mn_ip_address);
+        System.out.println("MessagingNode.java - Port #: " + new_messaging_node.mn_port_number);
+
         /* do we start reading input for the messaging node now? */
     } // End main method
 

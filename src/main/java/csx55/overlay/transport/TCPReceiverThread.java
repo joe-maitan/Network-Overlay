@@ -10,8 +10,8 @@ public class TCPReceiverThread implements Runnable {
     private DataInputStream din;
     public int index;
     
-    public TCPReceiverThread(Socket socket, int array_list_index) throws IOException {
-        this.socket = socket;
+    public TCPReceiverThread(Socket s, int array_list_index) throws IOException {
+        this.socket = s;
         din = new DataInputStream(socket.getInputStream());
         this.index = array_list_index;
     } // End TCPReceiver(socket) constructor
@@ -19,9 +19,12 @@ public class TCPReceiverThread implements Runnable {
     public void run() {
         int data_length;
 
-        System.out.println("Entering the run of TCPReceieverThread");
-        while (socket != null) {
+        System.out.println("Entering the .run() of TCPReceieverThread");
+        while (this.socket != null) {
+            System.out.println("inside the while loop of my .run() method");
             try {
+                System.out.println("Entering the try statement");
+                this.socket = new Socket();
                 data_length = din.readInt();
 
                 byte[] data = new byte[data_length];
@@ -31,7 +34,7 @@ public class TCPReceiverThread implements Runnable {
 
                 /* TODO: get the event protocol */
                 EventFactory event_fac = new EventFactory();
-                // EventFactory.event_fac(din);
+                event_fac.event_factory(data[0]); /* The first byte of the byte array should be the message type */
             } catch (SocketException se) {
                 System.out.println(se.getMessage());
                 break;
@@ -40,6 +43,8 @@ public class TCPReceiverThread implements Runnable {
                 break;
             } // End try-catch block
         } // End while loop
+
+        System.out.println("exiting the while loop of the .run() method for TCPReceiever");
     } // End run() method
 
 } // End TCPReceiverThread class
