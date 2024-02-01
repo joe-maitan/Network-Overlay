@@ -12,20 +12,11 @@ public class TCPServerThread implements Runnable {
     private static TCPReceiverThread read = null;
     public volatile boolean done = false;
 
-    int server_port_number;
+    public int server_port_number;
 
     public ArrayList<Socket> socket_connetions = new ArrayList<>();
     public ArrayList<TCPSender> senders = new ArrayList<>();
     public ArrayList<TCPReceiverThread> readers = new ArrayList<>();
-
-
-    public void send_msg(int i, byte[] arr) {
-        try {
-            senders.get(i).sendData(arr);
-        } catch (IOException err) {
-            System.err.println(err.getMessage());
-        }
-    } // End send_msg
 
     public TCPServerThread(final int PORT_NUM) {
         // System.out.println("TCPServerThread(port): Creating a new server");
@@ -87,6 +78,14 @@ public class TCPServerThread implements Runnable {
         } // End if statment
     } // End run() method
 
+    public void send_msg(int i, byte[] arr) {
+        try {
+            senders.get(i).sendData(arr);
+        } catch (IOException err) {
+            System.err.println(err.getMessage());
+        }
+    } // End send_msg
+
     public int get_socket_index(Socket s) {
         return socket_connetions.indexOf(s);
     } // End get_socket_index() method
@@ -104,8 +103,8 @@ public class TCPServerThread implements Runnable {
             Thread server_read_thread = new Thread(read);
             server_read_thread.start(); /* starts the TCPReceiver thread and begins to read in information while it has information to read */
         } catch (IOException err) {
-
-        }
+            System.err.println(err.getMessage());
+        } // End try-catch block
                        
     } // End add_socket
 } // End TCPServerThread class

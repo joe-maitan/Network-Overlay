@@ -23,8 +23,8 @@ public class Node {
         node_server = new TCPServerThread(PORT_NUM);
         
         /* TODO: Parse in the correct information */
-        this.node_port_number = PORT_NUM;
-        this.node_ip_address = "";
+        this.node_port_number = node_server.server_port_number;
+        this.node_ip_address = node_server.getInetAddress();
         
         t = new Thread(node_server);
 
