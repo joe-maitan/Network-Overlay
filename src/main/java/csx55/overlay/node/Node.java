@@ -38,7 +38,7 @@ public class Node {
                 String ip_address = reg_rq.getAddress();
                 int port = reg_rq.getPort();
                 
-                // this.to_be_registered.entrySet(ip_address, port);
+                // register_node(socket_index, reg_rq);
                 break;
             case 1:
                 /* Register Response */
@@ -47,6 +47,7 @@ public class Node {
             case 2:
                 /* Deregister Request */
                 DeregisterRequest de_rq = (DeregisterRequest) type_of_event;
+
                 break;
             case 3:
                 /* Deregister Response */
