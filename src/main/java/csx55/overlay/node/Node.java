@@ -34,42 +34,51 @@ public class Node {
         
         switch(event_protocol) {
             case 0:
-                /* Register Request */
-                RegisterRequest rq = (RegisterRequest) type_of_event;
-                String ip_address = rq.getAddress();
-                int port = rq.getPort();
+                RegisterRequest reg_rq = (RegisterRequest) type_of_event;
+                String ip_address = reg_rq.getAddress();
+                int port = reg_rq.getPort();
                 
                 // this.to_be_registered.entrySet(ip_address, port);
                 break;
             case 1:
                 /* Register Response */
+                RegisterResponse reg_resp = (RegisterResponse) type_of_event;
                 break;
             case 2:
                 /* Deregister Request */
+                DeregisterRequest de_rq = (DeregisterRequest) type_of_event;
                 break;
             case 3:
                 /* Deregister Response */
+                DeregisterResponse de_resp = (DeregisterResponse) type_of_event;
                 break;
             case 4:
                 /* Link weights */
+                LinkWeights linkWeights = (LinkWeights) type_of_event;
                 break;
             case 5:
                 /* message */
+                Message msg = (Message) type_of_event;
                 break;
             case 6:
                 // Messaging Nodes list
+                MessagingNodesList msg_node_list = (MessagingNodesList) type_of_event;
                 break;
             case 7:
                 // task initiate
+                TaskInitiate initiate = (TaskInitiate) type_of_event;
                 break;
             case 8:
                 // task complete
+                TaskComplete taskComplete = (TaskComplete) type_of_event;
                 break;
             case 9:
                 // task summary request
+                TaskSummaryRequest sum_req = (TaskSummaryRequest) type_of_event;
                 break;
             case 10:
                 // task summary response
+                TaskSummaryResponse sum_rsp = (TaskSummaryResponse) type_of_event;
                 break;
         } // End switch statement
     } // End onEvent() method
