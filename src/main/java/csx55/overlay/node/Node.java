@@ -1,6 +1,7 @@
 package csx55.overlay.node;
 
 import java.io.*;
+import java.util.*;
 import java.net.*;
 import csx55.overlay.transport.*;
 import csx55.overlay.wireformats.*;
@@ -15,6 +16,8 @@ public class Node {
 
     String node_ip_address;
     int node_port_number;
+
+    public HashMap<String, Integer> to_be_registered = new HashMap<>();
     
     public Node() {} // default node constructor
 
@@ -31,26 +34,38 @@ public class Node {
         
         switch(event_protocol) {
             case 0:
+                /* Register Request */
+                // grab the ip and port number of the node
                 break;
             case 1:
+                /* Register Response */
                 break;
             case 2:
+                /* Deregister Request */
                 break;
             case 3:
+                /* Deregister Response */
                 break;
             case 4:
+                /* Link weights */
                 break;
             case 5:
+                /* message */
                 break;
             case 6:
+                // Messaging Nodes list
                 break;
             case 7:
+                // task initiate
                 break;
             case 8:
+                // task complete
                 break;
             case 9:
+                // task summary request
                 break;
             case 10:
+                // task summary response
                 break;
         } // End switch statement
     } // End onEvent() method
