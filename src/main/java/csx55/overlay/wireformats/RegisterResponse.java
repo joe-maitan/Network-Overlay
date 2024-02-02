@@ -6,16 +6,14 @@ import java.util.*;
 import java.net.*;
 import java.io.*;
 
-public class Register implements Event {
+public class RegisterResponse implements Event {
 
     String IP_address;
     int port_number;
-    int message_protocol = Protocol.REGISTER; /* TODO: Should I change this to protocol or keep it as int. Uncomment line 19 when known */
+    int message_protocol = Protocol.REGISTER;
 
-    public Register(MessagingNode new_msg_node) {
-        this.IP_address = new_msg_node.mn_ip_address;
-        this.port_number = new_msg_node.mn_port_number;
-        // this.message_protocol = Protocol.REGISTER;
+    public RegisterResponse() {
+        
     } // End Register() constructor
     
     @Override
@@ -53,4 +51,6 @@ public class Register implements Event {
     } // End setBytes() method
 
 
-} // End Register class
+    
+    
+} // End RegisterResponse class

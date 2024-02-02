@@ -2,7 +2,7 @@ package csx55.overlay.wireformats;
 
 import java.io.IOException;
 
-public class Deregister implements Event {
+public class DeregisterRequest implements Event {
 
     int message_type;
     String IP_address;
@@ -25,4 +25,5 @@ public class Deregister implements Event {
     }
 
     
-} // End Deregister class
+    
+} // End DeregisterRequest class
