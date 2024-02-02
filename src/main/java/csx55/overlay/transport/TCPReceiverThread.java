@@ -33,6 +33,8 @@ public class TCPReceiverThread implements Runnable {
                 byte[] data = new byte[data_length];
                 din.readFully(data, 0, data_length);
 
+                // System.out.println(data[0]);
+
                 /* TODO: get the event protocol */
                 System.out.println("Creating new EventFactory()");
                 EventFactory event_fac = new EventFactory();

@@ -10,11 +10,12 @@ public class EventFactory {
         DataInputStream din = new DataInputStream(baInputStream);
 
         int protocol = 0;
+        
         try {
             protocol = din.readInt();
         } catch (IOException err) {
             System.err.println(err.getMessage());
-        }
+        } // End try-catch block
 
         Event new_event = null;
 

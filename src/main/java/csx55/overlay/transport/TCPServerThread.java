@@ -17,6 +17,9 @@ public class TCPServerThread implements Runnable {
     public String ip_address;
     public int server_port_number;
 
+    public String client_ip;
+    public int client_port_num;
+
     public ArrayList<Socket> socket_connetions = new ArrayList<>();
     public ArrayList<TCPSender> senders = new ArrayList<>();
     public ArrayList<TCPReceiverThread> readers = new ArrayList<>();
@@ -67,10 +70,14 @@ public class TCPServerThread implements Runnable {
                 try {
                     // System.out.println("Creating a new socket");
                     Socket s = server.accept();
-                    String client_ip = s.getInetAddress().toString();
-                    int client_port_num = s.getPort();
+                    
+                    client_ip = s.getInetAddress().toString();
                     client_ip = client_ip.substring(1);
+                    
+                    client_port_num = s.getPort();
+
                     System.out.println("[Node]: " + client_ip + " has connected at port: " + client_port_num); /* validation that something that has connected */
+                    
                     add_socket(s);
                 } catch (IOException err) {
                     System.out.println(err.getMessage());
@@ -112,5 +119,6 @@ public class TCPServerThread implements Runnable {
             System.err.println(err.getMessage());
         } // End try-catch block
                        
-    } // End add_socket
+    } // End add_socket() method
+    
 } // End TCPServerThread class

@@ -81,9 +81,7 @@ public class Registry extends Node {
 
 
         int port = Integer.parseInt(args[0]);
-        // System.out.println("Registry port #: " + port);
 
-        // System.out.println("Creating our_registry object");
         Registry our_registry = new Registry(port); /* creates a new Node object that will host our Registry Server */
 
         // System.out.println("Starting our_registry thread");
