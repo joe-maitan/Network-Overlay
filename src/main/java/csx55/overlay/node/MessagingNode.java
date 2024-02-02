@@ -27,9 +27,9 @@ public class MessagingNode extends Node  {
             
             this.node_server.add_socket(messaging_node_socket);
 
-            Register register_request = new Register(this); /* we then create a new register request */
+            RegisterRequest reg_request = new RegisterRequest(this); /* we then create a new register request */
             
-            node_server.send_msg(0, register_request.getBytes());
+            node_server.send_msg(0, reg_request.getBytes());
 
             /* TODO: Read the information sent from the registry back to the node */
             /* TODO: Read the status when we send the message and see what we have to do next */
@@ -56,8 +56,11 @@ public class MessagingNode extends Node  {
         MessagingNode new_messaging_node = new MessagingNode(REGISTRY_HOST_NAME, PORT_NUM);
         new_messaging_node.t.start(); /* start our TCPServerThread associated with our new_messaging_node object */
 
-        System.out.println("MessagingNode.java - My ip is: " + new_messaging_node.mn_ip_address);
-        System.out.println("MessagingNode.java - Port #: " + new_messaging_node.mn_port_number);
+        /* TODO: We need to be able to find out how to parse the correct information of the messagingNodes
+         * ip address and port
+         */
+        // System.out.println("MessagingNode.java - My ip is: " + new_messaging_node.mn_ip_address);
+        // System.out.println("MessagingNode.java - Port #: " + new_messaging_node.mn_port_number);
 
         /* do we start reading input for the messaging node now? */
     } // End main method

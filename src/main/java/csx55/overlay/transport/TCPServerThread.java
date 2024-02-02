@@ -1,6 +1,8 @@
 package csx55.overlay.transport;
 
-import csx55.overlay.node.*;
+// import csx55.overlay.node.*;
+// import csx55.overlay.wireformats.RegisterRequest;
+
 import java.net.*;
 import java.io.*;
 import java.util.*;
@@ -65,7 +67,10 @@ public class TCPServerThread implements Runnable {
                 try {
                     // System.out.println("Creating a new socket");
                     Socket s = server.accept();
-                    System.out.println(s.getInetAddress() + " has connected!"); /* validation that something that has connected */
+                    String client_ip = s.getInetAddress().toString();
+                    int client_port_num = s.getPort();
+                    client_ip = client_ip.substring(1);
+                    System.out.println("[Node]: " + client_ip + " has connected at port: " + client_port_num); /* validation that something that has connected */
                     add_socket(s);
                 } catch (IOException err) {
                     System.out.println(err.getMessage());
@@ -95,6 +100,10 @@ public class TCPServerThread implements Runnable {
             senders.add(send); /* Keep track of how many nodes have TCPSender objects */
             read = new TCPReceiverThread(s, socket_connetions.indexOf(s)); /* Assign the TCPReceieverThread obj to read messages */
             readers.add(read); /* Keep track of how many nodes have TCPReceiver objects */
+
+
+            /* TODO: I feel like I am opening the Receiver thread too soon and need to actually send data before receving any back */
+            // send.sendData(RegisterRequest.getBytes());
 
             /* Create TCP Receiver start the thread for the new reader to check that if the thread */
             Thread server_read_thread = new Thread(read);

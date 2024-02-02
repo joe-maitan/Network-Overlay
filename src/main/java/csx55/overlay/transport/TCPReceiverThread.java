@@ -28,11 +28,15 @@ public class TCPReceiverThread implements Runnable {
                 data_length = din.readInt();
 
                 byte[] data = new byte[data_length];
-                din.readFully(data, 0, data_length);
+                din.readFully(data, 0, data_length); /* TODO: What do we pass in as the parameters here? */
 
-                System.out.println("Read in data:" + data);
+                System.out.println("Read in the data array");
+                for (int i = 0; i < data_length; ++i) {
+                    System.out.println(data[i]);
+                }
 
                 /* TODO: get the event protocol */
+                System.out.println("Creating new EventFactory()");
                 EventFactory event_fac = new EventFactory();
                 event_fac.event_factory(data[0]); /* The first byte of the byte array should be the message type */
             } catch (SocketException se) {

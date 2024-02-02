@@ -1,8 +1,8 @@
 package csx55.overlay.node;
 import csx55.overlay.wireformats.*;
 
-import java.io.*;
-import java.net.*;
+// import java.io.*;
+// import java.net.*;
 import java.util.*;
 
 public class Registry extends Node {
@@ -85,7 +85,7 @@ public class Registry extends Node {
         // System.out.println("Starting our_registry thread");
         our_registry.t.start(); /* starts our TCPServerThread that was created in our_registry obj */
         
-        System.out.println("Registry is up"); /* The registry TCPServerThread is up and is looking for active connections */
+        System.out.println("[Registry.java]: Registry Node is up and running"); /* The registry TCPServerThread is up and is looking for active connections */
         
         our_registry.read_command_line();
     } // End main method

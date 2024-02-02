@@ -10,7 +10,7 @@ public class RegisterRequest implements Event {
 
     String IP_address;
     int port_number;
-    int message_protocol = Protocol.REGISTER;
+    int message_protocol = Protocol.REGISTER_REQUEST;
 
     public RegisterRequest(MessagingNode new_msg_node) {
         this.IP_address = new_msg_node.mn_ip_address;

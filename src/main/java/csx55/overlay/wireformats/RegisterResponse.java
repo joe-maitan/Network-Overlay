@@ -10,7 +10,8 @@ public class RegisterResponse implements Event {
 
     String IP_address;
     int port_number;
-    int message_protocol = Protocol.REGISTER;
+    /* TODO Figure out message protocol */
+    // int message_protocol = Protocol.REGISTER_RESPONSE;
 
     public RegisterResponse() {
         
@@ -18,7 +19,8 @@ public class RegisterResponse implements Event {
     
     @Override
     public int getType() {
-        return this.message_protocol;
+        return 0;
+        // return this.message_protocol;
     } // End getType() method
 
     @Override
