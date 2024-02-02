@@ -12,7 +12,7 @@ public class Node {
     public TCPSender node_send;
     public TCPReceiverThread node_read;
 
-    public Thread t;
+    public Thread node_server_thread;
 
     String node_ip_address;
     int node_port_number;
@@ -26,7 +26,7 @@ public class Node {
         this.node_port_number = node_server.server_port_number;
         this.node_ip_address = node_server.ip_address;
         
-        t = new Thread(node_server);
+        node_server_thread = new Thread(node_server);
     } // End Node constructor
 
     public static synchronized void onEvent(Event type_of_event, int socket_index) {

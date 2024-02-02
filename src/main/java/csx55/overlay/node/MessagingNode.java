@@ -55,7 +55,7 @@ public class MessagingNode extends Node  {
         final int PORT_NUM = Integer.parseInt(args[1]);
 
         MessagingNode new_messaging_node = new MessagingNode(REGISTRY_HOST_NAME, PORT_NUM);
-        new_messaging_node.t.start(); /* start our TCPServerThread associated with our new_messaging_node object */
+        new_messaging_node.node_server_thread.start(); /* start our TCPServerThread associated with our new_messaging_node object */
 
         /* TODO: We need to be able to find out how to parse the correct information of the messagingNodes
          * ip address and port
