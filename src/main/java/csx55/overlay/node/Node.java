@@ -29,13 +29,17 @@ public class Node {
         t = new Thread(node_server);
     } // End Node constructor
 
-    public synchronized void onEvent(Event type_of_event) {
+    public static synchronized void onEvent(Event type_of_event, int socket_index) {
         int event_protocol = type_of_event.getType();
         
         switch(event_protocol) {
             case 0:
                 /* Register Request */
-                // grab the ip and port number of the node
+                RegisterRequest rq = (RegisterRequest) type_of_event;
+                String ip_address = rq.getAddress();
+                int port = rq.getPort();
+                
+                // this.to_be_registered.entrySet(ip_address, port);
                 break;
             case 1:
                 /* Register Response */

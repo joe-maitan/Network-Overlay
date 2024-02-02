@@ -3,6 +3,7 @@ package csx55.overlay.transport;
 import java.io.*;
 import java.net.*;
 
+import csx55.overlay.node.Node;
 import csx55.overlay.wireformats.*;
 
 public class TCPReceiverThread implements Runnable {
@@ -37,6 +38,7 @@ public class TCPReceiverThread implements Runnable {
                 EventFactory event_fac = new EventFactory();
                 
                 Event new_event = event_fac.event_factory(data);
+                Node.onEvent(new_event, index);
             } catch (SocketException se) {
                 System.out.println(se.getMessage());
                 break;

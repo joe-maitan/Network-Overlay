@@ -7,7 +7,8 @@ import java.util.*;
 
 public class Registry extends Node {
 
-    ArrayList<MessagingNode> registered_messaging_nodes = new ArrayList<>();
+    /* this tracks the socket index of the messaging node as well as the RegisterRequest */
+    HashMap<Integer, RegisterRequest> registered_messaging_nodes = new HashMap<>();
 
     public Registry() {} // End Registry default constructor
 
@@ -48,19 +49,19 @@ public class Registry extends Node {
     } // End read_command_line() method
 
     public void register_node(MessagingNode new_node) {
-        if (!registered_messaging_nodes.contains(new_node)) {
-            registered_messaging_nodes.add(new_node);
-        } else { /* else we do not add it to the registry */
-            /* print an error message that the node we are trying to register, has already been
-             * registered.
-             */
-        } // End if-else statement
+        // if (!registered_messaging_nodes.contains(new_node)) {
+        //     registered_messaging_nodes.add(new_node);
+        // } else { /* else we do not add it to the registry */
+        //     /* print an error message that the node we are trying to register, has already been
+        //      * registered.
+        //      */
+        // } // End if-else statement
     } // End register_node() method
 
     public void deregister_node(MessagingNode node) {
-        if (registered_messaging_nodes.contains(node)) {
-            registered_messaging_nodes.remove(node);
-        } /* else do not remove it from the registry */
+        // if (registered_messaging_nodes.contains(node)) {
+        //     registered_messaging_nodes.remove(node);
+        // } /* else do not remove it from the registry */
     } // End deregister_node() method
 
     public void construct_overlay() {

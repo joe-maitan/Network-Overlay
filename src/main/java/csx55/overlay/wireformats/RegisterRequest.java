@@ -18,6 +18,14 @@ public class RegisterRequest implements Event {
         this.IP_address = new_msg_node.mn_ip_address;
         this.port_number = new_msg_node.mn_port_number;
     } // End Register() constructor
+
+    public int getPort() {
+        return this.port_number;
+    }
+
+    public String getAddress() {
+        return this.IP_address;
+    }
     
     @Override
     public int getType() {

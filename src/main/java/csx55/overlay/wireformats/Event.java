@@ -10,5 +10,4 @@ public interface Event {
     
     /* Dan told me to implement this method. This allows us to parse in a byte array arr */
     public void setBytes(DataInputStream din); // Unmarshalling
-
 } // End Event interface
