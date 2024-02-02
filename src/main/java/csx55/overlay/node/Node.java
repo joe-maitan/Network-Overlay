@@ -27,7 +27,32 @@ public class Node {
     } // End Node constructor
 
     public synchronized void onEvent(Event type_of_event) {
+        int event_protocol = type_of_event.getType();
         
+        switch(event_protocol) {
+            case 0:
+                break;
+            case 1:
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+            case 4:
+                break;
+            case 5:
+                break;
+            case 6:
+                break;
+            case 7:
+                break;
+            case 8:
+                break;
+            case 9:
+                break;
+            case 10:
+                break;
+        } // End switch statement
     } // End onEvent() method
 
     public int send_message(int socket_index, byte[] arr, String message) {
