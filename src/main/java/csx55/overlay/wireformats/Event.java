@@ -1,6 +1,6 @@
 package csx55.overlay.wireformats;
 
-import java.io.IOException;
+import java.io.*;
 
 public interface Event {
     
@@ -9,6 +9,6 @@ public interface Event {
     public byte[] getBytes() throws IOException; // Marshalling
     
     /* Dan told me to implement this method. This allows us to parse in a byte array arr */
-    public void setBytes(byte[] arr); // Unmarshalling
+    public void setBytes(DataInputStream din); // Unmarshalling
 
 } // End Event interface

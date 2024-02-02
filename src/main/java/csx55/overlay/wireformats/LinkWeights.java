@@ -1,5 +1,6 @@
 package csx55.overlay.wireformats;
 
+import java.io.DataInputStream;
 import java.io.IOException;
 
 public class LinkWeights implements Event {
@@ -17,7 +18,7 @@ public class LinkWeights implements Event {
     }
 
     @Override
-    public void setBytes(byte[] arr) {
+    public void setBytes(DataInputStream din) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'setBytes'");
     }

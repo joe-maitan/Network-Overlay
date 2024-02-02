@@ -1,5 +1,6 @@
 package csx55.overlay.wireformats;
 
+import java.io.DataInputStream;
 import java.io.IOException;
 
 public class DeregisterResponse implements Event {
@@ -18,8 +19,9 @@ public class DeregisterResponse implements Event {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getBytes'");
     }
+    
     @Override
-    public void setBytes(byte[] arr) {
+    public void setBytes(DataInputStream din) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'setBytes'");
     }

@@ -29,6 +29,7 @@ public class MessagingNode extends Node  {
 
             RegisterRequest reg_request = new RegisterRequest(this); /* we then create a new register request */
             
+            System.out.println("MessagingNode.java - testing getBytes " + reg_request.getBytes().length);
             node_server.send_msg(0, reg_request.getBytes());
 
             /* TODO: Read the information sent from the registry back to the node */

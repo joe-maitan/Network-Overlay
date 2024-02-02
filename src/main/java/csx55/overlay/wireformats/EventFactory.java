@@ -1,10 +1,16 @@
 package csx55.overlay.wireformats;
 
 import csx55.overlay.wireformats.*;
+import java.io.*;
 
 public class EventFactory {
     
-    public Event event_factory(int protocol) {
+    public Event event_factory(byte[] arr) {
+        ByteArrayInputStream baInputStream = new ByteArrayInputStream(arr);
+        DataInputStream din = new DataInputStream(baInputStream);
+
+        int protocol = din.readInt();
+
         Event new_event = null;
 
         switch (protocol) {
@@ -43,6 +49,7 @@ public class EventFactory {
                 break;
         } // End switch protocol
 
+        new_event.setBytes(din);
         return new_event;
     } // End event_factory() method
 

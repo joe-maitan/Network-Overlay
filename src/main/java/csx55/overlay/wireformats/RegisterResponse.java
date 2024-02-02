@@ -10,17 +10,13 @@ public class RegisterResponse implements Event {
 
     String IP_address;
     int port_number;
-    /* TODO Figure out message protocol */
-    // int message_protocol = Protocol.REGISTER_RESPONSE;
+    int message_protocol = Protocol.REGISTER_RESPONSE;
 
-    public RegisterResponse() {
-        
-    } // End Register() constructor
+    public RegisterResponse() {} // End Register() constructor
     
     @Override
     public int getType() {
-        return 0;
-        // return this.message_protocol;
+        return this.message_protocol;
     } // End getType() method
 
     @Override
@@ -47,7 +43,7 @@ public class RegisterResponse implements Event {
     } // End getBytes() method
 
     @Override
-    public void setBytes(byte[] arr) {
+    public void setBytes(DataInputStream din) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'setBytes'");
     } // End setBytes() method

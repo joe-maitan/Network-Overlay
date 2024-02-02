@@ -56,13 +56,19 @@ public class WireFormatWidget implements Event {
     } // End getType() method
 
     @Override
-    public void setBytes(byte[] arr) {
-        try {
-            // create a new WireFormatWidget object?
-            WireFormatWidget new_widget = new WireFormatWidget(arr);
-        } catch (IOException err) {
-            System.err.println(err.getMessage());
-        }
-    } // End setBytes() method
+    public void setBytes(DataInputStream din) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'setBytes'");
+    }
+
+    // @Override
+    // public void setBytes(byte[] arr) {
+    //     try {
+    //         // create a new WireFormatWidget object?
+    //         WireFormatWidget new_widget = new WireFormatWidget(arr);
+    //     } catch (IOException err) {
+    //         System.err.println(err.getMessage());
+    //     }
+    // } // End setBytes() method
 
 } // End WireFormatWidget class

@@ -15,7 +15,6 @@ public class RegisterRequest implements Event {
     public RegisterRequest(MessagingNode new_msg_node) {
         this.IP_address = new_msg_node.mn_ip_address;
         this.port_number = new_msg_node.mn_port_number;
-        // this.message_protocol = Protocol.REGISTER;
     } // End Register() constructor
     
     @Override
@@ -33,23 +32,30 @@ public class RegisterRequest implements Event {
             dout.writeInt(getType());
             dout.writeInt(port_number);
             dout.writeChars(IP_address);
+            dout.flush();
 
             marshalledBytes = baOutputStream.toByteArray();
-            baOutputStream.close();
 
-            dout.flush();
+            baOutputStream.close();
             dout.close();
         } catch (IOException err) {
             System.err.println(err.getMessage());
-        }
+        } // End try-catch block
 
         return marshalledBytes;
     } // End getBytes() method
 
     @Override
-    public void setBytes(byte[] arr) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setBytes'");
+    public void setBytes(DataInputStream din) {
+        try {
+            port_number = din.readInt();
+            byte[] ip_str = new byte[din.readInt()];
+
+            din.readFully(ip_str);
+            IP_address = new String(ip_str);
+        } catch (IOException err) {
+            System.err.println(err.getMessage());
+        } // End try-catch block
     } // End setBytes() method
 
 

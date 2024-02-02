@@ -1,6 +1,6 @@
 package csx55.overlay.wireformats;
 
-import java.io.IOException;
+import java.io.*;
 
 public class MessagingNodesList implements Event {
 
@@ -17,7 +17,7 @@ public class MessagingNodesList implements Event {
     }
 
     @Override
-    public void setBytes(byte[] arr) {
+    public void setBytes(DataInputStream din) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'setBytes'");
     }
