@@ -9,13 +9,18 @@ public class EventFactory {
         ByteArrayInputStream baInputStream = new ByteArrayInputStream(arr);
         DataInputStream din = new DataInputStream(baInputStream);
 
-        int protocol = din.readInt();
+        int protocol = 0;
+        try {
+            protocol = din.readInt();
+        } catch (IOException err) {
+            System.err.println(err.getMessage());
+        }
 
         Event new_event = null;
 
         switch (protocol) {
             case 0:
-                new_event = new RegisterRequest(null);
+                new_event = new RegisterRequest();
                 break;
             case 1:
                 new_event = new RegisterResponse();

@@ -3,7 +3,7 @@ package csx55.overlay.transport;
 import java.io.*;
 import java.net.*;
 
-import csx55.overlay.wireformats.EventFactory;
+import csx55.overlay.wireformats.*;
 
 public class TCPReceiverThread implements Runnable {
     private Socket socket;
@@ -35,7 +35,8 @@ public class TCPReceiverThread implements Runnable {
                 /* TODO: get the event protocol */
                 System.out.println("Creating new EventFactory()");
                 EventFactory event_fac = new EventFactory();
-                event_fac.event_factory(data); /* The first byte of the byte array should be the message type */
+                
+                Event new_event = event_fac.event_factory(data);
             } catch (SocketException se) {
                 System.out.println(se.getMessage());
                 break;

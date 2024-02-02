@@ -16,7 +16,6 @@ public class Node {
     String node_ip_address;
     int node_port_number;
     
-    
     public Node() {} // default node constructor
 
     public Node(final int PORT_NUM) {
@@ -27,8 +26,8 @@ public class Node {
         t = new Thread(node_server);
     } // End Node constructor
 
-    public void onEvent(Event type_of_event) {
-        // EventFactory fac = new EventFactory(type_of_event.getType());
+    public synchronized void onEvent(Event type_of_event) {
+        
     } // End onEvent() method
 
     public int send_message(int socket_index, byte[] arr, String message) {
