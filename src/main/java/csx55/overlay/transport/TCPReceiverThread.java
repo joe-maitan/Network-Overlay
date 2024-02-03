@@ -12,9 +12,8 @@ public class TCPReceiverThread implements Runnable {
     public int index;
     
     public TCPReceiverThread(Socket s, int array_list_index) throws IOException {
-        this.socket = s;
-        din = new DataInputStream(socket.getInputStream());
-        this.index = array_list_index;
+        socket = s;
+        index = array_list_index;
     } // End TCPReceiver(socket) constructor
     
     public void run() {
@@ -22,20 +21,22 @@ public class TCPReceiverThread implements Runnable {
 
         System.out.println("Entering the .run() of TCPReceieverThread");
         while (this.socket != null) {
-            System.out.println("inside the while loop of my .run() method");
+            System.out.println("inside the while loop of  TCPReceiverThread.run() method");
             try {
-                System.out.println("Entering the try statement");
-                this.socket = new Socket();
-                data_length = din.readInt();
+                System.out.println("Entering the try statement. Reading in data");
+                System.out.println("Reading data from: " + socket.getInetAddress().getHostName());
+                din = new DataInputStream(socket.getInputStream());
+                
+                data_length = din.readInt(); /* THIS IS THE LENGTH OF OUR MESSAGE */
 
                 System.out.println("Data length: " + data_length);
 
+                System.out.println("About to read in the data byte[]");
                 byte[] data = new byte[data_length];
-                din.readFully(data, 0, data_length);
+                din.readFully(data, 0, data.length);
+                System.out.println("Finished reading the data byte[]");
 
-                // System.out.println(data[0]);
-
-                /* TODO: get the event protocol */
+                
                 System.out.println("Creating new EventFactory()");
                 EventFactory event_fac = new EventFactory();
                 

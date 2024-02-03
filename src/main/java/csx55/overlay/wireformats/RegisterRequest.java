@@ -15,8 +15,8 @@ public class RegisterRequest implements Event {
     public RegisterRequest() {} // End default constructor
 
     public RegisterRequest(MessagingNode new_msg_node) {
-        this.IP_address = new_msg_node.mn_ip_address;
-        this.port_number = new_msg_node.mn_port_number;
+        this.IP_address = new_msg_node.ip_address;
+        this.port_number = new_msg_node.port_number;
     } // End Register() constructor
 
     public int getPort() {

@@ -8,42 +8,36 @@ import java.util.*;
 
 public class MessagingNode extends Node  {
 
-    // Refactoring all nodes
-
+    public String messageNodeIP;
+    public int messageNodePort;
     public int mn_type_of_message; /* the message protocol that the Node wants to send to another Node */
-    public String mn_ip_address; /* Inet Address of the MessagingNode */
-    public int mn_port_number;
-
+    
     static Socket messaging_node_socket;
 
-    // static ArrayList<Socket> list_of_mn_sockets = new ArrayList<>();
-
-    public MessagingNode(String machine_name, final int PORT_NUM) {
-        super(0); /* Creates a TCPServerThread for the messaging node. This is what we will use to connect other messaging nodes */
-        this.mn_port_number = this.node_port_number;
-        this.mn_ip_address = this.node_ip_address;
+    public MessagingNode(String hostName, int portNum) {
+        super(); /* Creates a Node associated with the MessagingNode */
 
         try {
-            // System.out.println("Creating new MessagingNode socket");
-            Socket messaging_node_socket = new Socket(machine_name, PORT_NUM); /* This allows the MessagingNode to connect to the Registry */
+            Socket messaging_node_socket = new Socket(hostName, portNum); /* This allows the MessagingNode to connect to the Registry */
             
-            this.node_server.add_socket(messaging_node_socket);
+            node_server.add_socket(messaging_node_socket);
 
-            RegisterRequest reg_request = new RegisterRequest(this); /* we then create a new register request */
+            System.out.println("[MsgNode] has connected to [Registry]");
             
-            System.out.println("MessagingNode.java - testing getBytes " + reg_request.getBytes().length);
+            /* THIS GRABS THE REGISTRY SERVERS INFORMATION. WE NEED TO GRAB THE NODES NAME AND PORT */
+            // messageNodeIP = messaging_node_socket.getInetAddress().toString();
+            // messageNodePort = messaging_node_socket.getPort();
+
+            messageNodeIP = node_server.node_ip;
+            messageNodePort = node_server.node_port_num;
+
+            System.out.println("MsgNode IP: " + messageNodeIP);
+            System.out.println("MsgNode Port: " + messageNodePort);
+        
+            System.out.println("Creating a new register request");
+            RegisterRequest reg_request = new RegisterRequest(this); /* Created a new registry request */
+            
             node_server.send_msg(0, reg_request.getBytes());
-
-            /* TODO: Read the information sent from the registry back to the node */
-            /* TODO: Read the status when we send the message and see what we have to do next */
-            /* Add the new messaging_node to the regsitry? registering its IP, Port, and MessageType */
-            
-            // try {
-            //     Registry.register_node(this);
-            // } catch (Exception e) {
-            //     System.err.println(e.getMessage());
-            // }
-            
         } catch (Exception e) {
             System.err.println(e.getMessage());
         } // End try-catch block
@@ -59,14 +53,6 @@ public class MessagingNode extends Node  {
         MessagingNode new_messaging_node = new MessagingNode(REGISTRY_HOST_NAME, PORT_NUM);
         new_messaging_node.node_server_thread.start(); /* start our TCPServerThread associated with our new_messaging_node object */
 
-
-        /* TODO: Figure out where I need to parse the correct data */
-        // new_messaging_node.mn_ip_address = new_messaging_node.node_server.client_ip;
-        // new_messaging_node.mn_port_number = new_messaging_node.node_server.client_port_num;
-        // System.out.println("MessagingNode.java - My ip is: " + mn_ip_address);
-        // System.out.println("MessagingNode.java - Port #: " + new_messaging_node.mn_port_number);
-
-        /* do we start reading input for the messaging node now? */
     } // End main method
 
 } // End MessagingNode class

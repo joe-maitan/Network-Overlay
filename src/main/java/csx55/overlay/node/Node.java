@@ -7,27 +7,25 @@ import csx55.overlay.transport.*;
 import csx55.overlay.wireformats.*;
 
 public class Node {
-
-    // Refactoring all nodes
-
+    
     protected TCPServerThread node_server;
     public TCPSender node_send;
     public TCPReceiverThread node_read;
 
     public Thread node_server_thread;
 
-    String node_ip_address;
-    int node_port_number;
+    public String ip_address;
+    public int port_number;
 
     public HashMap<String, Integer> to_be_registered = new HashMap<>();
     
-    public Node() {} // default node constructor
+    public Node() {
+        node_server = new TCPServerThread();
+        node_server_thread = new Thread(node_server);
+    } // default node constructor
 
     public Node(final int PORT_NUM) {
         node_server = new TCPServerThread(PORT_NUM);
-        this.node_port_number = node_server.server_port_number;
-        this.node_ip_address = node_server.ip_address;
-        
         node_server_thread = new Thread(node_server);
     } // End Node constructor
 
