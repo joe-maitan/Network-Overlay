@@ -8,6 +8,8 @@ import java.util.*;
 
 public class MessagingNode extends Node  {
 
+    // Refactoring all nodes
+
     public int mn_type_of_message; /* the message protocol that the Node wants to send to another Node */
     public String mn_ip_address; /* Inet Address of the MessagingNode */
     public int mn_port_number;

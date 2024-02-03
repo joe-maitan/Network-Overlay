@@ -7,6 +7,8 @@ import java.util.*;
 
 public class Registry extends Node {
 
+    // Refactoring all nodes
+
     /* this tracks the socket index of the messaging node as well as the RegisterRequest */
     HashMap<Integer, RegisterRequest> registered_messaging_nodes = new HashMap<>();
 

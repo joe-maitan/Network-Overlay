@@ -8,6 +8,8 @@ import csx55.overlay.wireformats.*;
 
 public class Node {
 
+    // Refactoring all nodes
+
     protected TCPServerThread node_server;
     public TCPSender node_send;
     public TCPReceiverThread node_read;
