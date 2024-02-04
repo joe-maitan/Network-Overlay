@@ -3,7 +3,7 @@ package csx55.overlay.transport;
 import java.io.*;
 import java.net.*;
 
-import csx55.overlay.node.Node;
+import csx55.overlay.node.*;
 import csx55.overlay.wireformats.*;
 
 public class TCPReceiverThread implements Runnable {

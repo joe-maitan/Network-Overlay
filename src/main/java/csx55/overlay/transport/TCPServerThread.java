@@ -14,18 +14,15 @@ public class TCPServerThread implements Runnable {
     private static TCPReceiverThread read = null;
     public volatile boolean done = false;
 
-    public int port_number; /* DO NOT DELETE THIS. THIS IS THE PORT OUR SERVER WILL LAUNCH ON */
-
     /* THESE TWO STRINGS WILL BE USED TO HELP FILL OUT MESSAGENODE DATA */
-    public String node_ip;
-    public int node_port_num;
+    public int port_number; /* DO NOT DELETE THIS. THIS IS THE PORT OUR SERVER WILL LAUNCH ON */
+    public String ipAddress;
 
     public ArrayList<Socket> socket_connetions = new ArrayList<>();
     public ArrayList<TCPSender> senders = new ArrayList<>();
     public ArrayList<TCPReceiverThread> readers = new ArrayList<>();
 
     public TCPServerThread() {
-        // System.out.println("Creating a TCPServerThread()");
         boolean not_set = false;
 
             port_number = 1024; /* start at 1024 */
@@ -69,10 +66,7 @@ public class TCPServerThread implements Runnable {
                     Socket clientSocket = server.accept();
                     
                     System.out.println("[Node]: " + clientSocket.getInetAddress().getHostName() + " has connected at port: " + clientSocket.getPort()); /* validation that something that has connected to the registry */
-                    node_ip = clientSocket.getInetAddress().getHostName();
-                    System.out.println("[Node] node_ip: " + node_ip);
-                    node_port_num = clientSocket.getPort();
-                    System.out.println("[Node] node_port_num: " + node_port_num);
+                    ipAddress = clientSocket.getInetAddress().getHostName();
                     add_socket(clientSocket);
                 } catch (IOException err) {
                     System.out.println(err.getMessage());

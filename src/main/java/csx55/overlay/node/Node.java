@@ -6,7 +6,10 @@ import java.net.*;
 import csx55.overlay.transport.*;
 import csx55.overlay.wireformats.*;
 
-public class Node {
+public class Node { 
+
+    public String node_ip_address;
+    public int node_port_number;
     
     protected TCPServerThread node_server;
     public TCPSender node_send;
@@ -14,19 +17,20 @@ public class Node {
 
     public Thread node_server_thread;
 
-    public String ip_address;
-    public int port_number;
-
     public HashMap<String, Integer> to_be_registered = new HashMap<>();
     
     public Node() {
         node_server = new TCPServerThread();
         node_server_thread = new Thread(node_server);
+        node_ip_address = node_server.ipAddress;
+        node_port_number = node_server.port_number;
     } // default node constructor
 
     public Node(final int PORT_NUM) {
         node_server = new TCPServerThread(PORT_NUM);
         node_server_thread = new Thread(node_server);
+        node_ip_address = node_server.ipAddress;
+        node_port_number = node_server.port_number;
     } // End Node constructor
 
     public static synchronized void onEvent(Event type_of_event, int socket_index) {

@@ -17,8 +17,8 @@ public class RegisterRequest implements Event {
 
     public RegisterRequest(MessagingNode new_msg_node) {
         System.out.println("Inside of the RegisterRequest constructor");
-        ipAddress = new_msg_node.messageNodeIP;
-        portNumber = new_msg_node.messageNodePort;
+        ipAddress = new_msg_node.node_ip_address;
+        portNumber = new_msg_node.node_port_number;
         System.out.println("IP:" + ipAddress);
         System.out.println("PORT: " + portNumber);
     } // End Register() constructor

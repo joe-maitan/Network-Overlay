@@ -8,36 +8,18 @@ import java.util.*;
 
 public class MessagingNode extends Node  {
 
-    public String hostName;
-    public String hostIPAddress;
-    public int portNum;
-
-    public String messageNodeIP;
-    public int messageNodePort;
-    public int mn_type_of_message; /* the message protocol that the Node wants to send to another Node */
-    
     static Socket messaging_node_socket;
 
-    public MessagingNode(String _hostName, int _portNum) {
+    public MessagingNode(String hostName, int portNum) {
         super(); /* Creates a Node associated with the MessagingNode */
-
-        hostName = _hostName;
-        portNum = _portNum;
 
         try {
             Socket messaging_node_socket = new Socket(hostName, portNum); /* This allows the MessagingNode to connect to the Registry */
             
             node_server.add_socket(messaging_node_socket);
 
-            System.out.println("[MsgNode] has connected to [Registry]");
-            
-            /* THIS GRABS THE REGISTRY SERVERS INFORMATION. WE NEED TO GRAB THE NODES NAME AND PORT */
-            messageNodeIP = node_server.node_ip;
-            messageNodePort = node_server.node_port_num;
-
-            System.out.println("MsgNode IP: " + messageNodeIP);
-            System.out.println("MsgNode Port: " + messageNodePort);
-        
+            System.out.println("[MsgNode]: " + messaging_node_socket.getInetAddress() + " has connected to [Registry]");
+    
             System.out.println("Creating a new register request");
             RegisterRequest reg_request = new RegisterRequest(this); /* Created a new registry request */
             
@@ -46,6 +28,7 @@ public class MessagingNode extends Node  {
             System.err.println(e.getMessage());
         } // End try-catch block
     } // End MessagingNode() constructor
+    
     public static void main(String[] args) {
         if (args.length < 2) {
             System.exit(1);
