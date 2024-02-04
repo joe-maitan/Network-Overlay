@@ -69,8 +69,10 @@ public class TCPServerThread implements Runnable {
                     Socket clientSocket = server.accept();
                     
                     System.out.println("[Node]: " + clientSocket.getInetAddress().getHostName() + " has connected at port: " + clientSocket.getPort()); /* validation that something that has connected to the registry */
-                    node_ip = clientSocket.getInetAddress().toString();
+                    node_ip = clientSocket.getInetAddress().getHostName();
+                    System.out.println("[Node] node_ip: " + node_ip);
                     node_port_num = clientSocket.getPort();
+                    System.out.println("[Node] node_port_num: " + node_port_num);
                     add_socket(clientSocket);
                 } catch (IOException err) {
                     System.out.println(err.getMessage());

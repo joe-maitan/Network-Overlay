@@ -4,9 +4,9 @@ import java.io.*;
 
 public class DeregisterRequest implements Event {
 
-    int message_type;
-    String IP_address;
-    int port_number;
+    int message_type = Protocol.DEREGISTER_REQUEST;
+    String node_ip_Address;
+    int node_port_number;
     
     @Override
     public int getType() {

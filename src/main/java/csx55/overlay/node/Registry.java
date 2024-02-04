@@ -1,13 +1,14 @@
 package csx55.overlay.node;
-import csx55.overlay.wireformats.*;
 
-// import java.io.*;
-// import java.net.*;
+import java.io.*;
+import java.net.*;
 import java.util.*;
 
-public class Registry extends Node {
+import csx55.overlay.wireformats.*;
+import csx55.overlay.util.*;
+import csx55.overlay.transport.*;
 
-    // Refactoring all nodes
+public class Registry extends Node {
 
     /* this tracks the socket index of the messaging node as well as the RegisterRequest */
     HashMap<Integer, RegisterRequest> registered_messaging_nodes = new HashMap<>();

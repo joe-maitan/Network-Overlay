@@ -8,28 +8,32 @@ import java.io.*;
 
 public class RegisterRequest implements Event {
 
-    String IP_address;
-    int port_number;
-    int message_protocol = Protocol.REGISTER_REQUEST;
+    int messageType = Protocol.REGISTER_REQUEST;
+    String ipAddress;
+    int portNumber;
+    String hostName;
 
     public RegisterRequest() {} // End default constructor
 
     public RegisterRequest(MessagingNode new_msg_node) {
-        this.IP_address = new_msg_node.ip_address;
-        this.port_number = new_msg_node.port_number;
+        System.out.println("Inside of the RegisterRequest constructor");
+        ipAddress = new_msg_node.messageNodeIP;
+        portNumber = new_msg_node.messageNodePort;
+        System.out.println("IP:" + ipAddress);
+        System.out.println("PORT: " + portNumber);
     } // End Register() constructor
 
     public int getPort() {
-        return this.port_number;
+        return this.portNumber;
     }
 
     public String getAddress() {
-        return this.IP_address;
+        return this.ipAddress;
     }
     
     @Override
     public int getType() {
-        return this.message_protocol;
+        return this.messageType;
     } // End getType() method
 
     @Override
@@ -40,8 +44,8 @@ public class RegisterRequest implements Event {
 
         try {
             dout.writeInt(getType());
-            dout.writeInt(port_number);
-            dout.writeChars(IP_address);
+            dout.writeInt(portNumber);
+            dout.writeChars(ipAddress);
             dout.flush();
 
             marshalledBytes = baOutputStream.toByteArray();
@@ -58,11 +62,11 @@ public class RegisterRequest implements Event {
     @Override
     public void setBytes(DataInputStream din) {
         try {
-            port_number = din.readInt();
+            portNumber = din.readInt();
             byte[] ip_str = new byte[din.readInt()];
 
             din.readFully(ip_str);
-            IP_address = new String(ip_str);
+            ipAddress = new String(ip_str);
         } catch (IOException err) {
             System.err.println(err.getMessage());
         } // End try-catch block
