@@ -53,14 +53,14 @@ public class Registry extends Node {
         user_in.close();
     } // End read_command_line() method
 
-    public void register_node(int socket_index, RegisterRequest rq) {
+    public boolean register_node(int socket_index, RegisterRequest rq) {
         if (!registered_messaging_nodes.containsKey(rq)) {
             registered_messaging_nodes.put(socket_index, rq);
             // System.out.println(node_server.socket_connetions.get(socket_index).getInetAddress() + " has connected to the registry!");
             ++numberOfRegisteredNodes;
             String success = String.format("Registration request successful. The number of messaaging nodes currently constituting the overlay is (%d).", numberOfRegisteredNodes);
             System.out.println(success);
-            RegisterResponse response = new RegisterResponse();
+            return true;
         } else { /* We do not add it to the registry */
             try{
                 throw new Exception("Cannot add node to the registry.");
@@ -68,6 +68,8 @@ public class Registry extends Node {
                 System.err.println(e.getMessage());
             }
         } // End if-else statement
+
+        return false;
     } // End register_node() method
 
     public static void deregister_node(int socket_index, DeregisterRequest dereg_rq) {
@@ -94,7 +96,10 @@ public class Registry extends Node {
                 String ip_address = reg_rq.getAddress();
                 int port = reg_rq.getPort();
                 
-                register_node(socketIndex, reg_rq);
+                boolean value = register_node(socketIndex, reg_rq);
+                RegisterResponse response = new RegisterResponse(value, ip_address);
+
+                send_message(socketIndex, response.getBytes(), "");
                 break;
             case 1:
                 /* Register Response */

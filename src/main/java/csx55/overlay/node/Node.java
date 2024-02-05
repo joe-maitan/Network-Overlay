@@ -35,18 +35,18 @@ public abstract class Node {
 
     public abstract void onEvent(Event type_of_event, int socket_index);
     
-    // public int send_message(int socket_index, byte[] arr, String message) {
-    //     int status = 0;
-    //     this.node_send = this.node_server.senders.get(socket_index); /* constructs our TCPSender obj */
+    public int send_message(int socket_index, byte[] arr, String message) {
+        int status = 0;
+        this.node_send = this.node_server.senders.get(socket_index); /* constructs our TCPSender obj */
         
-    //     try {
-    //         this.node_send.sendData(arr);
-    //     } catch (IOException err) {
-    //         System.err.println(err.getMessage());
-    //     } // End try-catch block
+        try {
+            this.node_send.sendData(arr);
+        } catch (IOException err) {
+            System.err.println(err.getMessage());
+        } // End try-catch block
 
-    //     return status;
-    // } // End send_message() method
+        return status;
+    } // End send_message() method
 
     // public void receive_message(int socket_index, byte[]arr, String message) {
     //     this.node_read = this.node_server.readers.get(socket_index); /* constructs our TCPReciever obj */
@@ -59,8 +59,8 @@ public abstract class Node {
     //     } // End try-catch block
     // } // End receive_message() method
 
-    // public void add_socket(Socket s) {
-    //     node_server.add_socket(s);
-    // } // End add_socket() method
+    public void add_socket(Socket s) {
+        node_server.add_socket(s);
+    } // End add_socket() method
     
 } // End Node class

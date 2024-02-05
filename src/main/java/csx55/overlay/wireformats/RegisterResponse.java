@@ -8,14 +8,13 @@ import java.io.*;
 
 public class RegisterResponse implements Event {
 
-    byte statusCode; // 0 for success and 1 for unsuccessful?
+    byte statusCode; // 0 for success and 1 for unsuccessful
     String additionalInfo;
-
 
     public RegisterResponse() {} // End default Register() constructor
     
-    public RegisterResponse(byte status, String info) {
-        statusCode = status;
+    public RegisterResponse(boolean status, String info) {
+        statusCode = (status == true) ? (byte) 0 : (byte) 1;
         additionalInfo = info;
     } // End RegisterResponse(status, info) constructor
     
