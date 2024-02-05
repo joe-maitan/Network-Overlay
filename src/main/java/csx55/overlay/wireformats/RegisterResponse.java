@@ -17,12 +17,19 @@ public class RegisterResponse implements Event {
         statusCode = (status == true) ? (byte) 0 : (byte) 1;
         additionalInfo = info;
     } // End RegisterResponse(status, info) constructor
+
+    public RegisterResponse(DataInputStream din) {
+        setBytes(din);
+    } // End RegisterResponse(din) constructor
+
+    public byte getStatus() {
+        return statusCode;
+    } // End getStatus() method
+
+    public String getInfo() {
+        return additionalInfo;
+    } // End getInfo() method
     
-    /* TODO: Finish the RegisterResponse buildMessage() method */
-    public void buildMessage(byte status, String info) {
-
-    } // End buildMessage() method
-
     @Override
     public int getType() {
         return Protocol.REGISTER_RESPONSE;
@@ -53,11 +60,36 @@ public class RegisterResponse implements Event {
 
     @Override
     public void setBytes(DataInputStream din) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setBytes'");
+        try {
+            statusCode = din.readByte();
+            byte[] infoStr = new byte[din.readInt()];
+            din.readFully(infoStr);
+            additionalInfo = new String(infoStr);
+        } catch (IOException err) {
+            System.err.println(err.getMessage());
+        } // End try-catch block
     } // End setBytes() method
 
+    public static void main(String[] args) {
+        RegisterResponse rsp = new RegisterResponse(true, "Life is good");
+        byte[] arr = rsp.getBytes();
+        ByteArrayInputStream baIn = new ByteArrayInputStream(arr);
+        DataInputStream din = new DataInputStream(new BufferedInputStream(baIn));
 
-    
-    
+        int msg_type = 0;
+        try {
+            msg_type = din.readInt();
+        } catch (Exception err) {
+            System.err.println(err.getMessage());
+        }
+
+        RegisterResponse other = new RegisterResponse(din);
+
+        if (rsp.getType() == msg_type && rsp.getStatus() == other.getStatus() && rsp.getInfo().equals(other.getInfo())) {
+            System.out.println("RegisterResponse - Success");
+        } else {
+            System.out.println("RegisterResponse - Failure");
+        }
+    }
+
 } // End RegisterResponse class

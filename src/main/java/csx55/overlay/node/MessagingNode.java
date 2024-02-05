@@ -50,9 +50,67 @@ public class MessagingNode extends Node  {
     } // End MessagingNode() constructor
     
     @Override
-    public void onEvent(Event type_of_event, int socket_index) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'onEvent'");
+    public void onEvent(Event event, int socketIndex) {
+        int messageProtocol = event.getType();
+        
+        switch(messageProtocol) {
+            case 0:
+                // RegisterRequest reg_rq = (RegisterRequest) event;
+                // String ip_address = reg_rq.getAddress();
+                // int port = reg_rq.getPort();
+                
+                // boolean value = register_node(socketIndex, reg_rq);
+                // RegisterResponse response = new RegisterResponse(value, ip_address);
+
+                // send_message(socketIndex, response.getBytes(), "");
+                // break;
+            case 1:
+                /* Register Response */
+                RegisterResponse reg_resp = (RegisterResponse) event;
+                byte status = reg_resp.getStatus();
+
+                if (status == 1) {
+                    System.out.println("MessagingNode failed to register.");
+                }
+                break;
+            case 2:
+                /* Deregister Request */
+                DeregisterRequest de_rq = (DeregisterRequest) event;
+
+                break;
+            case 3:
+                /* Deregister Response */
+                DeregisterResponse de_resp = (DeregisterResponse) event;
+                break;
+            case 4:
+                /* Link weights */
+                LinkWeights linkWeights = (LinkWeights) event;
+                break;
+            case 5:
+                /* message */
+                Message msg = (Message) event;
+                break;
+            case 6:
+                // Messaging Nodes list
+                MessagingNodesList msg_node_list = (MessagingNodesList) event;
+                break;
+            case 7:
+                // task initiate
+                TaskInitiate initiate = (TaskInitiate) event;
+                break;
+            case 8:
+                // task complete
+                TaskComplete taskComplete = (TaskComplete) event;
+                break;
+            case 9:
+                // task summary request
+                TaskSummaryRequest sum_req = (TaskSummaryRequest) event;
+                break;
+            case 10:
+                // task summary response
+                TaskSummaryResponse sum_rsp = (TaskSummaryResponse) event;
+                break;
+        } // End switch statement
     } // End onEvent() method
     public static void main(String[] args) {
         if (args.length < 2) {
@@ -69,7 +127,6 @@ public class MessagingNode extends Node  {
         System.out.println("Creating a new register request");
         RegisterRequest reg_request = new RegisterRequest(newMessagingNode.msgNodeName, newMessagingNode.msgNodePortNumber); /* Created a new registry request */
 
-        /* TODO: Figure out where the data is going and how to parse it correctly */
         newMessagingNode.node_server.send_msg(newMessagingNode.msgNodeIndex, reg_request.getBytes());
     } // End main method
 

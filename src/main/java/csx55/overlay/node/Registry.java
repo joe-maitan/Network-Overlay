@@ -55,8 +55,7 @@ public class Registry extends Node {
 
     public boolean register_node(int socket_index, RegisterRequest rq) {
         if (!registered_messaging_nodes.containsKey(rq)) {
-            registered_messaging_nodes.put(socket_index, rq);
-            // System.out.println(node_server.socket_connetions.get(socket_index).getInetAddress() + " has connected to the registry!");
+            registered_messaging_nodes.put(socket_index, rq); /* Add the node to the Registry */
             ++numberOfRegisteredNodes;
             String success = String.format("Registration request successful. The number of messaaging nodes currently constituting the overlay is (%d).", numberOfRegisteredNodes);
             System.out.println(success);
