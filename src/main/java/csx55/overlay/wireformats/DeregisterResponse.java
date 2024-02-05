@@ -5,9 +5,15 @@ import java.io.IOException;
 
 public class DeregisterResponse implements Event {
     
-    int message_type;
-    String IP_address;
-    int port_number;
+    byte statusCode;
+    String additionalInfo;
+
+    public DeregisterResponse() {} // End DeregisterResponse() default constructor
+
+    public DeregisterResponse(byte status, String info) {
+        statusCode = status;
+        additionalInfo = info;
+    } // End DeregisterResponse() constructor
     
     @Override
     public int getType() {
@@ -25,7 +31,5 @@ public class DeregisterResponse implements Event {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'setBytes'");
     }
-
     
-
 } // End DeregisterResponse class

@@ -60,6 +60,7 @@ public class Registry extends Node {
             ++numberOfRegisteredNodes;
             String success = String.format("Registration request successful. The number of messaaging nodes currently constituting the overlay is (%d).", numberOfRegisteredNodes);
             System.out.println(success);
+            RegisterResponse response = new RegisterResponse();
         } else { /* We do not add it to the registry */
             try{
                 throw new Exception("Cannot add node to the registry.");

@@ -9,13 +9,13 @@ import csx55.overlay.wireformats.*;
 public class TCPReceiverThread implements Runnable {
     private Socket socket;
     private DataInputStream din;
-    public int index;
+    public int socketIndex;
 
     public Node referenceNode;
     
     public TCPReceiverThread(Socket s, int array_list_index, Node node) throws IOException {
         socket = s;
-        index = array_list_index;
+        socketIndex = array_list_index;
         referenceNode = node;
     } // End TCPReceiver(socket) constructor
     
@@ -43,7 +43,7 @@ public class TCPReceiverThread implements Runnable {
                 System.out.println("Creating new EventFactory()");
                 Event new_event = EventFactory.getInstance().createEvent(data);
                 
-                referenceNode.onEvent(new_event, index);
+                referenceNode.onEvent(new_event, socketIndex);
             } catch (SocketException se) {
                 System.out.println(se.getMessage());
                 break;

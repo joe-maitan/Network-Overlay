@@ -8,24 +8,21 @@ import java.io.*;
 
 public class RegisterResponse implements Event {
 
-    
-
-    int messageType;
-    String ipAddress;
-    // int portNumber;
-    byte statusCode;
+    byte statusCode; // 0 for success and 1 for unsuccessful?
     String additionalInfo;
 
 
-    public RegisterResponse() {} // End Register() constructor
+    public RegisterResponse() {} // End default Register() constructor
     
-    // public int getPort() {
-    //     return this.portNumber;
-    // } // End getPort() method
+    public RegisterResponse(byte status, String info) {
+        statusCode = status;
+        additionalInfo = info;
+    } // End RegisterResponse(status, info) constructor
+    
+    /* TODO: Finish the RegisterResponse buildMessage() method */
+    public void buildMessage(byte status, String info) {
 
-    public String getAddress() {
-        return this.ipAddress;
-    } // End getAddress()
+    } // End buildMessage() method
 
     @Override
     public int getType() {
@@ -41,7 +38,7 @@ public class RegisterResponse implements Event {
         try {
             // dout.writeInt(getType());
             dout.writeInt(statusCode);
-            // dout.writeChars(IP_address);
+            dout.writeChars(additionalInfo);
 
             marshalledBytes = baOutputStream.toByteArray();
             baOutputStream.close();
