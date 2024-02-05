@@ -79,13 +79,15 @@ public class EventFactory {
                 return new RegisterRequest(din);
             } else if (messageProtocol == Protocol.DEREGISTER_REQUEST) {
                 return new DeregisterRequest(); // return new DeregisterRequest(din);
-            } 
+            } else if (messageProtocol == Protocol.REGISTER_RESPONSE) {
+                
+            }
 
             
         } catch (IOException err) {
             System.err.println(err.getMessage());
-        }
-       
+        } // End try-catch block
+
         return null;
     } // End createEvent() method
 

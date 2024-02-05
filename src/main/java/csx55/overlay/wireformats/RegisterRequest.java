@@ -66,17 +66,16 @@ public class RegisterRequest implements Event {
 
     @Override
     public void setBytes(DataInputStream din) {
-        // TODO Figure out what order the data is sending
         try {
-            // messageType = din.readInt();
+            // messageType = din.readInt(); 
 
             byte[] ip_str = new byte[din.readInt()];
             din.readFully(ip_str);
             ipAddress = new String(ip_str);
 
-            System.out.println("setBytes() - ip: " + ipAddress);
+            // System.out.println("setBytes() - ip: " + ipAddress);
             portNumber = din.readInt();
-            System.out.println("setBytes() - port: " + portNumber);
+            // System.out.println("setBytes() - port: " + portNumber);
         } catch (IOException err) {
             System.err.println(err.getMessage());
         } // End try-catch block

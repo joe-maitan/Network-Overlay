@@ -13,6 +13,8 @@ public class Registry extends Node {
     /* this tracks the socket index of the messaging node as well as the RegisterRequest */
     HashMap<Integer, RegisterRequest> registered_messaging_nodes = new HashMap<>();
 
+    public int numberOfRegisteredNodes;
+
     public Registry() {} // End Registry default constructor
 
     public Registry(int port_number) {
@@ -54,10 +56,13 @@ public class Registry extends Node {
     public void register_node(int socket_index, RegisterRequest rq) {
         if (!registered_messaging_nodes.containsKey(rq)) {
             registered_messaging_nodes.put(socket_index, rq);
-            System.out.println(node_server.socket_connetions.get(socket_index).getInetAddress() + " has connected to the registry!");
+            // System.out.println(node_server.socket_connetions.get(socket_index).getInetAddress() + " has connected to the registry!");
+            ++numberOfRegisteredNodes;
+            String success = String.format("Registration request successful. The number of messaaging nodes currently constituting the overlay is (%d).", numberOfRegisteredNodes);
+            System.out.println(success);
         } else { /* We do not add it to the registry */
             try{
-                throw new Exception("Cannot add node to the registry");
+                throw new Exception("Cannot add node to the registry.");
             } catch (Exception e) {
                 System.err.println(e.getMessage());
             }
@@ -65,7 +70,7 @@ public class Registry extends Node {
     } // End register_node() method
 
     public static void deregister_node(int socket_index, DeregisterRequest dereg_rq) {
-        // if (registered_messaging_nodes.contains()) {
+        // if (registered_messaging_nodes.contains(socket_index)) {
         //     registered_messaging_nodes.remove();
         // }
     } // End deregister_node() method

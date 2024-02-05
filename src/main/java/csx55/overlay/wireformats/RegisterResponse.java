@@ -8,15 +8,28 @@ import java.io.*;
 
 public class RegisterResponse implements Event {
 
-    String IP_address;
-    int port_number;
-    int message_protocol = Protocol.REGISTER_RESPONSE;
+    
+
+    int messageType;
+    String ipAddress;
+    // int portNumber;
+    byte statusCode;
+    String additionalInfo;
+
 
     public RegisterResponse() {} // End Register() constructor
     
+    // public int getPort() {
+    //     return this.portNumber;
+    // } // End getPort() method
+
+    public String getAddress() {
+        return this.ipAddress;
+    } // End getAddress()
+
     @Override
     public int getType() {
-        return this.message_protocol;
+        return Protocol.REGISTER_RESPONSE;
     } // End getType() method
 
     @Override
@@ -26,9 +39,9 @@ public class RegisterResponse implements Event {
         DataOutputStream dout = new DataOutputStream(new BufferedOutputStream(baOutputStream));
 
         try {
-            dout.writeInt(getType());
-            dout.writeInt(port_number);
-            dout.writeChars(IP_address);
+            // dout.writeInt(getType());
+            dout.writeInt(statusCode);
+            // dout.writeChars(IP_address);
 
             marshalledBytes = baOutputStream.toByteArray();
             baOutputStream.close();
