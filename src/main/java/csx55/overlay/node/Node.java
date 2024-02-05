@@ -34,60 +34,7 @@ public abstract class Node {
     } // End Node(PORT) constructor
 
     public abstract void onEvent(Event type_of_event, int socket_index);
-        // int event_protocol = type_of_event.getType();
-        
-        // switch(event_protocol) {
-        //     case 0:
-        //         RegisterRequest reg_rq = (RegisterRequest) type_of_event;
-        //         String ip_address = reg_rq.getAddress();
-        //         int port = reg_rq.getPort();
-                
-        //         // register_node(socket_index, reg_rq);
-        //         break;
-        //     case 1:
-        //         /* Register Response */
-        //         RegisterResponse reg_resp = (RegisterResponse) type_of_event;
-        //         break;
-        //     case 2:
-        //         /* Deregister Request */
-        //         DeregisterRequest de_rq = (DeregisterRequest) type_of_event;
-
-        //         break;
-        //     case 3:
-        //         /* Deregister Response */
-        //         DeregisterResponse de_resp = (DeregisterResponse) type_of_event;
-        //         break;
-        //     case 4:
-        //         /* Link weights */
-        //         LinkWeights linkWeights = (LinkWeights) type_of_event;
-        //         break;
-        //     case 5:
-        //         /* message */
-        //         Message msg = (Message) type_of_event;
-        //         break;
-        //     case 6:
-        //         // Messaging Nodes list
-        //         MessagingNodesList msg_node_list = (MessagingNodesList) type_of_event;
-        //         break;
-        //     case 7:
-        //         // task initiate
-        //         TaskInitiate initiate = (TaskInitiate) type_of_event;
-        //         break;
-        //     case 8:
-        //         // task complete
-        //         TaskComplete taskComplete = (TaskComplete) type_of_event;
-        //         break;
-        //     case 9:
-        //         // task summary request
-        //         TaskSummaryRequest sum_req = (TaskSummaryRequest) type_of_event;
-        //         break;
-        //     case 10:
-        //         // task summary response
-        //         TaskSummaryResponse sum_rsp = (TaskSummaryResponse) type_of_event;
-        //         break;
-        // } // End switch statement
-    // } // End onEvent() method
-
+    
     // public int send_message(int socket_index, byte[] arr, String message) {
     //     int status = 0;
     //     this.node_send = this.node_server.senders.get(socket_index); /* constructs our TCPSender obj */

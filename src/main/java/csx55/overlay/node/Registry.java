@@ -80,7 +80,58 @@ public class Registry extends Node {
 
     @Override
     public void onEvent(Event event, int socketIndex) {
+        int messageProtocol = event.getType();
         
+        switch(messageProtocol) {
+            case 0:
+                RegisterRequest reg_rq = (RegisterRequest) event;
+                String ip_address = reg_rq.getAddress();
+                int port = reg_rq.getPort();
+                
+                register_node(socketIndex, reg_rq);
+                break;
+            case 1:
+                /* Register Response */
+                RegisterResponse reg_resp = (RegisterResponse) event;
+                break;
+            case 2:
+                /* Deregister Request */
+                DeregisterRequest de_rq = (DeregisterRequest) event;
+
+                break;
+            case 3:
+                /* Deregister Response */
+                DeregisterResponse de_resp = (DeregisterResponse) event;
+                break;
+            case 4:
+                /* Link weights */
+                LinkWeights linkWeights = (LinkWeights) event;
+                break;
+            case 5:
+                /* message */
+                Message msg = (Message) event;
+                break;
+            case 6:
+                // Messaging Nodes list
+                MessagingNodesList msg_node_list = (MessagingNodesList) event;
+                break;
+            case 7:
+                // task initiate
+                TaskInitiate initiate = (TaskInitiate) event;
+                break;
+            case 8:
+                // task complete
+                TaskComplete taskComplete = (TaskComplete) event;
+                break;
+            case 9:
+                // task summary request
+                TaskSummaryRequest sum_req = (TaskSummaryRequest) event;
+                break;
+            case 10:
+                // task summary response
+                TaskSummaryResponse sum_rsp = (TaskSummaryResponse) event;
+                break;
+        } // End switch statement
     } // End onEvent() method
     public static void main(String[] args) {
         if (args.length < 1) {
