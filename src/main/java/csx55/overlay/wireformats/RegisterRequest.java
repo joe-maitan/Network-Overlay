@@ -8,19 +8,30 @@ import java.io.*;
 
 public class RegisterRequest implements Event {
 
-    int messageType = Protocol.REGISTER_REQUEST;
+    
     String ipAddress;
     int portNumber;
-    String hostName;
+    int messageType = Protocol.REGISTER_REQUEST;
 
     public RegisterRequest() {} // End default constructor
 
+    /* This constructor servers as our setBytes() method */
     public RegisterRequest(MessagingNode new_msg_node) {
-        System.out.println("Inside of the RegisterRequest constructor");
-        ipAddress = new_msg_node.node_ip_address;
-        portNumber = new_msg_node.node_port_number;
-        System.out.println("IP:" + ipAddress);
-        System.out.println("PORT: " + portNumber);
+        /* TODO: Figure out how to make the constructor for each messagingWidget
+         * equivalent to the setBytes() method
+         */
+
+        // Validating the RegisterRequest was getting the right information from the new_msg_node
+        // System.out.println("Constructing a new register request object");
+        // System.out.println("[RegisterRequest]: IP: " + new_msg_node.msgNodeName);
+        // System.out.println("[RegisterRequest]: Port: " + new_msg_node.msgNodePortNumber);
+
+        try{
+            DataInputStream din = new DataInputStream(new_msg_node.messaging_node_socket.getInputStream());
+            setBytes(din);
+        } catch (IOException err){
+            System.err.println(err.getMessage());
+        } // End try-catch block
     } // End Register() constructor
 
     public int getPort() {
@@ -44,8 +55,8 @@ public class RegisterRequest implements Event {
 
         try {
             dout.writeInt(getType());
-            dout.writeInt(portNumber);
             dout.writeChars(ipAddress);
+            dout.writeInt(portNumber);
             dout.flush();
 
             marshalledBytes = baOutputStream.toByteArray();
@@ -61,6 +72,7 @@ public class RegisterRequest implements Event {
 
     @Override
     public void setBytes(DataInputStream din) {
+        // TODO Figure out what order the data is sending
         try {
             portNumber = din.readInt();
             byte[] ip_str = new byte[din.readInt()];
@@ -72,6 +84,4 @@ public class RegisterRequest implements Event {
         } // End try-catch block
     } // End setBytes() method
 
-
-    
 } // End RegisterRequest class

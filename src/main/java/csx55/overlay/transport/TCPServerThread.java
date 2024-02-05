@@ -65,8 +65,13 @@ public class TCPServerThread implements Runnable {
                 try {
                     Socket clientSocket = server.accept();
                     
-                    System.out.println("[Node]: " + clientSocket.getInetAddress().getHostName() + " has connected at port: " + clientSocket.getPort()); /* validation that something that has connected to the registry */
-                    ipAddress = clientSocket.getInetAddress().getHostName();
+                    // Print out the machines host name: clientSocket.getInetAddress().getHostName()
+                    System.out.println("[TCPServerThread]: " + clientSocket.getInetAddress() + " has connected at port: " + clientSocket.getPort()); /* validation that something that has connected to the registry */
+                    
+                    
+                    /* Adds our clientSocket to the list of our connections and spawns a TCPSender obj and TCPReceiverThread for the socket.
+                     * This is what will allow our nodes to communciate
+                    */
                     add_socket(clientSocket);
                 } catch (IOException err) {
                     System.out.println(err.getMessage());
