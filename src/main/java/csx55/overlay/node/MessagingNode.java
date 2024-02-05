@@ -49,6 +49,11 @@ public class MessagingNode extends Node  {
         } // End try-catch block
     } // End MessagingNode() constructor
     
+    @Override
+    public void onEvent(Event type_of_event, int socket_index) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'onEvent'");
+    } // End onEvent() method
     public static void main(String[] args) {
         if (args.length < 2) {
             System.exit(1);
@@ -62,10 +67,12 @@ public class MessagingNode extends Node  {
 
         /* Was originally placed in the constructor */
         System.out.println("Creating a new register request");
-        RegisterRequest reg_request = new RegisterRequest(newMessagingNode); /* Created a new registry request */
+        RegisterRequest reg_request = new RegisterRequest(newMessagingNode.msgNodeName, newMessagingNode.msgNodePortNumber); /* Created a new registry request */
 
         /* TODO: Figure out where the data is going and how to parse it correctly */
         newMessagingNode.node_server.send_msg(newMessagingNode.msgNodeIndex, reg_request.getBytes());
     } // End main method
+
+    
 
 } // End MessagingNode class

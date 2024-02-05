@@ -8,31 +8,20 @@ import java.io.*;
 
 public class RegisterRequest implements Event {
 
-    
     String ipAddress;
     int portNumber;
-    int messageType = Protocol.REGISTER_REQUEST;
 
     public RegisterRequest() {} // End default constructor
 
     /* This constructor servers as our setBytes() method */
-    public RegisterRequest(MessagingNode new_msg_node) {
-        /* TODO: Figure out how to make the constructor for each messagingWidget
-         * equivalent to the setBytes() method
-         */
-
-        // Validating the RegisterRequest was getting the right information from the new_msg_node
-        // System.out.println("Constructing a new register request object");
-        // System.out.println("[RegisterRequest]: IP: " + new_msg_node.msgNodeName);
-        // System.out.println("[RegisterRequest]: Port: " + new_msg_node.msgNodePortNumber);
-
-        try{
-            DataInputStream din = new DataInputStream(new_msg_node.messaging_node_socket.getInputStream());
-            setBytes(din);
-        } catch (IOException err){
-            System.err.println(err.getMessage());
-        } // End try-catch block
+    public RegisterRequest(String ip, int port) {
+        ipAddress = ip;
+        portNumber = port;
     } // End Register() constructor
+
+    public RegisterRequest(DataInputStream din) {
+        setBytes(din);
+    } // End RegisterRequest
 
     public int getPort() {
         return this.portNumber;
@@ -44,7 +33,7 @@ public class RegisterRequest implements Event {
     
     @Override
     public int getType() {
-        return this.messageType;
+        return Protocol.REGISTER_REQUEST;
     } // End getType() method
 
     @Override
@@ -55,7 +44,12 @@ public class RegisterRequest implements Event {
 
         try {
             dout.writeInt(getType());
-            dout.writeChars(ipAddress);
+            
+            byte[] ipAddressByte = ipAddress.getBytes();
+            int ipAddressLength = ipAddressByte.length;
+            dout.writeInt(ipAddressLength);
+            dout.write(ipAddressByte);
+            
             dout.writeInt(portNumber);
             dout.flush();
 
@@ -74,14 +68,41 @@ public class RegisterRequest implements Event {
     public void setBytes(DataInputStream din) {
         // TODO Figure out what order the data is sending
         try {
-            portNumber = din.readInt();
-            byte[] ip_str = new byte[din.readInt()];
+            // messageType = din.readInt();
 
+            byte[] ip_str = new byte[din.readInt()];
             din.readFully(ip_str);
             ipAddress = new String(ip_str);
+
+            System.out.println("setBytes() - ip: " + ipAddress);
+            portNumber = din.readInt();
+            System.out.println("setBytes() - port: " + portNumber);
         } catch (IOException err) {
             System.err.println(err.getMessage());
         } // End try-catch block
     } // End setBytes() method
+
+    public static void main(String[] args) {
+        RegisterRequest rq = new RegisterRequest("joe", 72);
+        byte[] arr = rq.getBytes(); /* marshalling the data */
+        ByteArrayInputStream baIn = new ByteArrayInputStream(arr);
+        DataInputStream din = new DataInputStream(new BufferedInputStream(baIn));
+        
+        int msg_type = 0;
+        try{
+            msg_type = din.readInt();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+        RegisterRequest other = new RegisterRequest(din); /* unmarshalling */
+        
+        if (rq.getType() == msg_type && rq.ipAddress.equals(other.ipAddress) && rq.portNumber == other.portNumber) {
+            System.out.println("RegisterReqest - Success");
+        } else{
+            System.out.println("RegisterRequest - Unsuccessful");
+        }
+
+    }
 
 } // End RegisterRequest class

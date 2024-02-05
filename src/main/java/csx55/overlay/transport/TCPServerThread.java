@@ -7,6 +7,8 @@ import java.net.*;
 import java.io.*;
 import java.util.*;
 
+import csx55.overlay.node.*;
+
 public class TCPServerThread implements Runnable {
 
     private static ServerSocket server = null;
@@ -17,12 +19,14 @@ public class TCPServerThread implements Runnable {
     /* THESE TWO STRINGS WILL BE USED TO HELP FILL OUT MESSAGENODE DATA */
     public int port_number; /* DO NOT DELETE THIS. THIS IS THE PORT OUR SERVER WILL LAUNCH ON */
     public String ipAddress;
+    public Node serverThreadNode;
 
     public ArrayList<Socket> socket_connetions = new ArrayList<>();
     public ArrayList<TCPSender> senders = new ArrayList<>();
     public ArrayList<TCPReceiverThread> readers = new ArrayList<>();
 
-    public TCPServerThread() {
+    public TCPServerThread(Node node) {
+        serverThreadNode = node;
         boolean not_set = false;
 
             port_number = 1024; /* start at 1024 */
@@ -37,8 +41,9 @@ public class TCPServerThread implements Runnable {
             } // End while loop
     } // End TCPServerThread() default constructor
 
-    public TCPServerThread(final int PORT_NUM) {
-        // System.out.println("Creating a TCPServerThread(port)");
+    public TCPServerThread(Node node, final int PORT_NUM) {
+        serverThreadNode = node;
+        
         if (PORT_NUM > 1024 && PORT_NUM < 65536) { /* given a valid port number create the ServerSocket */
             try {
                 port_number = PORT_NUM;
@@ -97,8 +102,8 @@ public class TCPServerThread implements Runnable {
         socket_connetions.add(s); /* Add the socket to the ArrayList containing them */
 
         try {
-            send = new TCPSender(s, socket_connetions.indexOf(s)); /* Assign the TCPSender obj to send messages  */
-            read = new TCPReceiverThread(s, socket_connetions.indexOf(s)); /* Assign the TCPReceieverThread obj to read messages */
+            send = new TCPSender(s, socket_connetions.indexOf(s), serverThreadNode); /* Assign the TCPSender obj to send messages  */
+            read = new TCPReceiverThread(s, socket_connetions.indexOf(s), serverThreadNode); /* Assign the TCPReceieverThread obj to read messages */
             
             senders.add(send); /* Keep track of how many nodes have TCPSender objects */
             readers.add(read); /* Keep track of how many nodes have TCPReceiver objects */

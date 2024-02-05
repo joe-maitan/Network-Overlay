@@ -77,6 +77,11 @@ public class Registry extends Node {
     public void assign_link_weights() {
         
     } // End assign_link_weights() method
+
+    @Override
+    public void onEvent(Event event, int socketIndex) {
+        
+    } // End onEvent() method
     public static void main(String[] args) {
         if (args.length < 1) {
             System.exit(1);

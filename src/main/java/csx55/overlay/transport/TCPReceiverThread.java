@@ -10,10 +10,13 @@ public class TCPReceiverThread implements Runnable {
     private Socket socket;
     private DataInputStream din;
     public int index;
+
+    public Node referenceNode;
     
-    public TCPReceiverThread(Socket s, int array_list_index) throws IOException {
+    public TCPReceiverThread(Socket s, int array_list_index, Node node) throws IOException {
         socket = s;
         index = array_list_index;
+        referenceNode = node;
     } // End TCPReceiver(socket) constructor
     
     public void run() {
@@ -38,10 +41,9 @@ public class TCPReceiverThread implements Runnable {
 
                 
                 System.out.println("Creating new EventFactory()");
-                EventFactory event_fac = new EventFactory();
+                Event new_event = EventFactory.getInstance().createEvent(data);
                 
-                Event new_event = event_fac.event_factory(data);
-                Node.onEvent(new_event, index);
+                referenceNode.onEvent(new_event, index);
             } catch (SocketException se) {
                 System.out.println(se.getMessage());
                 break;
