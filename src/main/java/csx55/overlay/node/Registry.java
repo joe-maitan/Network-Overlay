@@ -60,11 +60,10 @@ public class Registry extends Node {
     public void construct_overlay(int numberOfConnections) {
         /* This is what connects the other MessagingNodes to one another, given a list of other messaging node sockets, they would connect to each. */
 
-        // If the number of connections specified is None or 0, we default the value to 4
-        if (numberOfConnections == 0) {
-            numberOfConnections = 4;
-        } // End if-statement
-
+        Socket s;
+        for (int i = 0; i < numberOfConnections; ++i) {
+            s = registered_messaging_nodes()
+        } // End for loop
         // Using the list connect to the other nodes
 
         // Assign the link weights to every connection
@@ -182,8 +181,7 @@ public class Registry extends Node {
                     } // End if-else statement
 
                     System.out.println("Constructing overlay with # of connections: " + connections_required);
-                    
-                    
+        
                     our_registry.construct_overlay(connections_required);
                     break;
                 case "send-overlay-link-weights":
@@ -199,9 +197,8 @@ public class Registry extends Node {
             } // End switch statement
         } // End while loop
 
-        // Close the server and sockets? Clean up
-
-        user_in.close();
+        user_in.close(); 
+        /* TODO: Do we need to close the sockets and clean up all connections? */
     } // End main method
 
 } // End Registry class
