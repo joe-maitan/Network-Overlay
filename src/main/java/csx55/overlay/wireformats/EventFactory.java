@@ -28,9 +28,9 @@ public class EventFactory {
             if (messageProtocol == Protocol.REGISTER_REQUEST) {
                 return new RegisterRequest(din);
             } else if (messageProtocol == Protocol.REGISTER_RESPONSE) {
-                return new RegisterResponse();
+                return new RegisterResponse(din);
             } else if (messageProtocol == Protocol.DEREGISTER_REQUEST) {
-                return new DeregisterRequest(); // return new DeregisterRequest(din);
+                return new DeregisterRequest(din); // return new DeregisterRequest(din);
             } else if (messageProtocol == Protocol.DEREGISTER_RESPONSE) {
 
             } else if (messageProtocol == Protocol.LINK_WEIGHTS) {

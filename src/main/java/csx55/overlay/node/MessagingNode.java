@@ -25,7 +25,7 @@ public class MessagingNode extends Node  {
             node_server.add_socket(messaging_node_socket); 
             msgNodeIndex = node_server.socket_connetions.indexOf(messaging_node_socket);
 
-            System.out.println("[MsgNode]: has connected to [Registry]");
+            System.out.println("[MsgNode] has connected to [Registry]");
 
             /* DO NOT DELETE THESE 3 LINES. THESE LINES PARSE IN INFORMATION ABOUT
              * THE MESSAGING NODE THAT HAS JUST CONNECTED TO THE REGISTRY.

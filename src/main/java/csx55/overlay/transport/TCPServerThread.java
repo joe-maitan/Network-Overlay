@@ -60,8 +60,9 @@ public class TCPServerThread implements Runnable {
                 try {
                     Socket clientSocket = serverSocket.accept();
                     
-                    // Print out the machines host name: clientSocket.getInetAddress().getHostName()
-                    System.out.println("[TCPServerThread]: " + clientSocket.getInetAddress() + " has connected at port: " + clientSocket.getPort()); /* validation that something that has connected to the registry */
+                    String clientIPAddress = clientSocket.getInetAddress().toString();
+                    clientIPAddress = clientIPAddress.substring(clientIPAddress.indexOf('/') + 1);
+                    System.out.println("[TCPServerThread]: " + clientIPAddress + " has connected at port: " + clientSocket.getPort()); /* validation that something that has connected to the registry */
                     
                     
                     /* Adds our clientSocket to the list of our connections and spawns a TCPSender obj and TCPReceiverThread for the socket.
