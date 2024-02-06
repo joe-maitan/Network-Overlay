@@ -32,7 +32,7 @@ public class TCPReceiverThread implements Runnable {
                 
                 data_length = din.readInt(); /* THIS IS THE LENGTH OF OUR MESSAGE */
 
-                System.out.println("Data length: " + data_length);
+                // System.out.println("Data length: " + data_length);
 
                 // System.out.println("About to read in the data byte[]");
                 byte[] data = new byte[data_length];
@@ -40,7 +40,7 @@ public class TCPReceiverThread implements Runnable {
                 // System.out.println("Finished reading the data byte[]");
 
                 
-                System.out.println("Creating new EventFactory()");
+                // System.out.println("Creating new EventFactory()");
                 Event new_event = EventFactory.getInstance().createEvent(data);
                 
                 referenceNode.onEvent(new_event, socketIndex);

@@ -21,38 +21,6 @@ public class Registry extends Node {
         super(port_number); /* creates a node object with a ServerThread. Effectively creating the registry */
     } // End Registry(PORT) constructor
 
-    public void read_command_line() {
-        Scanner user_in = new Scanner(System.in);
-        String registry_input = null;
-        while (registry_input != "exit") {
-            registry_input = user_in.nextLine();
-
-            switch(registry_input) {
-                case "list-messaging-nodes":
-                    System.out.println("listing messaging nodes");
-                    // list_messaging_nodes();
-                    break;
-                case "list-weights":
-                    System.out.println("listing link weights");
-                    break;
-                case "setup-overlay number-of-connections":
-                    System.out.println("Setting up overlay");
-                    break;
-                case "send-overlay-link-weights":
-                    System.out.println("Sending overlay link weights");
-                    break;
-                case "exit":
-                    System.exit(1);
-                    break;
-                default:
-                    System.out.println("Unrecognized command please try again.");
-                    break;
-            } // End switch statement
-        } // End while loop
-
-        user_in.close();
-    } // End read_command_line() method
-
     public boolean register_node(int socket_index, RegisterRequest rq) {
         if (!registered_messaging_nodes.containsKey(rq)) {
             registered_messaging_nodes.put(socket_index, rq); /* Add the node to the Registry */
@@ -106,6 +74,10 @@ public class Registry extends Node {
     public void assign_link_weights() {
         
     } // End assign_link_weights() method
+
+    public void list_messaging_nodes() {} // End list_messaging_nodes() method
+
+    public void list_weights() {} // End list_weights() method
 
     @Override
     public void onEvent(Event event, int socketIndex) {
@@ -163,6 +135,7 @@ public class Registry extends Node {
                 break;
         } // End switch statement
     } // End onEvent() method
+
     public static void main(String[] args) {
         if (args.length < 1) {
             System.exit(1);
@@ -175,7 +148,36 @@ public class Registry extends Node {
         
         System.out.println("[Registry]: Registry Node is up and running"); /* The registry TCPServerThread is up and is looking for active connections */
         
-        our_registry.read_command_line();
+        Scanner user_in = new Scanner(System.in);
+        String registry_input = null;
+        while (registry_input != "exit") {
+            registry_input = user_in.nextLine();
+
+            switch(registry_input) {
+                case "list-messaging-nodes":
+                    our_registry.list_messaging_nodes();
+                    break;
+                case "list-weights":
+                    our_registry.list_weights();
+                    break;
+                case "setup-overlay number-of-connections":
+                    int connections_required = 0;
+                    our_registry.construct_overlay(connections_required);
+                    break;
+                case "send-overlay-link-weights":
+                    System.out.println("Sending overlay link weights");
+                    break;
+                case "exit":
+                    return;
+                default:
+                    System.out.println("Unrecognized command please try again.");
+                    break;
+            } // End switch statement
+        } // End while loop
+
+        // Close the server and sockets? Clean up
+
+        user_in.close();
     } // End main method
 
 } // End Registry class
