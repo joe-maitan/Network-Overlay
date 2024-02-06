@@ -154,6 +154,7 @@ public class Registry extends Node {
             registry_input = user_in.nextLine();
 
             switch(registry_input) {
+                // TODO: Do they need to include the dashes or are spaces fine?
                 case "list-messaging-nodes":
                     our_registry.list_messaging_nodes();
                     break;
@@ -168,6 +169,8 @@ public class Registry extends Node {
                     System.out.println("Sending overlay link weights");
                     break;
                 case "exit":
+                    System.out.println("Stopping reading from the command line");
+                    our_registry.node_server.close_server();
                     return;
                 default:
                     System.out.println("Unrecognized command please try again.");
