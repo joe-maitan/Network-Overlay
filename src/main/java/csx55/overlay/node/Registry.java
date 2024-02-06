@@ -161,15 +161,14 @@ public class Registry extends Node {
         while (line != "exit") {
             line = user_in.nextLine();
  
-            switch(line) { // Expecting the dashes
             if (line.equals("list-messaging-nodes")) {
-
+                our_registry.list_messaging_nodes();
             } else if (line.equals("")) {
                 
             } else if (line.equals("list-weights")) {
-
+                our_registry.list_weights();
             } else if (line.contains("setup-overlay")) {
-                // int connections_required = line.split(' ');
+                int connections_required = 4; /* Connections Required by default are 4 */
                 
                 our_registry.construct_overlay(connections_required);
             } else if (line.equals("send-overlay-link-weights")) {
@@ -179,11 +178,10 @@ public class Registry extends Node {
                 break;
             } else {
                 System.out.println("Unrecognized command.");
-            }
+            } // End if-else statements
         } // End while loop
 
-        user_in.close(); 
-        /* TODO: Do we need to close the sockets and clean up all connections? */
+        user_in.close();
     } // End main method
 
 } // End Registry class
