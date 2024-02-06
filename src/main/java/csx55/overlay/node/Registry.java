@@ -156,45 +156,30 @@ public class Registry extends Node {
         System.out.println("[Registry]: Registry Node is up and running"); /* The registry TCPServerThread is up and is looking for active connections */
         
         Scanner user_in = new Scanner(System.in);
-        String registry_input = null;
-        while (registry_input != "exit") {
-            System.out.println("reading user input");
-            registry_input = user_in.nextLine();
-
-            switch(registry_input) {
-                // Expecting the dashes
-                case "list-messaging-nodes":
-                    our_registry.list_messaging_nodes();
-                    break;
-                case "list-weights":
-                    our_registry.list_weights();
-                    break;
-                case "setup-overlay":  // Presume we have a number that follows it
-                    System.out.println("setting up overlay");
-                    int connections_required;
-                    
-                    if (user_in.hasNextInt()) {
-                        connections_required = user_in.nextInt();
-                        registry_input = user_in.nextLine();
-                    } else{
-                        connections_required = 4;
-                    } // End if-else statement
-
-                    System.out.println("Constructing overlay with # of connections: " + connections_required);
+        String line = null;
         
-                    our_registry.construct_overlay(connections_required);
-                    break;
-                case "send-overlay-link-weights":
-                    System.out.println("Sending overlay link weights");
-                    break;
-                case "exit":
-                    System.out.println("Stopping reading from the command line");
-                    our_registry.node_server.close_server();
-                    return;
-                default:
-                    System.out.println("Unrecognized command please try again.");
-                    break;
-            } // End switch statement
+        while (line != "exit") {
+            line = user_in.nextLine();
+ 
+            switch(line) { // Expecting the dashes
+            if (line.equals("list-messaging-nodes")) {
+
+            } else if (line.equals("")) {
+                
+            } else if (line.equals("list-weights")) {
+
+            } else if (line.contains("setup-overlay")) {
+                // int connections_required = line.split(' ');
+                
+                our_registry.construct_overlay(connections_required);
+            } else if (line.equals("send-overlay-link-weights")) {
+
+            } else if (line.equals("exit")) {
+                our_registry.node_server.close_server();
+                break;
+            } else {
+                System.out.println("Unrecognized command.");
+            }
         } // End while loop
 
         user_in.close(); 

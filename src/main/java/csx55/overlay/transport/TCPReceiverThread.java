@@ -28,8 +28,6 @@ public class TCPReceiverThread implements Runnable {
 
         while (this.socket != null) {
             try {
-                /* Delete when finisihed */
-                // System.out.println("Reading data from: " + socket.getInetAddress().getHostName());
                 din = new DataInputStream(socket.getInputStream());
                 
                 data_length = din.readInt(); /* THIS IS THE LENGTH OF OUR MESSAGE */
