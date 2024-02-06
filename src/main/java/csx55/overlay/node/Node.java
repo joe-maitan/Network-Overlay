@@ -33,10 +33,10 @@ public abstract class Node {
         node_port_number = node_server.port_number;
     } // End Node(PORT) constructor
 
+    /* Abstract because both Nodes will handle events differently */
     public abstract void onEvent(Event type_of_event, int socket_index);
     
-    public int send_message(int socket_index, byte[] arr, String message) {
-        int status = 0;
+    public void send_message(int socket_index, byte[] arr, String message) {
         this.node_send = this.node_server.senders.get(socket_index); /* constructs our TCPSender obj */
         
         try {
@@ -44,22 +44,9 @@ public abstract class Node {
         } catch (IOException err) {
             System.err.println(err.getMessage());
         } // End try-catch block
-
-        return status;
     } // End send_message() method
 
-    // public void receive_message(int socket_index, byte[]arr, String message) {
-    //     this.node_read = this.node_server.readers.get(socket_index); /* constructs our TCPReciever obj */
-
-    //     try {
-    //         Thread read = new Thread(this.node_read);
-    //         read.start(); /* start the TCPReceiver thread obj */
-    //     } catch(Exception err) {
-    //         System.out.println(err.getMessage());
-    //     } // End try-catch block
-    // } // End receive_message() method
-
-    public void add_socket(Socket s) {
+    public void addSocket(Socket s) {
         node_server.add_socket(s);
     } // End add_socket() method
     
