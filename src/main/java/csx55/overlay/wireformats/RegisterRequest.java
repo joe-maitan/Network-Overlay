@@ -8,8 +8,8 @@ import java.io.*;
 
 public class RegisterRequest implements Event {
 
-    String ipAddress;
-    int portNumber;
+    public String ipAddress;
+    public int portNumber;
 
     public RegisterRequest() {} // End default constructor
 
@@ -25,11 +25,11 @@ public class RegisterRequest implements Event {
 
     public int getPort() {
         return this.portNumber;
-    }
+    } // End getPort() method
 
     public String getAddress() {
         return this.ipAddress;
-    }
+    } // End getAddress() method
     
     @Override
     public int getType() {

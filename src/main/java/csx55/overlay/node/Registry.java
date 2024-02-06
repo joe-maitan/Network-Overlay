@@ -114,18 +114,16 @@ public class Registry extends Node {
         switch(messageProtocol) {
             case 0:
                 RegisterRequest reg_rq = (RegisterRequest) event;
-                String ip_address = reg_rq.getAddress();
-                int port = reg_rq.getPort();
                 
                 boolean value = register_node(socketIndex, reg_rq);
-                RegisterResponse response = new RegisterResponse(value, ip_address);
+                RegisterResponse response = new RegisterResponse(value, "");
 
                 send_message(socketIndex, response.getBytes(), "");
                 break;
-            case 1:
-                /* Register Response */
-                RegisterResponse reg_resp = (RegisterResponse) event;
-                break;
+            // case 1:
+            //     /* Register Response */
+            //     RegisterResponse reg_resp = (RegisterResponse) event;
+            //     break;
             case 2:
                 /* Deregister Request */
                 DeregisterRequest de_rq = (DeregisterRequest) event;

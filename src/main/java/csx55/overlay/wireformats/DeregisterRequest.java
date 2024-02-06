@@ -17,6 +17,14 @@ public class DeregisterRequest implements Event {
     public DeregisterRequest(DataInputStream din) {
         setBytes(din);
     } // End DeregisterRequest() constructor
+
+    public int getPort() {
+        return this.portNumber;
+    }
+
+    public String getAddress() {
+        return this.hostName;
+    }
     
     @Override
     public int getType() {

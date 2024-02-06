@@ -55,6 +55,11 @@ public class MessagingNode extends Node  {
         
         switch(messageProtocol) {
             case 0:
+
+                /* TODO: Since every node goes through the registration process upon connecting with 
+                 * the registry do we really need to have this onEvent for a RegisterRequest?
+                 */
+
                 // RegisterRequest reg_rq = (RegisterRequest) event;
                 // String ip_address = reg_rq.getAddress();
                 // int port = reg_rq.getPort();
@@ -64,18 +69,25 @@ public class MessagingNode extends Node  {
 
                 // send_message(socketIndex, response.getBytes(), "");
                 // break;
-            case 1:
-                /* Register Response */
+            case 1: /* Register Response */
                 RegisterResponse reg_resp = (RegisterResponse) event;
                 byte status = reg_resp.getStatus();
 
                 if (status == 1) {
                     System.out.println("MessagingNode failed to register.");
-                }
+                } else {
+                    System.out.println("MessagingNode has been registered.");
+                } // End if-else statement
+
                 break;
             case 2:
                 /* Deregister Request */
                 DeregisterRequest de_rq = (DeregisterRequest) event;
+                String ipAddress = de_rq.getAddress();
+                int port = de_rq.getPort();
+
+                // boolean value = deregister_node(socketIndex, de_rq)
+                // DeregisterResponse response = new DeregisterReponse(value, )
 
                 break;
             case 3:
@@ -127,9 +139,10 @@ public class MessagingNode extends Node  {
         System.out.println("Creating a new register request");
         RegisterRequest reg_request = new RegisterRequest(newMessagingNode.msgNodeName, newMessagingNode.msgNodePortNumber); /* Created a new registry request */
 
+        /* Sends a registry request to the Registry */
         newMessagingNode.node_server.send_msg(newMessagingNode.msgNodeIndex, reg_request.getBytes());
-    } // End main method
 
-    
+        // Take command line input
+    } // End main method
 
 } // End MessagingNode class
