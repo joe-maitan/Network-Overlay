@@ -62,7 +62,7 @@ public class Registry extends Node {
 
         Socket s;
         for (int i = 0; i < numberOfConnections; ++i) {
-            s = registered_messaging_nodes()
+            // s = registered_messaging_nodes()
         } // End for loop
         // Using the list connect to the other nodes
 
