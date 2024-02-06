@@ -30,11 +30,12 @@ public class WireFormatWidget implements Event {
         din.close();
     } // End WireFormatWidget() constructor
 
-    public byte[] getBytes() throws IOException { /* marshalls/encodes our message */
+    public byte[] getBytes() { /* marshalls/encodes our message */
         byte[] marshalledBytes = null;
         ByteArrayOutputStream baOutputStream = new ByteArrayOutputStream();
         DataOutputStream dout = new DataOutputStream(new BufferedOutputStream(baOutputStream));
 
+        try {
         dout.writeInt(type);
         dout.writeLong(timestamp);
 
@@ -49,6 +50,10 @@ public class WireFormatWidget implements Event {
         marshalledBytes = baOutputStream.toByteArray();
         baOutputStream.close();
         dout.close();
+        } catch (IOException err) {
+            System.err.println(err.getMessage());
+        }
+        
         return marshalledBytes;
     } // End getBytes() method
 

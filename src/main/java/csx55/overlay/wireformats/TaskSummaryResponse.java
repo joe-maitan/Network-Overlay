@@ -21,7 +21,7 @@ public class TaskSummaryResponse implements Event {
     } // End getType() method
 
     @Override
-    public byte[] getBytes() throws IOException {
+    public byte[] getBytes() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getBytes'");
     } // End getBytes() method
