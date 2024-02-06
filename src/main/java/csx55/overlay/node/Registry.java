@@ -22,7 +22,7 @@ public class Registry extends Node {
     } // End Registry(PORT) constructor
 
     public boolean register_node(int socket_index, RegisterRequest rq) {
-        if (!registered_messaging_nodes.containsKey(rq)) {
+        if (!registered_messaging_nodes.containsKey(socket_index)) {
             registered_messaging_nodes.put(socket_index, rq); /* Add the node to the Registry */
             ++numberOfRegisteredNodes;
             String success = String.format("Registration request successful. The number of messaaging nodes currently constituting the overlay is (%d).", numberOfRegisteredNodes);
@@ -88,7 +88,15 @@ public class Registry extends Node {
                 RegisterRequest reg_rq = (RegisterRequest) event;
                 
                 boolean value = register_node(socketIndex, reg_rq);
-                RegisterResponse response = new RegisterResponse(value, "");
+
+                String info;
+                if (value == true) {
+                    info = "Node has been registered";
+                } else {
+                    info = "Node could not be registered";
+                }
+
+                RegisterResponse response = new RegisterResponse(value, info);
 
                 send_message(socketIndex, response.getBytes(), "");
                 break;
@@ -151,18 +159,31 @@ public class Registry extends Node {
         Scanner user_in = new Scanner(System.in);
         String registry_input = null;
         while (registry_input != "exit") {
+            System.out.println("reading user input");
             registry_input = user_in.nextLine();
 
             switch(registry_input) {
-                // TODO: Do they need to include the dashes or are spaces fine?
+                // Expecting the dashes
                 case "list-messaging-nodes":
                     our_registry.list_messaging_nodes();
                     break;
                 case "list-weights":
                     our_registry.list_weights();
                     break;
-                case "setup-overlay number-of-connections":
-                    int connections_required = 0;
+                case "setup-overlay":  // Presume we have a number that follows it
+                    System.out.println("setting up overlay");
+                    int connections_required;
+                    
+                    if (user_in.hasNextInt()) {
+                        connections_required = user_in.nextInt();
+                        registry_input = user_in.nextLine();
+                    } else{
+                        connections_required = 4;
+                    } // End if-else statement
+
+                    System.out.println("Constructing overlay with # of connections: " + connections_required);
+                    
+                    
                     our_registry.construct_overlay(connections_required);
                     break;
                 case "send-overlay-link-weights":

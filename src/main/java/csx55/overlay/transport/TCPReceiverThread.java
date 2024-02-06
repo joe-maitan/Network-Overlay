@@ -29,7 +29,7 @@ public class TCPReceiverThread implements Runnable {
         while (this.socket != null) {
             try {
                 /* Delete when finisihed */
-                System.out.println("Reading data from: " + socket.getInetAddress().getHostName());
+                // System.out.println("Reading data from: " + socket.getInetAddress().getHostName());
                 din = new DataInputStream(socket.getInputStream());
                 
                 data_length = din.readInt(); /* THIS IS THE LENGTH OF OUR MESSAGE */
@@ -47,7 +47,7 @@ public class TCPReceiverThread implements Runnable {
             } // End try-catch block
         } // End while loop
 
-        System.out.println("Exiting .run() method for TCPReceieverThread");
+        // System.out.println("Exiting .run() method for TCPReceieverThread");
     } // End run() method
 
 } // End TCPReceiverThread class

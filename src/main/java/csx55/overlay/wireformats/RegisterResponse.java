@@ -51,10 +51,11 @@ public class RegisterResponse implements Event {
             dout.writeInt(additionalInfoLength);
             dout.write(additionalInfoByte);
 
-            marshalledBytes = baOutputStream.toByteArray();
-            baOutputStream.close();
-
             dout.flush();
+
+            marshalledBytes = baOutputStream.toByteArray();
+           
+            baOutputStream.close();
             dout.close();
         } catch (IOException err) {
             System.err.println(err.getMessage());
@@ -94,8 +95,24 @@ public class RegisterResponse implements Event {
 
         if (rsp.getType() == msg_type && rsp.getStatus() == other.getStatus() && rsp.getInfo().equals(other.getInfo())) {
             System.out.println("RegisterResponse - Success");
+            // System.out.println(msg_type);
+            // System.out.println(rsp.getType());
+
+            // System.out.println(rsp.getStatus());
+            // System.out.println(other.getStatus());
+
+            // System.out.println(rsp.getInfo());
+            // System.out.println(other.getInfo());
         } else {
             System.out.println("RegisterResponse - Failure");
+            // System.out.println(msg_type);
+            // System.out.println(rsp.getType());
+
+            // System.out.println(rsp.getStatus());
+            // System.out.println(other.getStatus());
+
+            // System.out.println(rsp.getInfo());
+            // System.out.println(other.getInfo());
         }
     }
 

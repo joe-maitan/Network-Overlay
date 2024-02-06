@@ -23,8 +23,8 @@ public class TCPSender {
     public void sendData(byte[] dataToSend) throws IOException {
         int dataLength = dataToSend.length;
 
-        System.out.println("TCPSender.java - dataToSend.length: " + dataToSend.length);
-        System.out.println("TCPSender.java - dataLength: " + dataLength);
+        // System.out.println("TCPSender.java - dataToSend.length: " + dataToSend.length);
+        // System.out.println("TCPSender.java - dataLength: " + dataLength);
 
         dout.writeInt(dataLength);
         dout.write(dataToSend, 0, dataLength);

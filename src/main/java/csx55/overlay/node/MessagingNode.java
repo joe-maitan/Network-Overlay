@@ -34,11 +34,12 @@ public class MessagingNode extends Node  {
              */
             this.msgNodeName = InetAddress.getLocalHost().toString();
             this.msgNodeName = msgNodeName.substring(msgNodeName.indexOf('/') + 1);
-            this.msgNodePortNumber = messaging_node_socket.getLocalPort();
+            // this.msgNodePortNumber = messaging_node_socket.getLocalPort(); WRONG
+            this.msgNodePortNumber = node_server.port_number;
             
             /* Validation that we have collected the right information */
-            System.out.println("[MsgNode] IP Address: " + msgNodeName);
-            System.out.println("[MsgNode] Port: " + msgNodePortNumber);
+            System.out.println("[MsgNode] IP Address: " + msgNodeName + " at socket port #: " + messaging_node_socket.getLocalPort());
+            System.out.println("[MsgNode] Port # of ServerSocket: " + msgNodePortNumber);
     
             // System.out.println("Creating a new register request");
             // RegisterRequest reg_request = new RegisterRequest(this); /* Created a new registry request */
@@ -74,9 +75,9 @@ public class MessagingNode extends Node  {
                 byte status = reg_resp.getStatus();
 
                 if (status == 1) {
-                    System.out.println("MessagingNode failed to register.");
+                    System.out.println("[MsgNode] Failed to register.");
                 } else {
-                    System.out.println("MessagingNode has been registered.");
+                    System.out.println("[MsgNode] Successfully registered.");
                 } // End if-else statement
 
                 break;
@@ -136,7 +137,7 @@ public class MessagingNode extends Node  {
         newMessagingNode.node_server_thread.start(); /* start our TCPServerThread associated with our new_messaging_node object */
 
         /* Was originally placed in the constructor */
-        System.out.println("Creating a new register request");
+        // System.out.println("Creating a new register request");
         RegisterRequest reg_request = new RegisterRequest(newMessagingNode.msgNodeName, newMessagingNode.msgNodePortNumber); /* Created a new registry request */
 
         /* Sends a registry request to the Registry */

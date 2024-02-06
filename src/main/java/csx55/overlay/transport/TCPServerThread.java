@@ -19,6 +19,7 @@ public class TCPServerThread implements Runnable {
     /* THESE TWO STRINGS WILL BE USED TO HELP FILL OUT MESSAGENODE DATA */
     public int port_number; /* DO NOT DELETE THIS. THIS IS THE PORT OUR SERVER WILL LAUNCH ON */
     public String ipAddress;
+    
     public Node serverThreadNode;
 
     public ArrayList<Socket> socket_connetions = new ArrayList<>();
