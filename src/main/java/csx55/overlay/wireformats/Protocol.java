@@ -2,6 +2,7 @@ package csx55.overlay.wireformats;
 
 public class Protocol {
     
+    /* Allows us to represent which protocol is which */
     final static int REGISTER_REQUEST = 0;
     final static int REGISTER_RESPONSE = 1;
     final static int DEREGISTER_REQUEST = 2;
@@ -24,4 +25,4 @@ public class Protocol {
         return value;
     } // End getValue() method
 
-} // End Protocol enum
+} // End Protocol class

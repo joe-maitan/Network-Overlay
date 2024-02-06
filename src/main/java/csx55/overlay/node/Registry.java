@@ -71,13 +71,35 @@ public class Registry extends Node {
         return false;
     } // End register_node() method
 
-    public static void deregister_node(int socket_index, DeregisterRequest dereg_rq) {
-        // if (registered_messaging_nodes.contains(socket_index)) {
-        //     registered_messaging_nodes.remove();
-        // }
+    public boolean deregister_node(int socket_index, DeregisterRequest dereg_rq) {
+        if (registered_messaging_nodes.containsKey(socket_index)) {
+            registered_messaging_nodes.remove(socket_index);
+            --numberOfRegisteredNodes;
+            String success = String.format("Deregistration request successful. The number of messaging nodes currently constituting the overlay is (%d)", numberOfRegisteredNodes);
+            System.out.println(success);
+            return true;
+        } else {
+            try {
+                throw new Exception("Cannot deregister node.");
+            } catch (Exception e) {
+                System.err.println(e.getMessage());
+            } // End try-catch block
+        } // End if-else statement
+
+        return false;
     } // End deregister_node() method
 
-    public void construct_overlay() {
+    public void construct_overlay(int numberOfConnections) {
+        /* This is what connects the other MessagingNodes to one another, given a list of other messaging node sockets, they would connect to each. */
+
+        // If the number of connections specified is None or 0, we default the value to 4
+        if (numberOfConnections == 0) {
+            numberOfConnections = 4;
+        } // End if-statement
+
+        // Using the list connect to the other nodes
+
+        // Assign the link weights to every connection
         assign_link_weights();
     } // End construct_overlay() method
 
