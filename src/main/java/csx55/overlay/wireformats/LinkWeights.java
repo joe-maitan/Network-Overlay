@@ -5,6 +5,8 @@ import java.io.IOException;
 
 public class LinkWeights implements Event {
 
+    /* Takes in the data structure holding our connection link weights? */
+
     @Override
     public int getType() {
         // TODO Auto-generated method stub

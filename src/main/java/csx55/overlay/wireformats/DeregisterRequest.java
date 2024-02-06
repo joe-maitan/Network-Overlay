@@ -11,7 +11,7 @@ public class DeregisterRequest implements Event {
 
     public DeregisterRequest(String host, int port){
         hostName = host;
-        port = portNumber;
+        portNumber = port;
     } // End DeregisterRequest() constructor
 
     public DeregisterRequest(DataInputStream din) {
@@ -37,7 +37,7 @@ public class DeregisterRequest implements Event {
             dout.writeInt(hostNameLength);
             dout.write(hostNameByte);
 
-            dout.write(portNumber);
+            dout.writeInt(portNumber);
 
             dout.flush();
 
@@ -58,7 +58,6 @@ public class DeregisterRequest implements Event {
             byte[] hostNameStr = new byte[din.readInt()];
             din.readFully(hostNameStr);
             hostName = new String(hostNameStr);
-
             portNumber = din.readInt();
         } catch (IOException err) {
             System.err.println(err.getMessage());
@@ -66,7 +65,7 @@ public class DeregisterRequest implements Event {
     } // End setBytes() method
 
     public static void main(String[] args) {
-        DeregisterRequest dq = new DeregisterRequest("joe", 72);
+        DeregisterRequest dq = new DeregisterRequest("joe", 7200);
         byte[] arr = dq.getBytes(); /* marshalling the data*/
 
         ByteArrayInputStream baIn = new ByteArrayInputStream(arr);

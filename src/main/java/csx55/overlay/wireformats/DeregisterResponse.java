@@ -14,12 +14,16 @@ public class DeregisterResponse implements Event {
         statusCode = status;
         additionalInfo = info;
     } // End DeregisterResponse() constructor
+
+    public DeregisterResponse(DataInputStream din) {
+        setBytes(din);
+    } // End DeregisterResponse(din) constructor
     
     @Override
     public int getType() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getType'");
-    }
+        return Protocol.DEREGISTER_RESPONSE;
+    } // End getType() method
+
     @Override
     public byte[] getBytes() throws IOException {
         // TODO Auto-generated method stub

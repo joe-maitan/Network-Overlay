@@ -42,9 +42,14 @@ public class RegisterResponse implements Event {
         DataOutputStream dout = new DataOutputStream(new BufferedOutputStream(baOutputStream));
 
         try {
-            // dout.writeInt(getType());
-            dout.writeInt(statusCode);
-            dout.writeChars(additionalInfo);
+            dout.writeInt(getType());
+            
+            dout.writeByte(statusCode);
+            
+            byte[] additionalInfoByte = additionalInfo.getBytes();
+            int additionalInfoLength = additionalInfoByte.length;
+            dout.writeInt(additionalInfoLength);
+            dout.write(additionalInfoByte);
 
             marshalledBytes = baOutputStream.toByteArray();
             baOutputStream.close();
@@ -58,8 +63,9 @@ public class RegisterResponse implements Event {
         return marshalledBytes;
     } // End getBytes() method
 
+    /* TODO: Figure out what the hell is going on in the RegisterResponse.setBytes() method */
     @Override
-    public void setBytes(DataInputStream din) {
+    public void setBytes(DataInputStream din) { 
         try {
             statusCode = din.readByte();
             byte[] infoStr = new byte[din.readInt()];
@@ -72,6 +78,7 @@ public class RegisterResponse implements Event {
 
     public static void main(String[] args) {
         RegisterResponse rsp = new RegisterResponse(true, "Life is good");
+        // RegisterResponse rsp_two = new RegisterResponse(false, "Live is still good");
         byte[] arr = rsp.getBytes();
         ByteArrayInputStream baIn = new ByteArrayInputStream(arr);
         DataInputStream din = new DataInputStream(new BufferedInputStream(baIn));

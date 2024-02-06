@@ -4,10 +4,8 @@ import java.io.*;
 
 public interface Event {
     
-    /* these are the two methods Shrideep told us to define */
-    public int getType();
-    public byte[] getBytes() throws IOException; // Marshalling
+    public int getType(); // Gets the message protocol
+    public byte[] getBytes() throws IOException; // Encodes the data for transmission (Marshalling)
+    public void setBytes(DataInputStream din); // Decodes the data from the transmission (Unmarshalling)
     
-    /* Dan told me to implement this method. This allows us to parse in a byte array arr */
-    public void setBytes(DataInputStream din); // Unmarshalling
 } // End Event interface

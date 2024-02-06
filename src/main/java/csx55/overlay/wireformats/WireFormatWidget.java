@@ -5,6 +5,8 @@ import java.net.*;
 
 public class WireFormatWidget implements Event {
 
+    /* THIS IS AN EXAMPLE OF WHAT THE FORMAT WOULD LOOK LIKE */
+
     private int type;
     private long timestamp;
     private String identifier;
