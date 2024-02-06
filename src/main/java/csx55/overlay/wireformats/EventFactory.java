@@ -18,21 +18,17 @@ public class EventFactory {
             ByteArrayInputStream baIn = new ByteArrayInputStream(arr);
             DataInputStream din = new DataInputStream(new BufferedInputStream(baIn));
 
-            /* Grabs the messageProtocol from the arr. This allows us to parse in the other information 
-             * without needing to read the messageProtocol for every wireformat 
-             */
-            int messageProtocol = din.readInt();
+            int messageProtocol = din.readInt(); /* Read in the messageType */
 
-            
             // TODO Add if statemnt for every protocol and make sure we call the right constructor
             if (messageProtocol == Protocol.REGISTER_REQUEST) {
                 return new RegisterRequest(din);
             } else if (messageProtocol == Protocol.REGISTER_RESPONSE) {
                 return new RegisterResponse(din);
             } else if (messageProtocol == Protocol.DEREGISTER_REQUEST) {
-                return new DeregisterRequest(din); // return new DeregisterRequest(din);
+                return new DeregisterRequest(din);
             } else if (messageProtocol == Protocol.DEREGISTER_RESPONSE) {
-
+                return new DeregisterResponse(din);
             } else if (messageProtocol == Protocol.LINK_WEIGHTS) {
 
             } else if (messageProtocol == Protocol.MESSAGE) {
