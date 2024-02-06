@@ -2,16 +2,22 @@ package csx55.overlay.wireformats;
 
 import java.io.DataInputStream;
 import java.io.IOException;
+import java.util.Random;
 
 public class LinkWeights implements Event {
 
     /* Takes in the data structure holding our connection link weights? */
+    Random link_generator = new Random();
+    // Number of links
+    // link info 1
+    // link info 2
+    // ...
+    // link info 3
 
     @Override
     public int getType() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getType'");
-    }
+        return Protocol.LINK_WEIGHTS;
+    } // End getType() method
 
     @Override
     public byte[] getBytes() throws IOException {

@@ -8,8 +8,8 @@ import java.io.*;
 
 public class RegisterRequest implements Event {
 
-    public String ipAddress;
-    public int portNumber;
+    String ipAddress;
+    int portNumber;
 
     public RegisterRequest() {} // End default constructor
 

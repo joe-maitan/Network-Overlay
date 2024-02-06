@@ -4,11 +4,12 @@ import java.io.*;
 
 public class TaskInitiate implements Event {
 
+    int rounds;
+
     @Override
     public int getType() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getType'");
-    }
+        return Protocol.TASK_INITIATE;
+    } // End getType() method
 
     @Override
     public byte[] getBytes() throws IOException {
@@ -22,6 +23,4 @@ public class TaskInitiate implements Event {
         throw new UnsupportedOperationException("Unimplemented method 'setBytes'");
     }
 
-   
-    
 } // End TaskInitiate class

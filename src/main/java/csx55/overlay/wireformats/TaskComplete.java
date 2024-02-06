@@ -4,24 +4,24 @@ import java.io.*;
 
 public class TaskComplete implements Event {
 
-    @Override
-    public int getType() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getType'");
-    }
+    public String nodeIPAddress;
+    public int nodePortNumber;
 
     @Override
-    public byte[] getBytes() throws IOException {
+    public int getType() {
+        return Protocol.TASK_COMPLETE;
+    } // End getType() method
+
+    @Override
+    public byte[] getBytes() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getBytes'");
-    }
+    } // End getBytes() method
 
     @Override
     public void setBytes(DataInputStream din) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'setBytes'");
-    }
-    
-    
+    } // End setBytes(din) method
 
-}
+} // End TaskComplete class

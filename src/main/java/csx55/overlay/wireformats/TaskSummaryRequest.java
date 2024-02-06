@@ -6,9 +6,8 @@ public class TaskSummaryRequest implements Event {
 
     @Override
     public int getType() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getType'");
-    }
+        return Protocol.TASK_SUMMARY_REQUEST;
+    } // End getType() method
 
     @Override
     public byte[] getBytes() throws IOException {
@@ -22,6 +21,4 @@ public class TaskSummaryRequest implements Event {
         throw new UnsupportedOperationException("Unimplemented method 'setBytes'");
     }
 
-   
-    
 } // End TaskSummaryRequest class

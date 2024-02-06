@@ -22,6 +22,4 @@ public class Message implements Event {
         throw new UnsupportedOperationException("Unimplemented method 'setBytes'");
     }
     
-    
-    
 } // End Message class
