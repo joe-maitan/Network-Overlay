@@ -17,7 +17,6 @@ public class MessagingNode extends Node  {
     public int numberOfMsgsReceived;
     public int numberOfMsgsSent;
     
-
     public MessagingNode(String hostName, int portNum) {
         super(); /* Creates a Node associated with the MessagingNode */
 
@@ -54,25 +53,11 @@ public class MessagingNode extends Node  {
     public void onEvent(Event event, int socketIndex) {
         int messageProtocol = event.getType();
         
+        byte status;
         switch(messageProtocol) {
-            case 0:
-
-                /* TODO: Since every node goes through the registration process upon connecting with 
-                 * the registry do we really need to have this onEvent for a RegisterRequest?
-                 */
-
-                // RegisterRequest reg_rq = (RegisterRequest) event;
-                // String ip_address = reg_rq.getAddress();
-                // int port = reg_rq.getPort();
-                
-                // boolean value = register_node(socketIndex, reg_rq);
-                // RegisterResponse response = new RegisterResponse(value, ip_address);
-
-                // send_message(socketIndex, response.getBytes(), "");
-                // break;
             case 1: /* Register Response */
                 RegisterResponse reg_resp = (RegisterResponse) event;
-                byte status = reg_resp.getStatus();
+                status = reg_resp.getStatus();
 
                 if (status == 1) {
                     System.out.println("[MsgNode] Failed to register.");
@@ -81,19 +66,18 @@ public class MessagingNode extends Node  {
                 } // End if-else statement
 
                 break;
-            case 2:
-                /* Deregister Request */
-                DeregisterRequest de_rq = (DeregisterRequest) event;
-                String ipAddress = de_rq.getAddress();
-                int port = de_rq.getPort();
-
-                // boolean value = deregister_node(socketIndex, de_rq)
-                // DeregisterResponse response = new DeregisterReponse(value, )
-
-                break;
             case 3:
                 /* Deregister Response */
                 DeregisterResponse de_resp = (DeregisterResponse) event;
+                status = de_resp.getStatus();
+
+                if (status == 1) {
+                    System.out.println("[MsgNode] Failed to deregister.");
+                } else {
+                    System.out.println("[MsgNode] Successfully deregistered.");
+                } // End if-else statement
+
+                this.node_server.close_server();
                 break;
             case 4:
                 /* Link weights */
@@ -151,9 +135,6 @@ public class MessagingNode extends Node  {
                 case "register":
                     RegisterRequest register = new RegisterRequest(newMessagingNode.msgNodeName, newMessagingNode.msgNodePortNumber);
                     newMessagingNode.node_server.send_msg(0, register.getBytes());
-
-                    /* TODO: Node has already been registered validate by trying to re-register */
-
                     break;
                 case "print-shortest-path":
                     newMessagingNode.printShortestPath();
@@ -162,8 +143,9 @@ public class MessagingNode extends Node  {
                     DeregisterRequest deregister = new DeregisterRequest(newMessagingNode.msgNodeName, newMessagingNode.msgNodePortNumber);
                     newMessagingNode.node_server.send_msg(0, deregister.getBytes());
 
-                    /* TODO Validate that the node has deregisted from the registry */
-
+                    /* Sends this message to the Registry, the Registry will send a response and go into the
+                     * MessagingNodes onEvent() method. This is where the deregistration will be handled.
+                     */
                     break;
                 default:
                     System.out.println("Unrecognized command. Please try again");

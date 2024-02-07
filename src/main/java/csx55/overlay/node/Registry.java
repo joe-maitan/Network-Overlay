@@ -12,6 +12,7 @@ public class Registry extends Node {
 
     /* this tracks the socket index of the messaging node as well as the RegisterRequest */
     HashMap<Integer, RegisterRequest> registered_messaging_nodes = new HashMap<>();
+    ArrayList<MessagingNode> listOfMessagingNodes = new ArrayList<>();
 
     public int numberOfRegisteredNodes;
 
@@ -57,9 +58,7 @@ public class Registry extends Node {
         return false;
     } // End deregister_node() method
 
-    public void start(int numberOfRounds) {
-
-    } // End start() method
+    public void start(int numberOfRounds) {} // End start() method
 
     public void construct_overlay(int numberOfConnections) {
         /* This is what connects the other MessagingNodes to one another, given a list of other messaging node sockets, they would connect to each. */
@@ -74,74 +73,75 @@ public class Registry extends Node {
         assign_link_weights();
     } // End construct_overlay() method
 
-    public void assign_link_weights() {
-        
-    } // End assign_link_weights() method
+    public void assign_link_weights() {} // End assign_link_weights() method
 
-    public void list_messaging_nodes() {} // End list_messaging_nodes() method
+    public void list_messaging_nodes() {
+        /* Assignment says it should be the MessagingNodes host(machine) name */
+        MessagingNode temp = new MessagingNode("Joe", 72);
+        listOfMessagingNodes.add(temp);
+        
+        /* TODO: Figure out how to make a collection of messagingNodes to be able to list over them  */
+        
+        for (MessagingNode mn : listOfMessagingNodes) {
+            System.out.println(mn.msgNodeName + " " + mn.msgNodePortNumber);
+        } // End for loop
+    } // End list_messaging_nodes() method
 
     public void list_weights() {} // End list_weights() method
 
     @Override
     public void onEvent(Event event, int socketIndex) {
         int messageProtocol = event.getType();
+
+        boolean value = false;
+        String info = "";
         
         switch(messageProtocol) {
-            case 0:
+            case 0: /* Register Request */
                 RegisterRequest reg_rq = (RegisterRequest) event;
                 
-                boolean value = register_node(socketIndex, reg_rq);
-
-                String info;
+                value = register_node(socketIndex, reg_rq);
                 if (value == true) {
                     info = "Node has been registered";
                 } else {
                     info = "Node could not be registered";
-                }
+                } // End if-else statement
 
-                RegisterResponse response = new RegisterResponse(value, info);
-
-                send_message(socketIndex, response.getBytes(), "");
+                RegisterResponse reg_response = new RegisterResponse(value, info);
+                send_message(socketIndex, reg_response.getBytes(), "");
                 break;
-            // case 1:
-            //     /* Register Response */
-            //     RegisterResponse reg_resp = (RegisterResponse) event;
-            //     break;
-            case 2:
-                /* Deregister Request */
+            case 2: /* Deregister Request */
                 DeregisterRequest de_rq = (DeregisterRequest) event;
 
+                value = deregister_node(socketIndex, de_rq);
+                if (value == true) {
+                    info = "Node successfully deregistered";
+                } else {
+                    info = "Node could not be deregistered";
+                } // End if-else statement
+                
+                DeregisterResponse dereg_response = new DeregisterResponse(value, info);
+                send_message(socketIndex, dereg_response.getBytes(), info);
                 break;
-            case 3:
-                /* Deregister Response */
-                DeregisterResponse de_resp = (DeregisterResponse) event;
-                break;
-            case 4:
-                /* Link weights */
+            case 4: /* Link weights */
                 LinkWeights linkWeights = (LinkWeights) event;
                 break;
-            case 5:
-                /* message */
+            case 5: /* message */
                 Message msg = (Message) event;
                 break;
-            case 6:
-                // Messaging Nodes list
+            case 6: /* List Messaging Nodes */
                 MessagingNodesList msg_node_list = (MessagingNodesList) event;
                 break;
-            case 7:
-                // task initiate
+            case 7: /* Task Initiate */
                 TaskInitiate initiate = (TaskInitiate) event;
                 break;
-            case 8:
-                // task complete
+            case 8: /* Task Complete */
                 TaskComplete taskComplete = (TaskComplete) event;
                 break;
-            case 9:
-                // task summary request
+            case 9: /* Task Summary Request */
                 TaskSummaryRequest sum_req = (TaskSummaryRequest) event;
                 break;
-            case 10:
-                // task summary response
+            case 10: /* Task Summary Response */
                 TaskSummaryResponse sum_rsp = (TaskSummaryResponse) event;
                 break;
         } // End switch statement
