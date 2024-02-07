@@ -79,13 +79,12 @@ public class Registry extends Node {
 
             /* For each vertex, create neighbors for the vertices */
             for (int j = 0; j < numberOfConnections; ++j) {
-
+                Vertex nodeNeighbor = new Vertex(nodeSocketIndex + 1);
+                node_vertex.addNeighbor(nodeNeighbor);
             } // End for loop
-
-        } // End for loop
-        
-        
             
+        } // End for loop
+
     } // End construct_overlay() method
 
     public void list_messaging_nodes() {
