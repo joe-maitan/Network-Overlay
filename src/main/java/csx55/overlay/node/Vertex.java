@@ -14,6 +14,7 @@ public class Vertex {
     private int socketIndex;
     private ArrayList<Vertex> neighbors = new ArrayList<>();
     private ArrayList<Integer> neighborWeights = new ArrayList<>();
+    private int linkWeight;
 
     Random linkWeightGenerator = new Random();
 
@@ -35,7 +36,7 @@ public class Vertex {
     } // End addNeighbor(new_vertex) method
 
     public void assignLinkWeight() {
-        int linkWeight = linkWeightGenerator.nextInt(10) + 1;
+        this.linkWeight = linkWeightGenerator.nextInt(10) + 1;
     } // End assignLinkWeight() method
 
     public boolean removeNeighbor(Vertex vertexToRemove) {

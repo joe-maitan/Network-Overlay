@@ -73,14 +73,11 @@ public class Registry extends Node {
 
         /* For each vertex, create neighbors for the vertices */
         for (int j = 1; j < numberOfRegisteredNodes; ++j) {
-            
-            
             Vertex neighborVertex = new Vertex(j);
             currVertex.addNeighbor(neighborVertex);
             neighborVertex.addNeighbor(currVertex);
             currVertex.assignLinkWeight();
             currVertex = neighborVertex;
-
         } // End for loop
             
     } // End construct_overlay() method
