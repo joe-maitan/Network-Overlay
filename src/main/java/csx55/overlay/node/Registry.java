@@ -12,7 +12,8 @@ public class Registry extends Node {
 
     /* this tracks the socket index of the messaging node as well as the RegisterRequest */
     HashMap<Integer, RegisterRequest> registered_messaging_nodes = new HashMap<>();
-    ArrayList<MessagingNode> listOfMessagingNodes = new ArrayList<>();
+    
+    // ArrayList<MessagingNode> listOfMessagingNodes = new ArrayList<>();
 
     public int numberOfRegisteredNodes;
 
@@ -30,14 +31,15 @@ public class Registry extends Node {
             System.out.println(success);
             return true;
         } else { /* We do not add it to the registry */
-            try{
-                throw new Exception("Cannot add node to the registry.");
-            } catch (Exception e) {
-                System.err.println(e.getMessage());
-            }
+            return false;
+            // try{
+            //     throw new Exception("Cannot add node to the registry.");
+            // } catch (Exception e) {
+            //     System.err.println(e.getMessage());
+            // }
         } // End if-else statement
 
-        return false;
+        // return false;
     } // End register_node() method
 
     public boolean deregister_node(int socket_index, DeregisterRequest dereg_rq) {
@@ -48,43 +50,54 @@ public class Registry extends Node {
             System.out.println(success);
             return true;
         } else {
-            try {
-                throw new Exception("Cannot deregister node.");
-            } catch (Exception e) {
-                System.err.println(e.getMessage());
-            } // End try-catch block
+            return false;
+            // try {
+            //     throw new Exception("Cannot deregister node.");
+            // } catch (Exception e) {
+            //     System.err.println(e.getMessage());
+            // } // End try-catch block
         } // End if-else statement
 
-        return false;
+        // return false;
     } // End deregister_node() method
 
     public void start(int numberOfRounds) {} // End start() method
 
     public void construct_overlay(int numberOfConnections) {
         /* This is what connects the other MessagingNodes to one another, given a list of other messaging node sockets, they would connect to each. */
+        Vertex newVertex;
+    
+        Socket nodeSocket;
+        int nodeSocketIndex;
 
-        Socket s;
-        for (int i = 0; i < numberOfConnections; ++i) {
-            // s = registered_messaging_nodes()
+        /* Loop through all of the registered nodes */
+        for (int i = 0; i < numberOfRegisteredNodes; ++i) {
+            nodeSocket = this.node_server.socket_connetions.get(i);
+            nodeSocketIndex = this.node_server.socket_connetions.indexOf(nodeSocket);
+
+            Vertex node_vertex = new Vertex(nodeSocketIndex);
+
+            /* For each vertex, create neighbors for the vertices */
+            for (int j = 0; j < numberOfConnections; ++j) {
+
+            } // End for loop
+
         } // End for loop
-        // Using the list connect to the other nodes
-
-        // Assign the link weights to every connection
-        assign_link_weights();
+        
+        
+            
     } // End construct_overlay() method
-
-    public void assign_link_weights() {} // End assign_link_weights() method
 
     public void list_messaging_nodes() {
         /* Assignment says it should be the MessagingNodes host(machine) name */
         MessagingNode temp = new MessagingNode("Joe", 72);
-        listOfMessagingNodes.add(temp);
+        // listOfMessagingNodes.add(temp);
         
         /* TODO: Figure out how to make a collection of messagingNodes to be able to list over them  */
         
-        for (MessagingNode mn : listOfMessagingNodes) {
-            System.out.println(mn.msgNodeName + " " + mn.msgNodePortNumber);
-        } // End for loop
+        // for (MessagingNode mn : listOfMessagingNodes) {
+        //     System.out.println(mn.msgNodeName + " " + mn.msgNodePortNumber);
+        // } // End for loop
     } // End list_messaging_nodes() method
 
     public void list_weights() {} // End list_weights() method
