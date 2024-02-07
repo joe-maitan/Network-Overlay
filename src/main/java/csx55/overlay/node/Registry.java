@@ -71,6 +71,12 @@ public class Registry extends Node {
         Vertex currVertex = new Vertex(0);
         Random linkWeightGenerator = new Random();
 
+        if (numberOfRegisteredNodes <= numberOfConnections || numberOfConnections < 1 || (numberOfConnections*numberOfRegisteredNodes) % 2 != 0 || (numberOfConnections < 2 && numberOfRegisteredNodes > 2)) {
+            System.out.println("Cannot set up overlay.");
+            return;
+        }
+
+        System.out.println("number of registered nodes: " + numberOfRegisteredNodes);
         /* For each vertex, create neighbors for the vertices */
         for (int j = 1; j < numberOfRegisteredNodes; ++j) {
             int weight = linkWeightGenerator.nextInt(10) + 1;
@@ -86,13 +92,31 @@ public class Registry extends Node {
             currVertex = neighborVertex;
         } // End for loop
 
-        for (int i = 0; i < numberOfConnections; ++i) {
-            if (currVertex.getNeighborsSize() != numberOfConnections) {
+        vertices.add(currVertex);
+
+        currVertex = vertices.get(0);
+
+        System.out.println("About to determine how many connections are needed/remaining");
+        System.out.println("Size of our Vertices ArrayList: " + vertices.size());
+
+        for (Vertex v : vertices) {
+            currVertex = v;
+
+            if (currVertex.getNeighborsSize() < numberOfConnections) {
                 int numberOfNeighborsNeeded = numberOfConnections - currVertex.getNeighborsSize();
 
-                for (int k = 0; k < numberOfNeighborsNeeded; ++k) {
-                    Vertex newNeighbor = vertices.get(k);
-                    currVertex.addNeighbor(newNeighbor);
+                int neighborIndex = currVertex.getIndex() + 1;
+                while(currVertex.getNeighborsSize() < numberOfConnections) {
+                    
+                    if (!currVertex.hasNeighbor(neighborIndex)) {
+                        Vertex newNeighbor = vertices.get(neighborIndex);
+                        
+                        if (newNeighbor.getNeighborsSize() < numberOfConnections) {
+                            currVertex.addNeighbor(newNeighbor);
+                        }
+                    } // End if statement
+
+                    ++neighborIndex;
                 } // End for loop
             } // End for loop
         } // End for loop

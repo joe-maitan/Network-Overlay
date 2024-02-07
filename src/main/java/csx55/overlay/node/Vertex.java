@@ -55,5 +55,15 @@ public class Vertex {
     public int getNeighborsSize() {
         return neighbors.size();
     } // End getNeighborsSize() method
+
+    public boolean hasNeighbor(int vertexIndex) {
+        for (Vertex search : neighbors) {
+            if (search.getIndex() == vertexIndex) {
+                return true;
+            }
+        }
+
+        return false;
+    } // End isNeighbor() method
     
 } // End Links class

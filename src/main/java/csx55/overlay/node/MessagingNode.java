@@ -8,7 +8,8 @@ import java.util.*;
 
 public class MessagingNode extends Node  {
 
-    public String msgNodeName;
+    public String msgNodeHostName;
+    public String msgNodeIP;
     public int msgNodePortNumber;
     public int msgNodeIndex; /* This will be important for getting the connections established */
 
@@ -16,6 +17,11 @@ public class MessagingNode extends Node  {
 
     public int numberOfMsgsReceived;
     public int numberOfMsgsSent;
+    
+    public MessagingNode(String machineName, int portNum, int socketIndex) {
+        msgNodeHostName = machineName;
+        msgNodePortNumber = portNum;
+    } // End MessagingNode() constructor
     
     public MessagingNode(String hostName, int portNum) {
         super(); /* Creates a Node associated with the MessagingNode */
@@ -34,15 +40,18 @@ public class MessagingNode extends Node  {
              * 
              * THIS INFORMATION WILL THEN BE USED TO MAKE OUR REGISTER REQUEST
              */
-            this.msgNodeName = InetAddress.getLocalHost().toString();
-            this.msgNodeName = msgNodeName.substring(msgNodeName.indexOf('/') + 1);
+            
+            this.msgNodeIP = InetAddress.getLocalHost().toString();
+            this.msgNodeHostName = msgNodeIP.substring(0, msgNodeIP.indexOf('/'));
+            this.msgNodeIP = msgNodeIP.substring(msgNodeIP.indexOf('/') + 1);
             this.msgNodePortNumber = node_server.port_number;
             
             /* Validation that we have collected the right information */
-            System.out.println("[MsgNode] IP Address: " + msgNodeName + " at socket port #: " + messaging_node_socket.getLocalPort());
+            // System.out.println("[MsgNode] Host name: " + msgNodeHostName);
+            System.out.println("[MsgNode] IP Address: " + msgNodeIP + " at socket port #: " + messaging_node_socket.getLocalPort());
             System.out.println("[MsgNode] Port # of ServerSocket: " + msgNodePortNumber);
     
-            RegisterRequest reg_request = new RegisterRequest(msgNodeName, msgNodePortNumber); /* Created a new registry request */
+            RegisterRequest reg_request = new RegisterRequest(msgNodeIP, msgNodePortNumber); /* Created a new registry request */
             node_server.send_msg(0, reg_request.getBytes());
         } catch (Exception e) {
             System.err.println(e.getMessage());
@@ -133,14 +142,14 @@ public class MessagingNode extends Node  {
 
             switch(line) {
                 case "register":
-                    RegisterRequest register = new RegisterRequest(newMessagingNode.msgNodeName, newMessagingNode.msgNodePortNumber);
+                    RegisterRequest register = new RegisterRequest(newMessagingNode.msgNodeIP, newMessagingNode.msgNodePortNumber);
                     newMessagingNode.node_server.send_msg(0, register.getBytes());
                     break;
                 case "print-shortest-path":
                     newMessagingNode.printShortestPath();
                     break;
                 case "exit-overlay":
-                    DeregisterRequest deregister = new DeregisterRequest(newMessagingNode.msgNodeName, newMessagingNode.msgNodePortNumber);
+                    DeregisterRequest deregister = new DeregisterRequest(newMessagingNode.msgNodeIP, newMessagingNode.msgNodePortNumber);
                     newMessagingNode.node_server.send_msg(0, deregister.getBytes());
 
                     /* Sends this message to the Registry, the Registry will send a response and go into the
