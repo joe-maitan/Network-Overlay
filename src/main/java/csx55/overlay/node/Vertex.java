@@ -26,16 +26,17 @@ public class Vertex {
     } // End getIndex() method
 
     public boolean addNeighbor(Vertex vertexToAdd) {
-        int linkWeight = linkWeightGenerator.nextInt(10) + 1;
-        
         if (!neighbors.contains(vertexToAdd)) {
             neighbors.add(vertexToAdd);
-            neighborWeights.add(linkWeight);
             return true;
         } else {
             return false;
         } // End if-else statements
     } // End addNeighbor(new_vertex) method
+
+    public void assignLinkWeight() {
+        int linkWeight = linkWeightGenerator.nextInt(10) + 1;
+    } // End assignLinkWeight() method
 
     public boolean removeNeighbor(Vertex vertexToRemove) {
         if (neighbors.contains(vertexToRemove)) {

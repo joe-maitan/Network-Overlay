@@ -66,25 +66,23 @@ public class Registry extends Node {
     public void construct_overlay(int numberOfConnections) {
         /* This is what connects the other MessagingNodes to one another, given a list of other messaging node sockets, they would connect to each. */
         Vertex newVertex;
-    
         Socket nodeSocket;
         int nodeSocketIndex;
 
-        /* Loop through all of the registered nodes */
-        for (int i = 0; i < numberOfRegisteredNodes; ++i) {
-            nodeSocket = this.node_server.socket_connetions.get(i);
-            nodeSocketIndex = this.node_server.socket_connetions.indexOf(nodeSocket);
+        Vertex currVertex = new Vertex(0);
 
-            Vertex node_vertex = new Vertex(nodeSocketIndex);
-
-            /* For each vertex, create neighbors for the vertices */
-            for (int j = 0; j < numberOfConnections; ++j) {
-                Vertex nodeNeighbor = new Vertex(nodeSocketIndex + 1);
-                node_vertex.addNeighbor(nodeNeighbor);
-            } // End for loop
+        /* For each vertex, create neighbors for the vertices */
+        for (int j = 1; j < numberOfRegisteredNodes; ++j) {
             
-        } // End for loop
+            
+            Vertex neighborVertex = new Vertex(j);
+            currVertex.addNeighbor(neighborVertex);
+            neighborVertex.addNeighbor(currVertex);
+            currVertex.assignLinkWeight();
+            currVertex = neighborVertex;
 
+        } // End for loop
+            
     } // End construct_overlay() method
 
     public void list_messaging_nodes() {
