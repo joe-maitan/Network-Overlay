@@ -57,6 +57,10 @@ public class Registry extends Node {
         return false;
     } // End deregister_node() method
 
+    public void start(int numberOfRounds) {
+
+    } // End start() method
+
     public void construct_overlay(int numberOfConnections) {
         /* This is what connects the other MessagingNodes to one another, given a list of other messaging node sockets, they would connect to each. */
 
@@ -144,7 +148,8 @@ public class Registry extends Node {
     } // End onEvent() method
 
     public static void main(String[] args) {
-        if (args.length < 1) {
+        if (args.length < 1 || args.length > 1) {
+            System.out.println("Registry - Invalid number of arguments. Exiting program.");
             System.exit(1);
         } // End if-statement
         
@@ -163,29 +168,38 @@ public class Registry extends Node {
  
             if (line.equals("list-messaging-nodes")) {
                 our_registry.list_messaging_nodes();
-            } else if (line.equals("")) {
-                
             } else if (line.equals("list-weights")) {
-                our_registry.list_weights();
+                
             } else if (line.contains("setup-overlay")) {
                 int connections_required = 4; /* Connections Required by default are 4 */
-                
+            
                 String[] command = line.split(" ");
-
-                if (command.length > 2) {
+            
+                if (command.length == 2) {
                     connections_required = Integer.parseInt(command[1]);
-                }
-
-                System.out.println("Connections required: " + connections_required);
-
-                our_registry.construct_overlay(connections_required);
+                    // System.out.println("Connections required: " + connections_required);
+                    our_registry.construct_overlay(connections_required);
+                } else {
+                    // System.out.println("Connections required: " + connections_required);
+                    our_registry.construct_overlay(connections_required);
+                } // End if-else statement
             } else if (line.equals("send-overlay-link-weights")) {
+                our_registry.list_weights();
+            }  else if (line.contains("start")) {
+                String [] command = line.split(" ");
 
+                int rounds = 0;
+                if (command.length < 2) {
+                    System.out.println("Invalid command for start, please include # of rounds.");
+                } else {
+                    rounds = Integer.parseInt(command[1]);
+                    our_registry.start(rounds);
+                } // End if-else statement
             } else if (line.equals("exit")) {
                 our_registry.node_server.close_server();
                 break;
             } else {
-                System.out.println("Unrecognized command.");
+                System.out.println("Unrecognized command. Please try again");
             } // End if-else statements
         } // End while loop
 

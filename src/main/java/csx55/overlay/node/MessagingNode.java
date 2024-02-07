@@ -14,6 +14,10 @@ public class MessagingNode extends Node  {
 
     public Socket messaging_node_socket;
 
+    public int numberOfMsgsReceived;
+    public int numberOfMsgsSent;
+    
+
     public MessagingNode(String hostName, int portNum) {
         super(); /* Creates a Node associated with the MessagingNode */
 
@@ -21,7 +25,6 @@ public class MessagingNode extends Node  {
             messaging_node_socket = new Socket(hostName, portNum); /* This allows the MessagingNode to connect to the Registry */
             
             /* Add this socket to our list of connections */
-            /* TODO: We will then use this list of connections to allow the other MessagingNodes to connect to eachother? */
             node_server.add_socket(messaging_node_socket); 
             msgNodeIndex = node_server.socket_connetions.indexOf(messaging_node_socket);
 
@@ -34,17 +37,14 @@ public class MessagingNode extends Node  {
              */
             this.msgNodeName = InetAddress.getLocalHost().toString();
             this.msgNodeName = msgNodeName.substring(msgNodeName.indexOf('/') + 1);
-            // this.msgNodePortNumber = messaging_node_socket.getLocalPort(); WRONG
             this.msgNodePortNumber = node_server.port_number;
             
             /* Validation that we have collected the right information */
             System.out.println("[MsgNode] IP Address: " + msgNodeName + " at socket port #: " + messaging_node_socket.getLocalPort());
             System.out.println("[MsgNode] Port # of ServerSocket: " + msgNodePortNumber);
     
-            // System.out.println("Creating a new register request");
-            // RegisterRequest reg_request = new RegisterRequest(this); /* Created a new registry request */
-            
-            // node_server.send_msg(0, reg_request.getBytes());
+            RegisterRequest reg_request = new RegisterRequest(msgNodeName, msgNodePortNumber); /* Created a new registry request */
+            node_server.send_msg(0, reg_request.getBytes());
         } catch (Exception e) {
             System.err.println(e.getMessage());
         } // End try-catch block
@@ -125,8 +125,13 @@ public class MessagingNode extends Node  {
                 break;
         } // End switch statement
     } // End onEvent() method
+
+    public void printShortestPath() {
+
+    } // End printShortestPath()
     public static void main(String[] args) {
-        if (args.length < 2) {
+        if (args.length < 2 || args.length > 2) {
+            System.out.println("MessagingNode - Invalid number of arguments. Exiting program.");
             System.exit(1);
         } // End if-else statement
         
@@ -136,14 +141,37 @@ public class MessagingNode extends Node  {
         MessagingNode newMessagingNode = new MessagingNode(REGISTRY_HOST_NAME, PORT_NUM);
         newMessagingNode.node_server_thread.start(); /* start our TCPServerThread associated with our new_messaging_node object */
 
-        /* Was originally placed in the constructor */
-        // System.out.println("Creating a new register request");
-        RegisterRequest reg_request = new RegisterRequest(newMessagingNode.msgNodeName, newMessagingNode.msgNodePortNumber); /* Created a new registry request */
+        Scanner user_in = new Scanner(System.in);
+        String line = null;
+        
+        while (line != "exit") {
+            line = user_in.nextLine();
 
-        /* Sends a registry request to the Registry */
-        newMessagingNode.node_server.send_msg(newMessagingNode.msgNodeIndex, reg_request.getBytes());
+            switch(line) {
+                case "register":
+                    RegisterRequest register = new RegisterRequest(newMessagingNode.msgNodeName, newMessagingNode.msgNodePortNumber);
+                    newMessagingNode.node_server.send_msg(0, register.getBytes());
 
-        // Take command line input
+                    /* TODO: Node has already been registered validate by trying to re-register */
+
+                    break;
+                case "print-shortest-path":
+                    newMessagingNode.printShortestPath();
+                    break;
+                case "exit-overlay":
+                    DeregisterRequest deregister = new DeregisterRequest(newMessagingNode.msgNodeName, newMessagingNode.msgNodePortNumber);
+                    newMessagingNode.node_server.send_msg(0, deregister.getBytes());
+
+                    /* TODO Validate that the node has deregisted from the registry */
+
+                    break;
+                default:
+                    System.out.println("Unrecognized command. Please try again");
+                    break;
+            } // End switch statement
+        } // End while loop
+
+        user_in.close();
     } // End main method
 
 } // End MessagingNode class
