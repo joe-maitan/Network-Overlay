@@ -90,8 +90,8 @@ public class Registry extends Node {
             if (currVertex.getNeighborsSize() != numberOfConnections) {
                 int numberOfNeighborsNeeded = numberOfConnections - currVertex.getNeighborsSize();
 
-                for (int k = i + 1; k < numberOfNeighborsNeeded; ++k) {
-                    Vertex newNeighbor = new Vertex(k);
+                for (int k = 0; k < numberOfNeighborsNeeded; ++k) {
+                    Vertex newNeighbor = vertices.get(k);
                     currVertex.addNeighbor(newNeighbor);
                 } // End for loop
             } // End for loop

@@ -8,7 +8,7 @@ import csx55.overlay.transport.*;
 
 public class Vertex {
 
-    /* Every MessagingNode is going to have a Vertex or Vertices. This class will keep track of a Nodes neighbors
+    /* Every MessagingNode correlates to a Vertex. This class will keep track of a Nodes neighbors
      * and the weight on those connections
      */
     private int vertexIndex;
