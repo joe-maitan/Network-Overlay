@@ -11,19 +11,18 @@ public class Vertex {
     /* Every MessagingNode is going to have a Vertex or Vertices. This class will keep track of a Nodes neighbors
      * and the weight on those connections
      */
-    private int socketIndex;
+    private int vertexIndex;
     private ArrayList<Vertex> neighbors = new ArrayList<>();
     private ArrayList<Integer> neighborWeights = new ArrayList<>();
-    private int linkWeight;
 
     Random linkWeightGenerator = new Random();
 
-    public Vertex(int s_index) {
-        this.socketIndex = s_index;
+    public Vertex(int index) {
+        this.vertexIndex = index;
     } // End Link() constructor
 
     public int getIndex() {
-        return this.socketIndex;
+        return this.vertexIndex;
     } // End getIndex() method
 
     public boolean addNeighbor(Vertex vertexToAdd) {
@@ -35,8 +34,8 @@ public class Vertex {
         } // End if-else statements
     } // End addNeighbor(new_vertex) method
 
-    public void assignLinkWeight() {
-        this.linkWeight = linkWeightGenerator.nextInt(10) + 1;
+    public void addWeight(int weight) {
+        this.neighborWeights.add(weight);
     } // End assignLinkWeight() method
 
     public boolean removeNeighbor(Vertex vertexToRemove) {
@@ -52,5 +51,9 @@ public class Vertex {
     public Vertex getNeighbor(int indexOfNeighbor) {
         return neighbors.get(indexOfNeighbor);
     } // End getNeighbor() method
+
+    public int getNeighborsSize() {
+        return neighbors.size();
+    } // End getNeighborsSize() method
     
 } // End Links class

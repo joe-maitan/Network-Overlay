@@ -12,6 +12,8 @@ public class Registry extends Node {
 
     /* this tracks the socket index of the messaging node as well as the RegisterRequest */
     HashMap<Integer, RegisterRequest> registered_messaging_nodes = new HashMap<>();
+
+    ArrayList<Vertex> vertices = new ArrayList<>();
     
     // ArrayList<MessagingNode> listOfMessagingNodes = new ArrayList<>();
 
@@ -65,21 +67,36 @@ public class Registry extends Node {
 
     public void construct_overlay(int numberOfConnections) {
         /* This is what connects the other MessagingNodes to one another, given a list of other messaging node sockets, they would connect to each. */
-        Vertex newVertex;
-        Socket nodeSocket;
-        int nodeSocketIndex;
-
+        /* start at the first messaging node socket */
         Vertex currVertex = new Vertex(0);
+        Random linkWeightGenerator = new Random();
 
         /* For each vertex, create neighbors for the vertices */
         for (int j = 1; j < numberOfRegisteredNodes; ++j) {
+            int weight = linkWeightGenerator.nextInt(10) + 1;
+           
             Vertex neighborVertex = new Vertex(j);
             currVertex.addNeighbor(neighborVertex);
             neighborVertex.addNeighbor(currVertex);
-            currVertex.assignLinkWeight();
+            
+            currVertex.addWeight(weight);
+            neighborVertex.addWeight(weight);
+            
+            vertices.add(currVertex);
             currVertex = neighborVertex;
         } // End for loop
-            
+
+        for (int i = 0; i < numberOfConnections; ++i) {
+            if (currVertex.getNeighborsSize() != numberOfConnections) {
+                int numberOfNeighborsNeeded = numberOfConnections - currVertex.getNeighborsSize();
+
+                for (int k = i + 1; k < numberOfNeighborsNeeded; ++k) {
+                    Vertex newNeighbor = new Vertex(k);
+                    currVertex.addNeighbor(newNeighbor);
+                } // End for loop
+            } // End for loop
+        } // End for loop
+    
     } // End construct_overlay() method
 
     public void list_messaging_nodes() {
