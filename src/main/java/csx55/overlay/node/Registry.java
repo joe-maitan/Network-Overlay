@@ -170,6 +170,14 @@ public class Registry extends Node {
             } else if (line.contains("setup-overlay")) {
                 int connections_required = 4; /* Connections Required by default are 4 */
                 
+                String[] command = line.split(" ");
+
+                if (command.length > 2) {
+                    connections_required = Integer.parseInt(command[1]);
+                }
+
+                System.out.println("Connections required: " + connections_required);
+
                 our_registry.construct_overlay(connections_required);
             } else if (line.equals("send-overlay-link-weights")) {
 
