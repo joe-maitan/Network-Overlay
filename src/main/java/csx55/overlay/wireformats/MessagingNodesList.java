@@ -39,8 +39,12 @@ public class MessagingNodesList implements Event {
         try {
             dout.writeInt(getType());
 
+            dout.writeInt(numberPeerMessagingNodes);
 
-
+            for (int i = 0; i < aRegisterRequests.length; ++i) {
+                byte[] temp = aRegisterRequests[i].getBytes();
+                dout.write(temp, 0, temp.length);
+            } // End for loop
         } catch (IOException err) {
             System.err.println(err.getMessage());
         } // End try-catch block
