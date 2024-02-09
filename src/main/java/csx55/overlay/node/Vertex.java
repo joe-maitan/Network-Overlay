@@ -5,20 +5,24 @@ import java.util.Random;
 
 import csx55.overlay.node.*;
 import csx55.overlay.transport.*;
+import csx55.overlay.wireformats.RegisterRequest;
 
 public class Vertex {
 
     /* Every MessagingNode correlates to a Vertex. This class will keep track of a Nodes neighbors
      * and the weight on those connections
      */
-    private int vertexIndex;
+    private int vertexIndex; /* where it is in our vertices ArrayList in Registry.java */
     private ArrayList<Vertex> neighbors = new ArrayList<>();
     private ArrayList<Integer> neighborWeights = new ArrayList<>();
 
+    private RegisterRequest registerRequest;
+
     Random linkWeightGenerator = new Random();
 
-    public Vertex(int index) {
+    public Vertex(int index, RegisterRequest msgNodeRegisterRequest) {
         this.vertexIndex = index;
+        this.registerRequest = msgNodeRegisterRequest;
     } // End Link() constructor
 
     public int getIndex() {
@@ -40,8 +44,8 @@ public class Vertex {
 
     public boolean removeNeighbor(Vertex vertexToRemove) {
         if (neighbors.contains(vertexToRemove)) {
-            neighbors.remove(vertexToRemove);
-            neighborWeights.remove(neighbors.indexOf(vertexToRemove));
+            this.neighbors.remove(vertexToRemove);
+            this.neighborWeights.remove(neighbors.indexOf(vertexToRemove));
             return true;
         } else {
             return false;
@@ -49,21 +53,29 @@ public class Vertex {
     } // End removeNeighbor() method
 
     public Vertex getNeighbor(int indexOfNeighbor) {
-        return neighbors.get(indexOfNeighbor);
+        return this.neighbors.get(indexOfNeighbor);
     } // End getNeighbor() method
 
     public int getNeighborsSize() {
-        return neighbors.size();
+        return this.neighbors.size();
     } // End getNeighborsSize() method
 
     public boolean hasNeighbor(int vertexIndex) {
-        for (Vertex search : neighbors) {
+        for (Vertex search : this.neighbors) {
             if (search.getIndex() == vertexIndex) {
                 return true;
             }
-        }
+        } // End for-each loop
 
         return false;
     } // End isNeighbor() method
+
+    public RegisterRequest getRegisterRequest() {
+        return this.registerRequest;
+    } // End getRegisterRequest() method
+
+    public ArrayList<Vertex> getNeighbors() {
+        return this.neighbors;
+    }
     
 } // End Links class

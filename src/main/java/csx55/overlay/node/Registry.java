@@ -68,7 +68,8 @@ public class Registry extends Node {
     public void construct_overlay(int numberOfConnections) {
         /* This is what connects the other MessagingNodes to one another, given a list of other messaging node sockets, they would connect to each. */
         /* start at the first messaging node socket */
-        Vertex currVertex = new Vertex(0);
+        RegisterRequest nodesRegisterRequest;
+        Vertex currVertex = new Vertex(0, registered_messaging_nodes.get(0));
         Random linkWeightGenerator = new Random();
 
         if (numberOfRegisteredNodes <= numberOfConnections || numberOfConnections < 1 || (numberOfConnections*numberOfRegisteredNodes) % 2 != 0 || (numberOfConnections < 2 && numberOfRegisteredNodes > 2)) {
@@ -76,14 +77,20 @@ public class Registry extends Node {
             return;
         }
 
-        System.out.println("number of registered nodes: " + numberOfRegisteredNodes);
+        System.out.println("Number of registered nodes: " + numberOfRegisteredNodes);
         /* For each vertex, create neighbors for the vertices */
         for (int j = 1; j < numberOfRegisteredNodes; ++j) {
             int weight = linkWeightGenerator.nextInt(10) + 1;
            
-            Vertex neighborVertex = new Vertex(j);
+            Vertex neighborVertex = new Vertex(j, registered_messaging_nodes.get(j));
+
+            // System.out.println("currVertex index = " + currVertex.getIndex());
+            // System.out.println("neighborVertex index = " + neighborVertex.getIndex());
+
             currVertex.addNeighbor(neighborVertex);
             neighborVertex.addNeighbor(currVertex);
+
+           // System.out.println("weight between the two vertices = " + weight);
             
             currVertex.addWeight(weight);
             neighborVertex.addWeight(weight);
@@ -96,31 +103,55 @@ public class Registry extends Node {
 
         currVertex = vertices.get(0);
 
-        System.out.println("About to determine how many connections are needed/remaining");
-        System.out.println("Size of our Vertices ArrayList: " + vertices.size());
+        // System.out.println("About to determine how many connections are needed/remaining");
+        // System.out.println("Size of our Vertices ArrayList: " + vertices.size());
 
         for (Vertex v : vertices) {
             currVertex = v;
 
+            // System.out.println("Our current vertex[" + currVertex.getIndex() + "]");
+
             if (currVertex.getNeighborsSize() < numberOfConnections) {
                 int numberOfNeighborsNeeded = numberOfConnections - currVertex.getNeighborsSize();
-                System.out.println("Number of neighbors needed for curr_vertex: " + numberOfNeighborsNeeded);
+                // System.out.println("Number of connections needed for vertex[" + currVertex.getIndex() + "]: " + numberOfNeighborsNeeded);
 
                 int neighborIndex = currVertex.getIndex() + 1;
-                while(currVertex.getNeighborsSize() < numberOfConnections) {
+                
+                
+                while(currVertex.getNeighborsSize() < numberOfConnections && neighborIndex <= vertices.size()) {
+                    Vertex neighbor = vertices.get(neighborIndex);
                     
-                    if (!currVertex.hasNeighbor(neighborIndex)) {
-                        Vertex newNeighbor = vertices.get(neighborIndex);
+                    if (currVertex.hasNeighbor(neighborIndex) == false && neighbor.hasNeighbor(currVertex.getIndex()) == false) {
+                        // System.out.println("Our vertex[" + currVertex.getIndex() + "]: is adding neighbor[" + neighborIndex + "]");
                         
-                        if (newNeighbor.getNeighborsSize() < numberOfConnections) {
-                            currVertex.addNeighbor(newNeighbor);
-                        }
+                        int weight = linkWeightGenerator.nextInt(10) + 1;
+                        if (neighbor.getNeighborsSize() < numberOfConnections) {
+                            currVertex.addNeighbor(neighbor);
+                            neighbor.addNeighbor(currVertex);
+
+                            currVertex.addWeight(weight);
+                            neighbor.addWeight(weight);
+
+                            // System.out.println("vertex[" + currVertex.getIndex() +"] and neighbor[" + neighbor.getIndex() + "] have connected to eachother");
+                        } // End if statement
+
                     } // End if statement
 
                     ++neighborIndex;
-                } // End for loop
+                    
+                } // End while loop
+
             } // End for loop
-        } // End for loop
+
+        } // End for-each loop loop
+
+        System.out.println("Vertices are all connected (hopefully)");
+
+        for (Vertex v : vertices) {
+            System.out.println(v.getRegisterRequest().ipAddress + " " + v.getRegisterRequest().portNumber);
+            MessagingNodesList newRequest = new MessagingNodesList(v, v.getNeighbors());
+        } // End for-each loop
+
     
     } // End construct_overlay() method
 

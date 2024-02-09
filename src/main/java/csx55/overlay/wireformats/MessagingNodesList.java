@@ -7,13 +7,17 @@ import csx55.overlay.node.*;
 
 public class MessagingNodesList implements Event {
 
-    public int numberPeerMessagingNodes; /* Number of nodes the given messagingNode is connected to? */
-    // The container of all of our messagingNodes
+    private int numberPeerMessagingNodes; /* Number of nodes the given messagingNode is connected to? */
+    private RegisterRequest[] aRegisterRequests; /* MessagingNode info */
 
     public MessagingNodesList() {} // End default constructor
 
-    public MessagingNodesList(ArrayList<MessagingNode> list_of_nodes) {
+    public MessagingNodesList(Vertex v, ArrayList<Vertex> list) {
+        aRegisterRequests = new RegisterRequest[v.getNeighborsSize()];
 
+        for (int i = 0; i < list.size(); ++i) {
+            aRegisterRequests[i] = list.get(i).getRegisterRequest();
+        } // End for loop
     } // End MessagingNodesList(list) constructor
 
     public MessagingNodesList(DataInputStream din) {
