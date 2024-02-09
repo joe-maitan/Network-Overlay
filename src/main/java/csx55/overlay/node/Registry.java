@@ -104,6 +104,7 @@ public class Registry extends Node {
 
             if (currVertex.getNeighborsSize() < numberOfConnections) {
                 int numberOfNeighborsNeeded = numberOfConnections - currVertex.getNeighborsSize();
+                System.out.println("Number of neighbors needed for curr_vertex: " + numberOfNeighborsNeeded);
 
                 int neighborIndex = currVertex.getIndex() + 1;
                 while(currVertex.getNeighborsSize() < numberOfConnections) {
@@ -225,10 +226,8 @@ public class Registry extends Node {
             
                 if (command.length == 2) {
                     connections_required = Integer.parseInt(command[1]);
-                    // System.out.println("Connections required: " + connections_required);
                     our_registry.construct_overlay(connections_required);
                 } else {
-                    // System.out.println("Connections required: " + connections_required);
                     our_registry.construct_overlay(connections_required);
                 } // End if-else statement
             } else if (line.equals("send-overlay-link-weights")) {

@@ -12,5 +12,5 @@ Go into this directory for the jar: ~/CS455/csx55/build/libs$
 
 4. How to run the MessagingNode code: java -cp build/libs/csx55.jar csx55.overlay.node.MessagingNode <hostname> <port-number>
 
-Last Left off:
-I got the MessagingNodes to send the RegisterReq but it is not parsing and sending it well
+
+java -cp build/libs/csx55.jar csx55.overlay.node.MessagingNode shark 5505
