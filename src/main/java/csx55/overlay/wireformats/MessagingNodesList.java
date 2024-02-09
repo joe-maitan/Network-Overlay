@@ -13,7 +13,8 @@ public class MessagingNodesList implements Event {
     public MessagingNodesList() {} // End default constructor
 
     public MessagingNodesList(Vertex v, ArrayList<Vertex> list) {
-        aRegisterRequests = new RegisterRequest[v.getNeighborsSize()];
+        numberPeerMessagingNodes = v.getNeighborsSize();
+        aRegisterRequests = new RegisterRequest[numberPeerMessagingNodes];
 
         for (int i = 0; i < list.size(); ++i) {
             aRegisterRequests[i] = list.get(i).getRegisterRequest();
@@ -31,8 +32,20 @@ public class MessagingNodesList implements Event {
 
     @Override
     public byte[] getBytes() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getBytes'");
+        byte[] marshalledBytes = null;
+        ByteArrayOutputStream baOutputStream = new ByteArrayOutputStream();
+        DataOutputStream dout = new DataOutputStream(new BufferedOutputStream(baOutputStream));
+
+        try {
+            dout.writeInt(getType());
+
+
+
+        } catch (IOException err) {
+            System.err.println(err.getMessage());
+        } // End try-catch block
+
+        return marshalledBytes;
     } // End getBytes() method
 
     @Override

@@ -150,9 +150,10 @@ public class Registry extends Node {
         for (Vertex v : vertices) {
             System.out.println(v.getRegisterRequest().ipAddress + " " + v.getRegisterRequest().portNumber);
             MessagingNodesList newRequest = new MessagingNodesList(v, v.getNeighbors());
+
+            send_message(v.getIndex(), newRequest.getBytes(), "");
         } // End for-each loop
 
-    
     } // End construct_overlay() method
 
     public void list_messaging_nodes() {
