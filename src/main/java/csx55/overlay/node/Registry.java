@@ -59,7 +59,7 @@ public class Registry extends Node {
             return;
         }
 
-        System.out.println("Number of registered nodes: " + numberOfRegisteredNodes);
+        // System.out.println("Number of registered nodes: " + numberOfRegisteredNodes);
         /* For each vertex, create neighbors for the vertices */
         for (int j = 1; j < numberOfRegisteredNodes; ++j) {
             int weight = linkWeightGenerator.nextInt(10) + 1;
@@ -127,14 +127,14 @@ public class Registry extends Node {
 
         } // End for-each loop loop
 
-        System.out.println("Vertices are all connected.");
+        // System.out.println("Vertices are all connected.");
 
         for (Vertex v : vertices) {
             System.out.println(v.getRegisterRequest().ipAddress + " " + v.getRegisterRequest().portNumber);
             MessagingNodesList newRequest = new MessagingNodesList(v, v.getNeighbors());
 
             /* Sends a message node to each of the messaging nodes telling that node who it needs to connect to */
-            send_message(v.getIndex(), newRequest.getBytes(), "");
+            // send_message(v.getIndex(), newRequest.getBytes(), "");
         } // End for-each loop
 
     } // End construct_overlay() method

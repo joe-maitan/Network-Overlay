@@ -45,6 +45,7 @@ public class MessagingNodesList implements Event {
                 byte[] temp = aRegisterRequests[i].getBytes();
                 dout.write(temp, 0, temp.length);
             } // End for loop
+
         } catch (IOException err) {
             System.err.println(err.getMessage());
         } // End try-catch block
@@ -54,9 +55,54 @@ public class MessagingNodesList implements Event {
 
     @Override
     public void setBytes(DataInputStream din) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setBytes'");
+        try {
+            numberPeerMessagingNodes = din.readInt();
+            
+            int lengthOfArr = din.readInt();
+            RegisterRequest[] temp = new RegisterRequest[lengthOfArr];
+
+            aRegisterRequests = temp;
+        } catch (IOException err) {
+            System.err.println(err.getMessage());
+        }
     } // End setBytes(din) method
     
+    public static void main(String[] args) {
+        RegisterRequest test_req = new RegisterRequest("Joe", 72);
+        Vertex v1 = new Vertex(0, test_req);
+        Vertex v2 = new Vertex(1, test_req);
+        Vertex v3 = new Vertex(2, test_req);
+
+        ArrayList<Vertex> temp_list = new ArrayList<>();
+        temp_list.add(v1);
+        v1.addNeighbor(v3);
+        v1.addNeighbor(v2);
+
+        temp_list.add(v2);
+        temp_list.add(v3);
+
+        MessagingNodesList test = new MessagingNodesList(v1, temp_list);
+        byte[] arr = test.getBytes();
+
+        ByteArrayInputStream baIn = new ByteArrayInputStream(arr);
+        DataInputStream din = new DataInputStream(new BufferedInputStream(baIn));
+
+        int msg_type = 0;
+
+        try {
+            msg_type = din.readInt();
+        } catch (Exception err) {
+            System.err.println(err.getMessage());
+        }
+
+        MessagingNodesList temp = new MessagingNodesList(din);
+
+        if (test.getType() == msg_type && test.numberPeerMessagingNodes == temp.numberPeerMessagingNodes && test.aRegisterRequests.equals(temp.aRegisterRequests)) {
+            System.out.println("MessagingNodesList success");
+        } else {
+            System.out.println("Womp womp, MessagingNodesList failed");
+        }
+
+    } // End main method
     
 } // End MessagingNodesList
