@@ -4,7 +4,21 @@ import java.io.*;
 
 public class TaskInitiate implements Event {
 
-    int rounds;
+    private int numberOfRounds;
+
+    public TaskInitiate() {} // End default constructor
+
+    public TaskInitiate(int rounds) {
+        numberOfRounds = rounds;
+    } // End TaskInitaite() constructor
+
+    public TaskInitiate(DataInputStream din) {
+        setBytes(din);
+    }
+
+    public int getNumRounds() {
+        return this.numberOfRounds;
+    } // End getNumRounds() method
 
     @Override
     public int getType() {
@@ -13,14 +27,32 @@ public class TaskInitiate implements Event {
 
     @Override
     public byte[] getBytes() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getBytes'");
-    }
+        byte[] marshalledBytes = null;
+        ByteArrayOutputStream baOutputStream = new ByteArrayOutputStream();
+        DataOutputStream dout = new DataOutputStream(new BufferedOutputStream(baOutputStream));
+
+        try {
+            dout.writeInt(getType());
+            dout.writeInt(numberOfRounds);
+            dout.flush();
+
+            marshalledBytes = baOutputStream.toByteArray();
+            baOutputStream.close();
+            dout.close();
+        } catch (IOException err) {
+            System.err.println(err.getMessage());
+        } // End try-catch block
+
+        return marshalledBytes;
+    } // End getBytes() method
 
     @Override
     public void setBytes(DataInputStream din) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setBytes'");
-    }
+        try {
+            numberOfRounds = din.readInt();
+        } catch (IOException err) {
+            System.err.println(err.getMessage());
+        }
+    } // End setBytes(din) method
 
 } // End TaskInitiate class

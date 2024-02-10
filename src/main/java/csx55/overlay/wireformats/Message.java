@@ -4,11 +4,13 @@ import java.io.*;
 
 public class Message implements Event {
 
+    // Source Node (From)
+    // Sink Node (To)
+
     @Override
     public int getType() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getType'");
-    }
+        return Protocol.MESSAGE;
+    } // End getType() method
 
     @Override
     public byte[] getBytes() {

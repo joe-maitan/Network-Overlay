@@ -6,8 +6,6 @@ import java.util.Random;
 
 public class LinkWeights implements Event {
 
-    /* Takes in the data structure holding our connection link weights? */
-    Random link_generator = new Random();
     // Number of links
     // link info 1
     // link info 2

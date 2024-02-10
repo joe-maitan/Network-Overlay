@@ -17,6 +17,8 @@ public class Registry extends Node {
     
     public int numberOfRegisteredNodes; /* number of nodes constituting the overlay */
 
+    public int linkCount = 0;
+
     private boolean overlayIsConstructed = false;
 
     public Registry() {} // End Registry default constructor
@@ -79,6 +81,7 @@ public class Registry extends Node {
                 
                 currVertex.addWeight(weight);
                 neighborVertex.addWeight(weight);
+                linkCount++;
                 
                 vertices.add(currVertex);
                 currVertex = neighborVertex;
@@ -116,6 +119,8 @@ public class Registry extends Node {
 
                                 currVertex.addWeight(weight);
                                 neighbor.addWeight(weight);
+
+                                linkCount++;
 
                                 // System.out.println("vertex[" + currVertex.getIndex() +"] and neighbor[" + neighbor.getIndex() + "] have connected to eachother");
                             } // End if statement
