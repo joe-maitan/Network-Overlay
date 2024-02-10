@@ -28,6 +28,8 @@ public class TCPSender {
         dout.writeInt(dataLength);
         dout.write(dataToSend, 0, dataLength);
         dout.flush();
+
+        System.out.println("Exiting TCPSender.sendData() method");
     } // End sendData(data) method
 
 } // End TCPSender class

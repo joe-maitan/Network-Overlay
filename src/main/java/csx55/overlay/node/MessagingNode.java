@@ -105,19 +105,20 @@ public class MessagingNode extends Node  {
                 System.out.println("[MsgNode] Received a MessaingNodesList event");
                 MessagingNodesList msg_node_list = (MessagingNodesList) event;
 
-                
-
                 numberOfConnections = msg_node_list.getNumPeers();
                 peerMsgNodes = msg_node_list.getMsgNodePeerList();
 
+                Socket peerSocket;
                 for (RegisterRequest r : peerMsgNodes) {
                     try {
-                        messaging_node_socket = new Socket(r.getAddress(), r.getPort());
+                        peerSocket = new Socket(r.getAddress(), r.getPort());
+                        System.out.println("[MsgNode] has connected to " + peerSocket.getInetAddress().getHostAddress());
                     } catch (IOException err) {
                         System.err.println(err.getMessage());
                     } // End try-catch block
                 } // End for loop
 
+                System.out.println("[MsgNode] has made " + numberOfConnections + " connections.");
                 System.out.println("[MsgNode] Exiting MessagingNodesList .onEvent()");
                 break;
             case 7:
@@ -171,10 +172,6 @@ public class MessagingNode extends Node  {
                 case "exit-overlay":
                     DeregisterRequest deregister = new DeregisterRequest(newMessagingNode.msgNodeIP, newMessagingNode.msgNodePortNumber);
                     newMessagingNode.node_server.send_msg(0, deregister.getBytes());
-
-                    /* Sends this message to the Registry, the Registry will send a response and go into the
-                     * MessagingNodes onEvent() method. This is where the deregistration will be handled.
-                     */
                     break;
                 default:
                     System.out.println("Unrecognized command. Please try again");

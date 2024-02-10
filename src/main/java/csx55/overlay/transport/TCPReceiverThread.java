@@ -28,13 +28,18 @@ public class TCPReceiverThread implements Runnable {
 
         while (this.socket != null) {
             try {
+                System.out.println("TCPReceiverThread reading in a new event");
                 din = new DataInputStream(socket.getInputStream());
                 
+                System.out.println("Reading in data length");
                 data_length = din.readInt(); /* THIS IS THE LENGTH OF OUR MESSAGE */
                 byte[] data = new byte[data_length]; /* We make a new byte array of that length */
                 din.readFully(data, 0, data.length); /* And have the DataInput read in the information */
                 
+                System.out.println("Is the byte[] data null: " + (data == null));
+
                 Event new_event = EventFactory.getInstance().createEvent(data); /* Create a new Event based on the byte[] data */
+                System.out.println("Just created the new_event obj. Is new_event null: " + (new_event == null));
                 referenceNode.onEvent(new_event, socketIndex);
             } catch (SocketException se) {
                 System.out.println(se.getMessage());

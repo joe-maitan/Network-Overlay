@@ -138,7 +138,7 @@ public class Registry extends Node {
                 MessagingNodesList newRequest = new MessagingNodesList(v, v.getNeighbors());
                 // System.out.println("Vertex's neighbors");
                 for (Vertex n : v.getNeighbors()) {
-                    System.out.println(n.getRegisterRequest().ipAddress + " " + n.getRegisterRequest().portNumber);
+                    // System.out.println(n.getRegisterRequest().ipAddress + " " + n.getRegisterRequest().portNumber);
 
                     /* Sends a message node to each of the messaging nodes telling that node who it needs to connect to */
                     send_message(n.getIndex(), newRequest.getBytes(), "");
