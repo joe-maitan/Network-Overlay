@@ -80,8 +80,7 @@ public class MessagingNode extends Node  {
                 } // End if-else statement
 
                 break;
-            case 3:
-                /* Deregister Response */
+            case 3: /* Deregister Response */
                 DeregisterResponse de_resp = (DeregisterResponse) event;
                 status = de_resp.getStatus();
 
@@ -93,12 +92,12 @@ public class MessagingNode extends Node  {
 
                 this.node_server.close_server();
                 break;
-            case 4:
-                /* Link weights */
+            case 4: /* Link weights */
+                
                 LinkWeights linkWeights = (LinkWeights) event;
                 break;
-            case 5:
-                /* message */
+            case 5: /* message */
+                
                 Message msg = (Message) event;
                 break;
             case 6: /* MessagingNodesList */
@@ -121,21 +120,20 @@ public class MessagingNode extends Node  {
                 System.out.println("[MsgNode] has made " + numberOfConnections + " connections.");
                 System.out.println("[MsgNode] Exiting MessagingNodesList .onEvent()");
                 break;
-            case 7:
-                // task initiate
+            case 7: /* Task Initiate */
                 TaskInitiate initiate = (TaskInitiate) event;
                 break;
             case 8:
-                // task complete
                 TaskComplete taskComplete = (TaskComplete) event;
                 break;
             case 9:
-                // task summary request
                 TaskSummaryRequest sum_req = (TaskSummaryRequest) event;
                 break;
             case 10:
-                // task summary response
                 TaskSummaryResponse sum_rsp = (TaskSummaryResponse) event;
+                break;
+            default:
+                System.out.println("MessagingNode.java - Unrecognized Event.");
                 break;
         } // End switch statement
     } // End onEvent() method

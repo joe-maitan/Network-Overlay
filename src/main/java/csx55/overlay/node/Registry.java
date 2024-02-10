@@ -220,6 +220,8 @@ public class Registry extends Node {
             case 10: /* Task Summary Response */
                 TaskSummaryResponse sum_rsp = (TaskSummaryResponse) event;
                 break;
+            default:
+                System.out.println("Registry.java - Unrecognized Event.");
         } // End switch statement
     } // End onEvent() method
 
