@@ -7,8 +7,8 @@ import csx55.overlay.node.*;
 
 public class MessagingNodesList implements Event {
 
-    private int numberPeerMessagingNodes; /* Number of nodes the given messagingNode is connected to? */
-    private RegisterRequest[] aRegisterRequests; /* MessagingNode info */
+    public int numberPeerMessagingNodes; /* Number of nodes the given messagingNode is connected to? */
+    public RegisterRequest[] aRegisterRequests; /* MessagingNode info */
 
     public MessagingNodesList() {} // End default constructor
 
@@ -16,7 +16,9 @@ public class MessagingNodesList implements Event {
         numberPeerMessagingNodes = v.getNeighborsSize();
         aRegisterRequests = new RegisterRequest[numberPeerMessagingNodes];
 
-        for (int i = 0; i < list.size(); ++i) {
+
+        /* TODO: Figure out if I have to subtract one from the list length */
+        for (int i = 0; i < list.size() - 1; ++i) {
             aRegisterRequests[i] = list.get(i).getRegisterRequest();
         } // End for loop
     } // End MessagingNodesList(list) constructor
@@ -38,7 +40,6 @@ public class MessagingNodesList implements Event {
 
         try {
             dout.writeInt(getType());
-
             dout.writeInt(numberPeerMessagingNodes);
 
             for (int i = 0; i < aRegisterRequests.length; ++i) {
@@ -46,6 +47,10 @@ public class MessagingNodesList implements Event {
                 dout.write(temp, 0, temp.length);
             } // End for loop
 
+            marshalledBytes = baOutputStream.toByteArray();
+           
+            baOutputStream.close();
+            dout.close();
         } catch (IOException err) {
             System.err.println(err.getMessage());
         } // End try-catch block
@@ -59,9 +64,11 @@ public class MessagingNodesList implements Event {
             numberPeerMessagingNodes = din.readInt();
             
             int lengthOfArr = din.readInt();
-            RegisterRequest[] temp = new RegisterRequest[lengthOfArr];
-
-            aRegisterRequests = temp;
+            aRegisterRequests = new RegisterRequest[lengthOfArr];
+    
+            for (int i = 0; i < aRegisterRequests.length; ++i) {
+                aRegisterRequests[i] = new RegisterRequest(din);
+            } // End for loop
         } catch (IOException err) {
             System.err.println(err.getMessage());
         }
@@ -72,37 +79,41 @@ public class MessagingNodesList implements Event {
         Vertex v1 = new Vertex(0, test_req);
         Vertex v2 = new Vertex(1, test_req);
         Vertex v3 = new Vertex(2, test_req);
-
+    
         ArrayList<Vertex> temp_list = new ArrayList<>();
         temp_list.add(v1);
         v1.addNeighbor(v3);
         v1.addNeighbor(v2);
-
         temp_list.add(v2);
         temp_list.add(v3);
-
+    
         MessagingNodesList test = new MessagingNodesList(v1, temp_list);
         byte[] arr = test.getBytes();
-
+    
         ByteArrayInputStream baIn = new ByteArrayInputStream(arr);
         DataInputStream din = new DataInputStream(new BufferedInputStream(baIn));
-
+    
         int msg_type = 0;
-
+        MessagingNodesList temp = null;
+    
         try {
+            // Read message type
             msg_type = din.readInt();
-        } catch (Exception err) {
-            System.err.println(err.getMessage());
+    
+            // Create a new MessagingNodesList object by deserializing the byte stream
+            temp = new MessagingNodesList(din);
+        } catch (IOException err) {
+            System.err.println("Error reading message type or deserializing: " + err.getMessage());
         }
-
-        MessagingNodesList temp = new MessagingNodesList(din);
-
-        if (test.getType() == msg_type && test.numberPeerMessagingNodes == temp.numberPeerMessagingNodes && test.aRegisterRequests.equals(temp.aRegisterRequests)) {
+    
+        if (test.getType() == msg_type && 
+            test.numberPeerMessagingNodes == temp.numberPeerMessagingNodes &&
+            Arrays.equals(test.aRegisterRequests, temp.aRegisterRequests)) {
             System.out.println("MessagingNodesList success");
         } else {
-            System.out.println("Womp womp, MessagingNodesList failed");
+            System.out.println("MessagingNodesList failed");
         }
-
-    } // End main method
+    }
+    
     
 } // End MessagingNodesList
