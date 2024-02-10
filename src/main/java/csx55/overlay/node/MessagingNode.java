@@ -99,6 +99,22 @@ public class MessagingNode extends Node  {
             case 6:
                 // Messaging Nodes list
                 MessagingNodesList msg_node_list = (MessagingNodesList) event;
+
+                int numberOfConnections;
+                ArrayList<RegisterRequest> peerMsgNodes;
+
+                numberOfConnections = msg_node_list.getNumPeers();
+                peerMsgNodes = msg_node_list.getMsgNodePeerList();
+
+                for (RegisterRequest r : peerMsgNodes) {
+                    try {
+                        messaging_node_socket = new Socket(r.getAddress(), r.getPort());
+                    } catch (IOException err) {
+                        System.err.println(err.getMessage());
+                    } // End try-catch block
+                } // End for loop
+
+                
                 break;
             case 7:
                 // task initiate

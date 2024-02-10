@@ -7,8 +7,8 @@ import csx55.overlay.node.*;
 
 public class MessagingNodesList implements Event {
 
-    int numberPeerMessagingNodes; /* Number of nodes the given messagingNode is connected to? */
-    ArrayList<RegisterRequest> msgNodePeerInfo; /* Contains each of the msgNodes peers register requests */
+    private int numberPeerMessagingNodes; /* Number of connections the Node will establish */
+    private ArrayList<RegisterRequest> msgNodePeerInfo; /* Contains each of the msgNodes peers register requests */
 
     public MessagingNodesList() {} // End default constructor
 
@@ -36,6 +36,14 @@ public class MessagingNodesList implements Event {
     public int getType() {
         return Protocol.MESSAGING_NODES_LIST;
     } // End getType() method
+
+    public int getNumPeers() {
+        return this.numberPeerMessagingNodes;
+    } // End getNumPeers() method
+
+    public ArrayList<RegisterRequest> getMsgNodePeerList() {
+        return this.msgNodePeerInfo;
+    } // End getMsgNodePeerList() method
 
     @Override
     public byte[] getBytes() {
