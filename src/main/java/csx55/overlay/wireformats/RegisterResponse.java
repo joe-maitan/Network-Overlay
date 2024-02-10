@@ -64,7 +64,6 @@ public class RegisterResponse implements Event {
         return marshalledBytes;
     } // End getBytes() method
 
-    /* TODO: Figure out what the hell is going on in the RegisterResponse.setBytes() method */
     @Override
     public void setBytes(DataInputStream din) { 
         try {

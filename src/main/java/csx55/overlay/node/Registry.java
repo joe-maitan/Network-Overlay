@@ -15,9 +15,7 @@ public class Registry extends Node {
 
     ArrayList<Vertex> vertices = new ArrayList<>();
     
-    // ArrayList<MessagingNode> listOfMessagingNodes = new ArrayList<>();
-
-    public int numberOfRegisteredNodes;
+    public int numberOfRegisteredNodes; /* number of nodes constituting the overlay */
 
     public Registry() {} // End Registry default constructor
 
@@ -25,23 +23,16 @@ public class Registry extends Node {
         super(port_number); /* creates a node object with a ServerThread. Effectively creating the registry */
     } // End Registry(PORT) constructor
 
-    public boolean register_node(int socket_index, RegisterRequest rq) {
+    public boolean register_node(int socket_index, RegisterRequest reg_rq) {
         if (!registered_messaging_nodes.containsKey(socket_index)) {
-            registered_messaging_nodes.put(socket_index, rq); /* Add the node to the Registry */
+            registered_messaging_nodes.put(socket_index, reg_rq); /* Add the node to the Registry */
             ++numberOfRegisteredNodes;
             String success = String.format("Registration request successful. The number of messaaging nodes currently constituting the overlay is (%d).", numberOfRegisteredNodes);
             System.out.println(success);
             return true;
         } else { /* We do not add it to the registry */
             return false;
-            // try{
-            //     throw new Exception("Cannot add node to the registry.");
-            // } catch (Exception e) {
-            //     System.err.println(e.getMessage());
-            // }
         } // End if-else statement
-
-        // return false;
     } // End register_node() method
 
     public boolean deregister_node(int socket_index, DeregisterRequest dereg_rq) {
@@ -53,23 +44,14 @@ public class Registry extends Node {
             return true;
         } else {
             return false;
-            // try {
-            //     throw new Exception("Cannot deregister node.");
-            // } catch (Exception e) {
-            //     System.err.println(e.getMessage());
-            // } // End try-catch block
         } // End if-else statement
-
-        // return false;
     } // End deregister_node() method
 
     public void start(int numberOfRounds) {} // End start() method
 
     public void construct_overlay(int numberOfConnections) {
         /* This is what connects the other MessagingNodes to one another, given a list of other messaging node sockets, they would connect to each. */
-        /* start at the first messaging node socket */
-        RegisterRequest nodesRegisterRequest;
-        Vertex currVertex = new Vertex(0, registered_messaging_nodes.get(0));
+        Vertex currVertex = new Vertex(0, registered_messaging_nodes.get(0)); /* start at the first messaging node socket */
         Random linkWeightGenerator = new Random();
 
         if (numberOfRegisteredNodes <= numberOfConnections || numberOfConnections < 1 || (numberOfConnections*numberOfRegisteredNodes) % 2 != 0 || (numberOfConnections < 2 && numberOfRegisteredNodes > 2)) {
@@ -112,7 +94,7 @@ public class Registry extends Node {
             // System.out.println("Our current vertex[" + currVertex.getIndex() + "]");
 
             if (currVertex.getNeighborsSize() < numberOfConnections) {
-                int numberOfNeighborsNeeded = numberOfConnections - currVertex.getNeighborsSize();
+                // int numberOfNeighborsNeeded = numberOfConnections - currVertex.getNeighborsSize();
                 // System.out.println("Number of connections needed for vertex[" + currVertex.getIndex() + "]: " + numberOfNeighborsNeeded);
 
                 int neighborIndex = currVertex.getIndex() + 1;
@@ -145,12 +127,13 @@ public class Registry extends Node {
 
         } // End for-each loop loop
 
-        System.out.println("Vertices are all connected (hopefully)");
+        System.out.println("Vertices are all connected.");
 
         for (Vertex v : vertices) {
             System.out.println(v.getRegisterRequest().ipAddress + " " + v.getRegisterRequest().portNumber);
             MessagingNodesList newRequest = new MessagingNodesList(v, v.getNeighbors());
 
+            /* Sends a message node to each of the messaging nodes telling that node who it needs to connect to */
             send_message(v.getIndex(), newRequest.getBytes(), "");
         } // End for-each loop
 
@@ -250,7 +233,7 @@ public class Registry extends Node {
             if (line.equals("list-messaging-nodes")) {
                 our_registry.list_messaging_nodes();
             } else if (line.equals("list-weights")) {
-                
+                our_registry.list_weights();
             } else if (line.contains("setup-overlay")) {
                 int connections_required = 4; /* Connections Required by default are 4 */
             
