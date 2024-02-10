@@ -60,8 +60,16 @@ public class MessagingNode extends Node  {
     
     @Override
     public void onEvent(Event event, int socketIndex) {
-        int messageProtocol = event.getType();
+        System.out.println("Entering MessagingNode.onEvent()");
         
+        if (event == null) {
+            System.out.println("Event being passed in is null");
+            return;
+        }
+        
+        int messageProtocol = 0;
+        messageProtocol = event.getType();
+       
         byte status;
         switch(messageProtocol) {
             case 1: /* Register Response */
@@ -96,8 +104,8 @@ public class MessagingNode extends Node  {
                 /* message */
                 Message msg = (Message) event;
                 break;
-            case 6:
-                // Messaging Nodes list
+            case 6: /* MessagingNodesList */
+                System.out.println("[MsgNode] Received a MessaingNodesList event");
                 MessagingNodesList msg_node_list = (MessagingNodesList) event;
 
                 int numberOfConnections;
@@ -114,7 +122,7 @@ public class MessagingNode extends Node  {
                     } // End try-catch block
                 } // End for loop
 
-                
+                System.out.println("[MsgNode] Exiting MessagingNodesList .onEvent()");
                 break;
             case 7:
                 // task initiate
@@ -152,7 +160,7 @@ public class MessagingNode extends Node  {
 
         Scanner user_in = new Scanner(System.in);
         String line = null;
-        
+
         while (line != "exit") {
             line = user_in.nextLine();
 

@@ -16,14 +16,9 @@ public class MessagingNodesList implements Event {
         numberPeerMessagingNodes = v.getNeighborsSize();
         msgNodePeerInfo = new ArrayList<>();
 
-        // for (Vertex t : peers) {
-        //     System.out.println(t.getRegisterRequest().ipAddress);
-        // }
-    
         RegisterRequest req;
         for (int i = 0; i < peers.size(); ++i) {
             req = peers.get(i).getRegisterRequest();
-            // System.out.println(req.ipAddress);
             msgNodePeerInfo.add(req);
         } // End for loop
     } // End MessagingNodesList(list) constructor
@@ -105,6 +100,8 @@ public class MessagingNodesList implements Event {
     } // End setBytes(din) method
     
     // public static void main(String[] args) {
+
+        
     //     RegisterRequest r1 = new RegisterRequest("joe", 72);
     //     RegisterRequest r2 = new RegisterRequest("eggo", 0325);
     //     RegisterRequest r3 = new RegisterRequest("mitch", 1215);
@@ -133,21 +130,8 @@ public class MessagingNodesList implements Event {
     
     //     MessagingNodesList temp = new MessagingNodesList(din);
 
-    //     if (test.getType() == msg_type) {
+    //     System.out.println("Type: " + test.getType());
 
-    //         for (Vertex v : v1.getNeighbors()) {
-    //             System.out.println(v.getRegisterRequest().ipAddress);
-    //         }
-
-    //         // for (Vertex v : temp.) {
-    //         //     System.out.println();
-    //         // }
-
-
-
-    //         System.out.println("MessagingNodesList success");
-    //     } else {
-    //         System.out.println("MessagingNodesList failed");
-    //     }
+    //     System.out.println(test.getType() == temp.getType());
     // }
 } // End MessagingNodesList

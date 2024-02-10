@@ -38,8 +38,13 @@ public abstract class Node {
     
     public void send_message(int socket_index, byte[] arr, String message) {
         this.node_send = this.node_server.senders.get(socket_index); /* constructs our TCPSender obj */
+
+        System.out.println("Entering Node.java - send_message() method");
+
+        System.out.println((arr == null));
         
         try {
+            System.out.println("Node.java calling TCPSender.sendData(arr)");
             this.node_send.sendData(arr);
         } catch (IOException err) {
             System.err.println(err.getMessage());
