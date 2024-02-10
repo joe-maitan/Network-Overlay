@@ -7,19 +7,24 @@ import csx55.overlay.node.*;
 
 public class MessagingNodesList implements Event {
 
-    public int numberPeerMessagingNodes; /* Number of nodes the given messagingNode is connected to? */
-    public RegisterRequest[] aRegisterRequests; /* MessagingNode info */
+    int numberPeerMessagingNodes; /* Number of nodes the given messagingNode is connected to? */
+    ArrayList<RegisterRequest> msgNodePeerInfo; /* Contains each of the msgNodes peers register requests */
 
     public MessagingNodesList() {} // End default constructor
 
-    public MessagingNodesList(Vertex v, ArrayList<Vertex> list) {
+    public MessagingNodesList(Vertex v, ArrayList<Vertex> peers) {
         numberPeerMessagingNodes = v.getNeighborsSize();
-        aRegisterRequests = new RegisterRequest[numberPeerMessagingNodes];
+        msgNodePeerInfo = new ArrayList<>();
 
-
-        /* TODO: Figure out if I have to subtract one from the list length */
-        for (int i = 0; i < list.size() - 1; ++i) {
-            aRegisterRequests[i] = list.get(i).getRegisterRequest();
+        // for (Vertex t : peers) {
+        //     System.out.println(t.getRegisterRequest().ipAddress);
+        // }
+    
+        RegisterRequest req;
+        for (int i = 0; i < peers.size(); ++i) {
+            req = peers.get(i).getRegisterRequest();
+            // System.out.println(req.ipAddress);
+            msgNodePeerInfo.add(req);
         } // End for loop
     } // End MessagingNodesList(list) constructor
 
@@ -42,11 +47,16 @@ public class MessagingNodesList implements Event {
             dout.writeInt(getType());
             dout.writeInt(numberPeerMessagingNodes);
 
-            for (int i = 0; i < aRegisterRequests.length; ++i) {
-                byte[] temp = aRegisterRequests[i].getBytes();
-                dout.write(temp, 0, temp.length);
+            for (RegisterRequest r : msgNodePeerInfo) {
+                byte[] ipAddressBytes = r.getAddress().getBytes();
+                int ipAddressLength = ipAddressBytes.length;
+
+                dout.writeInt(ipAddressLength);
+                dout.write(ipAddressBytes); /* write the IP address */
+                dout.writeInt(r.getPort()); /* write the port # */
             } // End for loop
 
+            dout.flush();
             marshalledBytes = baOutputStream.toByteArray();
            
             baOutputStream.close();
@@ -60,60 +70,78 @@ public class MessagingNodesList implements Event {
 
     @Override
     public void setBytes(DataInputStream din) {
+        String msgNodeIP;
+        int msgNodePort;
+
+        RegisterRequest temp;
+
         try {
             numberPeerMessagingNodes = din.readInt();
-            
-            int lengthOfArr = din.readInt();
-            aRegisterRequests = new RegisterRequest[lengthOfArr];
-    
-            for (int i = 0; i < aRegisterRequests.length; ++i) {
-                aRegisterRequests[i] = new RegisterRequest(din);
+            msgNodePeerInfo = new ArrayList<>();
+
+            for (int i = 0; i < numberPeerMessagingNodes; ++i) {
+                int ipAddressLength = din.readInt();
+                byte[] ipAddressByte = new byte[ipAddressLength];
+
+                din.readFully(ipAddressByte);
+                msgNodeIP = new String(ipAddressByte);
+
+                msgNodePort = din.readInt();
+
+                temp = new RegisterRequest(msgNodeIP, msgNodePort);
+                msgNodePeerInfo.add(temp);
             } // End for loop
         } catch (IOException err) {
             System.err.println(err.getMessage());
         }
     } // End setBytes(din) method
     
-    public static void main(String[] args) {
-        RegisterRequest test_req = new RegisterRequest("Joe", 72);
-        Vertex v1 = new Vertex(0, test_req);
-        Vertex v2 = new Vertex(1, test_req);
-        Vertex v3 = new Vertex(2, test_req);
+    // public static void main(String[] args) {
+    //     RegisterRequest r1 = new RegisterRequest("joe", 72);
+    //     RegisterRequest r2 = new RegisterRequest("eggo", 0325);
+    //     RegisterRequest r3 = new RegisterRequest("mitch", 1215);
+
+    //     Vertex v1 = new Vertex(0, r1);
+    //     Vertex v2 = new Vertex(0, r2);
+    //     Vertex v3 = new Vertex(0, r3);
+
+    //     v1.addNeighbor(v2);
+    //     v1.addNeighbor(v3);
+
+    //     MessagingNodesList test = new MessagingNodesList(v1, v1.getNeighbors());
+    //     byte[] arr = test.getBytes();
     
-        ArrayList<Vertex> temp_list = new ArrayList<>();
-        temp_list.add(v1);
-        v1.addNeighbor(v3);
-        v1.addNeighbor(v2);
-        temp_list.add(v2);
-        temp_list.add(v3);
+    //     ByteArrayInputStream baIn = new ByteArrayInputStream(arr);
+    //     DataInputStream din = new DataInputStream(new BufferedInputStream(baIn));
     
-        MessagingNodesList test = new MessagingNodesList(v1, temp_list);
-        byte[] arr = test.getBytes();
+    //     int msg_type = 0;
+        
+    //     try {
+    //         msg_type = din.readInt();
+    //         System.out.println("Successfully read in msg_type: " + msg_type);
+    //     } catch (IOException err) {
+    //         System.err.println("Error reading message type or deserializing: " + err.getMessage());
+    //     }
     
-        ByteArrayInputStream baIn = new ByteArrayInputStream(arr);
-        DataInputStream din = new DataInputStream(new BufferedInputStream(baIn));
-    
-        int msg_type = 0;
-        MessagingNodesList temp = null;
-    
-        try {
-            // Read message type
-            msg_type = din.readInt();
-    
-            // Create a new MessagingNodesList object by deserializing the byte stream
-            temp = new MessagingNodesList(din);
-        } catch (IOException err) {
-            System.err.println("Error reading message type or deserializing: " + err.getMessage());
-        }
-    
-        if (test.getType() == msg_type && 
-            test.numberPeerMessagingNodes == temp.numberPeerMessagingNodes &&
-            Arrays.equals(test.aRegisterRequests, temp.aRegisterRequests)) {
-            System.out.println("MessagingNodesList success");
-        } else {
-            System.out.println("MessagingNodesList failed");
-        }
-    }
+    //     MessagingNodesList temp = new MessagingNodesList(din);
+
+    //     if (test.getType() == msg_type) {
+
+    //         for (Vertex v : v1.getNeighbors()) {
+    //             System.out.println(v.getRegisterRequest().ipAddress);
+    //         }
+
+    //         // for (Vertex v : temp.) {
+    //         //     System.out.println();
+    //         // }
+
+
+
+    //         System.out.println("MessagingNodesList success");
+    //     } else {
+    //         System.out.println("MessagingNodesList failed");
+    //     }
+    // }
     
     
 } // End MessagingNodesList
