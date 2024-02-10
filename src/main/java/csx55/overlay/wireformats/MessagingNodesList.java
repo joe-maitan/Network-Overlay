@@ -142,6 +142,4 @@ public class MessagingNodesList implements Event {
     //         System.out.println("MessagingNodesList failed");
     //     }
     // }
-    
-    
 } // End MessagingNodesList
