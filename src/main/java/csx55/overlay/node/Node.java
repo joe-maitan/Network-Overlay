@@ -17,7 +17,7 @@ public abstract class Node {
 
     public Thread node_server_thread;
 
-    public HashMap<String, Integer> to_be_registered = new HashMap<>();
+    // public HashMap<String, Integer> to_be_registered = new HashMap<>();
     
     public Node() {
         node_server = new TCPServerThread(this);

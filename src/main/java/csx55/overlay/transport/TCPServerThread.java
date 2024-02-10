@@ -17,7 +17,7 @@ public class TCPServerThread implements Runnable {
     public volatile boolean done = false;
 
     /* THESE TWO STRINGS WILL BE USED TO HELP FILL OUT MESSAGENODE DATA */
-    public int port_number; /* DO NOT DELETE THIS. THIS IS THE PORT OUR SERVER WILL LAUNCH ON */
+    public int port_number; /* DO NOT DELETE THIS. THIS IS THE PORT OUR NODES SERVER WILL LAUNCH ON */
     public String ipAddress;
     
     public Node serverThreadNode;
@@ -65,10 +65,6 @@ public class TCPServerThread implements Runnable {
                     clientIPAddress = clientIPAddress.substring(clientIPAddress.indexOf('/') + 1);
                     System.out.println("[TCPServerThread]: " + clientIPAddress + " has connected at port: " + clientSocket.getPort()); /* validation that something that has connected to the registry */
                     
-                    
-                    /* Adds our clientSocket to the list of our connections and spawns a TCPSender obj and TCPReceiverThread for the socket.
-                     * This is what will allow our nodes to communciate
-                    */
                     add_socket(clientSocket);
                 } catch (IOException err) {
                     System.out.println(err.getMessage());
@@ -104,14 +100,16 @@ public class TCPServerThread implements Runnable {
         socket_connetions.add(s); /* Add the socket to the ArrayList containing them */
 
         try {
-            send = new TCPSender(s, socket_connetions.indexOf(s), serverThreadNode); /* Assign the TCPSender obj to send messages  */
-            read = new TCPReceiverThread(s, socket_connetions.indexOf(s), serverThreadNode); /* Assign the TCPReceieverThread obj to read messages */
+            send = new TCPSender(s, socket_connetions.indexOf(s), serverThreadNode); 
+            read = new TCPReceiverThread(s, socket_connetions.indexOf(s), serverThreadNode);
             
-            senders.add(send); /* Keep track of how many nodes have TCPSender objects */
-            readers.add(read); /* Keep track of how many nodes have TCPReceiver objects */
+            senders.add(send);
+            readers.add(read);
 
-            Thread server_read_thread = new Thread(read); /* Create TCP Receiver start the thread for the new reader to check that if the thread */
-            server_read_thread.start(); /* starts the TCPReceiver thread and begins to read in information while it has information to read */
+            Thread server_read_thread = new Thread(read); 
+            
+            /* starts the TCPReceiver thread and begins to read in information while it has information to read */
+            server_read_thread.start(); 
         } catch (IOException err) {
             System.err.println(err.getMessage());
         } // End try-catch block

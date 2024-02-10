@@ -10,7 +10,7 @@ import csx55.overlay.transport.*;
 
 public class Registry extends Node {
 
-    /* this tracks the socket index of the messaging node as well as the RegisterRequest */
+    /* Pairs the index of the Socket with the matching RegisterRequest of the MessagingNode */
     HashMap<Integer, RegisterRequest> registered_messaging_nodes = new HashMap<>();
 
     ArrayList<Vertex> vertices = new ArrayList<>();

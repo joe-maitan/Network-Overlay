@@ -13,6 +13,10 @@ public class MessagingNode extends Node  {
     public int msgNodePortNumber;
     public int msgNodeIndex; /* This will be important for getting the connections established */
 
+    /* These are variables used to collect information from a MessagingNodesList message */
+    int numberOfConnections; /* how many nodes we are connecting to */
+    ArrayList<RegisterRequest> peerMsgNodes; /* which nodes we are connecting to */
+
     public Socket messaging_node_socket;
 
     public int numberOfMsgsReceived;
@@ -29,18 +33,11 @@ public class MessagingNode extends Node  {
         try {
             messaging_node_socket = new Socket(hostName, portNum); /* This allows the MessagingNode to connect to the Registry */
             
-            /* Add this socket to our list of connections */
-            node_server.add_socket(messaging_node_socket); 
+            node_server.add_socket(messaging_node_socket); /* Add this socket to our list of connections */
             msgNodeIndex = node_server.socket_connetions.indexOf(messaging_node_socket);
 
             System.out.println("[MsgNode] has connected to [Registry]");
 
-            /* DO NOT DELETE THESE 3 LINES. THESE LINES PARSE IN INFORMATION ABOUT
-             * THE MESSAGING NODE THAT HAS JUST CONNECTED TO THE REGISTRY.
-             * 
-             * THIS INFORMATION WILL THEN BE USED TO MAKE OUR REGISTER REQUEST
-             */
-            
             this.msgNodeIP = InetAddress.getLocalHost().toString();
             this.msgNodeHostName = msgNodeIP.substring(0, msgNodeIP.indexOf('/'));
             this.msgNodeIP = msgNodeIP.substring(msgNodeIP.indexOf('/') + 1);
@@ -108,8 +105,7 @@ public class MessagingNode extends Node  {
                 System.out.println("[MsgNode] Received a MessaingNodesList event");
                 MessagingNodesList msg_node_list = (MessagingNodesList) event;
 
-                int numberOfConnections;
-                ArrayList<RegisterRequest> peerMsgNodes;
+                
 
                 numberOfConnections = msg_node_list.getNumPeers();
                 peerMsgNodes = msg_node_list.getMsgNodePeerList();
