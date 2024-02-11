@@ -10,11 +10,11 @@ public class TaskInitiate implements Event {
 
     public TaskInitiate(int rounds) {
         numberOfRounds = rounds;
-    } // End TaskInitaite() constructor
+    } // End TaskInitaite(rounds) constructor
 
     public TaskInitiate(DataInputStream din) {
         setBytes(din);
-    }
+    } // End TaskInitiate(din) constructor
 
     public int getNumRounds() {
         return this.numberOfRounds;
