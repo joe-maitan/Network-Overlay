@@ -5,7 +5,7 @@ import java.util.*;
 public class Matrix {
 
     private char name;
-    private int[][] data;
+    public int[][] data;
     private double timeToComputeSum;
 
     public Matrix() {} // End default constructor
@@ -19,6 +19,14 @@ public class Matrix {
     public char getName() {
         return this.name;
     } // End getName() method
+
+    // public int[][] getData() {
+    //     return this.data;
+    // } // End getData() method
+
+    public double getTime() {
+        return this.timeToComputeSum;
+    } // End getTime() method
 
     // synchronized
     public void populateArray(int[][] arr, int seed) {
@@ -76,68 +84,5 @@ public class Matrix {
 
         return sum;
     } // End sumOfMatrixElements
-
-    public static void main(String[] args) {
-        /* the program will take in three arguments
-        * - thread pool size
-        * - matrix dimensions (for the purposes of this assignment the matrices are squares)
-        * - seed for populating the random number generator
-        */
-
-        // if (args.length < 3) {
-        //     System.out.println("Invalid number of arguments. Exiting program.");
-        //     System.exit(1);
-        // } // End if statement
-
-        int threadPoolSize = 8;
-        int matrixDimensions = 100;
-        int seed = 42;
-
-        if (threadPoolSize < 0 || matrixDimensions < 0 || seed < 0) {
-            System.out.println("Invalid input for arguments. Exiting program.");
-        } // End if statement
-
-        ArrayList<Matrix> matrices = new ArrayList<>();
-        
-        System.out.println("Dimensionality of the square matrices is: " + matrixDimensions);
-        System.out.println("The thread pool has been initialized to: " + threadPoolSize);
-        System.out.println();
-
-        /* These are our four matrices used to calculate X and Y 
-        *   X = A * B 
-        *   and 
-        *   Y = C * D
-        */
-        Matrix a = new Matrix('A', matrixDimensions);
-        Matrix b = new Matrix('B', matrixDimensions);
-        Matrix c = new Matrix('C', matrixDimensions);
-        Matrix d = new Matrix('D', matrixDimensions);
-
-        matrices.add(a);
-        matrices.add(b);
-        matrices.add(c);
-        matrices.add(d);
-
-        for (Matrix m : matrices) {
-            m.populateArray(m.data, seed);
-            System.out.println("Sum of the elements in input matrix " + m.getName() + " = " + m.sumOfMatrixElements(m.data, matrixDimensions));
-        } // End for each loop
-
-        System.out.println();
-
-        Matrix x = new Matrix('X', matrixDimensions);
-        x.data = x.multiplyMatrices(a.data, b.data, matrixDimensions);
-
-        Matrix y = new Matrix('Y', matrixDimensions);
-        y.data = y.multiplyMatrices(c.data, d.data, matrixDimensions);
-
-        Matrix z = new Matrix('Z', matrixDimensions);
-        z.data = z.multiplyMatrices(x.data, y.data, matrixDimensions);
-
-       
-        String output = String.format("Cumulative time to compute matrices X, Y, and Z using a thread pool of size = %d is : %.3f", threadPoolSize, 72.12071231);
-        System.out.println(output);
-
-    } // End main method
 
 } // End Matrix class
