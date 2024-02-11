@@ -51,7 +51,9 @@ public class Registry extends Node {
         } // End if-else statement
     } // End deregister_node() method
 
-    public void start(int numberOfRounds) {} // End start() method
+    public void start(int numberOfRounds) {
+        TaskInitiate startRounds;
+    } // End start() method
 
     public void construct_overlay(int numberOfConnections) {
         if (overlayIsConstructed == false) {

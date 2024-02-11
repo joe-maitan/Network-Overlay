@@ -19,8 +19,10 @@ public class MessagingNode extends Node  {
 
     public Socket messaging_node_socket;
 
-    public int numberOfMsgsReceived;
-    public int numberOfMsgsSent;
+    /* TODO: Do we declare the sink node as a variable in the MessagingNode class? */
+
+    public int sendTracker = 0;
+    public int receiveTracker = 0;
     
     public MessagingNode(String machineName, int portNum, int socketIndex) {
         msgNodeHostName = machineName;
@@ -79,6 +81,7 @@ public class MessagingNode extends Node  {
                     System.out.println("[MsgNode] Successfully registered.");
                 } // End if-else statement
 
+                receiveTracker++;
                 break;
             case 3: /* Deregister Response */
                 DeregisterResponse de_resp = (DeregisterResponse) event;
@@ -90,7 +93,15 @@ public class MessagingNode extends Node  {
                     System.out.println("[MsgNode] Successfully deregistered.");
                 } // End if-else statement
 
+                receiveTracker++;
                 this.node_server.close_server();
+                
+                try {
+                    this.messaging_node_socket.close();
+                } catch (IOException err) {
+                    System.err.println(err.getMessage());
+                } // End try-catch block
+
                 break;
             case 4: /* Link weights */
                 
@@ -119,18 +130,24 @@ public class MessagingNode extends Node  {
 
                 System.out.println("[MsgNode] has made " + numberOfConnections + " connections.");
                 System.out.println("[MsgNode] Exiting MessagingNodesList .onEvent()");
+
+                receiveTracker++;
                 break;
             case 7: /* Task Initiate */
                 TaskInitiate initiate = (TaskInitiate) event;
+
+                // Send back a task complete event
                 break;
             case 8:
-                TaskComplete taskComplete = (TaskComplete) event;
+                // TaskComplete taskComplete = (TaskComplete) event;
                 break;
             case 9:
                 TaskSummaryRequest sum_req = (TaskSummaryRequest) event;
+
+                // Send back a TaskSummaryResponse event
                 break;
             case 10:
-                TaskSummaryResponse sum_rsp = (TaskSummaryResponse) event;
+                // TaskSummaryResponse sum_rsp = (TaskSummaryResponse) event;
                 break;
             default:
                 System.out.println("MessagingNode.java - Unrecognized Event.");
@@ -170,7 +187,8 @@ public class MessagingNode extends Node  {
                 case "exit-overlay":
                     DeregisterRequest deregister = new DeregisterRequest(newMessagingNode.msgNodeIP, newMessagingNode.msgNodePortNumber);
                     newMessagingNode.node_server.send_msg(0, deregister.getBytes());
-                    break;
+                    /* the onEvent for DeregisterReponse closes the server thread and the nodes socket */
+                    return;
                 default:
                     System.out.println("Unrecognized command. Please try again");
                     break;
