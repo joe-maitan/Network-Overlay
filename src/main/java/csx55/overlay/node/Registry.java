@@ -68,7 +68,6 @@ public class Registry extends Node {
                 return;
             }
 
-            // System.out.println("Number of registered nodes: " + numberOfRegisteredNodes);
             /* For each vertex, create neighbors for the vertices */
             for (int j = 1; j < numberOfRegisteredNodes; ++j) {
                 int weight = linkWeightGenerator.nextInt(10) + 1;
@@ -78,6 +77,7 @@ public class Registry extends Node {
                 // System.out.println("currVertex index = " + currVertex.getIndex());
                 // System.out.println("neighborVertex index = " + neighborVertex.getIndex());
 
+                /* creates an edge between these two vertices */
                 currVertex.addNeighbor(neighborVertex);
                 neighborVertex.addNeighbor(currVertex);
 
@@ -109,7 +109,6 @@ public class Registry extends Node {
 
                     int neighborIndex = currVertex.getIndex() + 1;
                     
-                    
                     while (currVertex.getNeighborsSize() < numberOfConnections && neighborIndex <= vertices.size()) {
                         Vertex neighbor = vertices.get(neighborIndex);
                         
@@ -121,8 +120,8 @@ public class Registry extends Node {
                                 currVertex.addNeighbor(neighbor);
                                 neighbor.addNeighbor(currVertex);
 
-                                currVertex.addWeight(weight);
-                                neighbor.addWeight(weight);
+                                // currVertex.addWeight(weight);
+                                // neighbor.addWeight(weight);
 
                                 linkCount++;
 
@@ -139,20 +138,8 @@ public class Registry extends Node {
 
             } // End for-each loop loop
 
-            // System.out.println("Vertices are all connected.");
-
             for (Vertex v : vertices) {
-                // System.out.println("Current vertex: " + v.getRegisterRequest().ipAddress);
-
                 MessagingNodesList newRequest = new MessagingNodesList(v);
-                // System.out.println("Vertex's neighbors");
-                // for (Vertex n : v.getNeighbors()) {
-                //     System.out.println(n.getRegisterRequest().ipAddress + " " + n.getRegisterRequest().portNumber);
-
-                //     /* Sends a message node to each of the messaging nodes telling that node who it needs to connect to */
-                //     send_message(n.getIndex(), newRequest.getBytes(), "");
-                // }
-
                 send_message(v.getIndex(), newRequest.getBytes(), "");
             } // End for-each loop
 

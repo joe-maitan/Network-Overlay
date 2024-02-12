@@ -15,7 +15,7 @@ public class Vertex {
     private int vertexIndex; /* where it is in our vertices ArrayList in Registry.java */
     // private int weight = 0;
     private ArrayList<Vertex> neighbors = new ArrayList<>();
-    private ArrayList<Integer> neighborWeights = new ArrayList<>();
+    private ArrayList<Integer> listOfWeights = new ArrayList<>();
 
     private RegisterRequest registerRequest;
 
@@ -58,17 +58,17 @@ public class Vertex {
     } // End addNeighbor(new_vertex) method
 
     public void addWeight(int weight) {
-        this.neighborWeights.add(weight);
+        this.listOfWeights.add(weight);
     } // End assignLinkWeight() method
 
     public int getWeight(int search) {
-        return this.neighborWeights.get(search);
+        return this.listOfWeights.get(search);
     } // End getWeight() method
 
     public boolean removeNeighbor(Vertex vertexToRemove) {
         if (neighbors.contains(vertexToRemove)) {
             this.neighbors.remove(vertexToRemove);
-            this.neighborWeights.remove(neighbors.indexOf(vertexToRemove));
+            this.listOfWeights.remove(neighbors.indexOf(vertexToRemove));
             return true;
         } else {
             return false;
@@ -102,7 +102,7 @@ public class Vertex {
     } // End getNeighbors() method
 
     public ArrayList<Integer> getWeightList() {
-        return this.neighborWeights;
+        return this.listOfWeights;
     } // End getWeightList() method
     
 } // End Links class

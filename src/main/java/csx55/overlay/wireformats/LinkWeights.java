@@ -23,30 +23,32 @@ public class LinkWeights implements Event {
         numberOfLinks = list.size();
         linkInfo = new ArrayList<>();
         
+        System.out.println("Entering the LinkWeights constructor");
         System.out.println("# of Links: " + numberOfLinks);
+        System.out.println();
+        
 
         for (Vertex curr : list) {
+            int i = 0;
             for (Vertex neighbor : curr.getNeighbors()) {
                 String info;
                 
                 int weight;
-                if (curr.hasNeighbor(curr.getNeighbors().indexOf(neighbor)) && neighbor.hasNeighbor(neighbor.getNeighbors().indexOf(curr))) {
-                    weight = weightGenerator.nextInt(10) + 1;
+                
+                weight = weightGenerator.nextInt(10) + 1;
+                curr.addWeight(weight);
+                neighbor.addWeight(weight);
+                
+                info = curr.getRegisterRequest().ipAddress + ":" + curr.getRegisterRequest().portNumber + " - " 
+                    + neighbor.getRegisterRequest().ipAddress + ":" + neighbor.getRegisterRequest().portNumber 
+                    + " - " + weight;
 
-                    System.out.println("Weight is: " + weight);
+                System.out.println(info);
+                linkInfo.add(info);
 
-                    curr.addWeight(weight);
-                    neighbor.addWeight(weight);
-
-                    info = curr.getRegisterRequest().ipAddress + ":" + curr.getRegisterRequest().portNumber + " - " 
-                        + neighbor.getRegisterRequest().ipAddress + ":" + neighbor.getRegisterRequest().portNumber 
-                        + " - " + weight;
-
-                    System.out.println(info);
-                    linkInfo.add(info);
-                }
+                i++;
+                
             } // End for each loop  
-
         } // End for loop
     } // End LinkWeights(numLinks, list) constructor
 
