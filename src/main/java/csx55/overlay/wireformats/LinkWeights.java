@@ -62,7 +62,6 @@ public class LinkWeights implements Event {
 
             prevWeight = weight;
         } // End for each loop
-        
     } // End LinkWeights(numLinks, list) constructor
 
     public LinkWeights(DataInputStream din) {
@@ -82,13 +81,12 @@ public class LinkWeights implements Event {
 
         try {
             dout.writeInt(getType());
+
+            // Serialize linkInfo
+            for (String link : linkInfo) {
+                dout.writeUTF(link);
+            } // End for each loop
             
-
-            
-
-
-
-
             dout.flush();
             marshalledBytes = baOutputStream.toByteArray();
 
@@ -106,7 +104,11 @@ public class LinkWeights implements Event {
         try {
             
            numberOfLinks = din.readInt();
-         
+           // Deserialize linkInfo
+            linkInfo = new ArrayList<>();
+            for (int i = 0; i < numberOfLinks; i++) {
+                linkInfo.add(din.readUTF());
+            }
         } catch (IOException err) {
             System.err.println(err.getMessage());
         } // End try-catch block
