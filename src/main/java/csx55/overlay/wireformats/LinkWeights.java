@@ -15,29 +15,39 @@ public class LinkWeights implements Event {
 
     public LinkWeights() {} // End default constructor
 
+    public LinkWeights(Vertex a, Vertex b, int weight) {
+
+    }
+
     public LinkWeights(ArrayList<Vertex> list) {
         linkInfo = new ArrayList<>();
         System.out.println("Is list empty: " + (list.size() == 0));
         // this.numberOfLinks = list.size();
         System.out.println("LinkWeights constructor: numberOfLinks = " + list.size());
 
-        for (int i = 0; i < list.size(); ++i) {
-            Vertex curr = list.get(i);
-            Vertex neighbor = list.get(i + 1);
+        for (Vertex curr : list) {
+            for (Vertex neighbor : curr.getNeighbors()) {
+                String info;
+                
+                int weight;
+                if (curr.hasNeighbor(curr.getNeighbors().indexOf(neighbor)) && neighbor.hasNeighbor(neighbor.getNeighbors().indexOf(curr))) {
+                    weight = weightGenerator.nextInt(10) + 1;
 
-            String info;
-            if (curr.hasNeighbor(curr.getNeighbors().indexOf(neighbor)) && neighbor.hasNeighbor(neighbor.getNeighbors().indexOf(curr))) {
-                int weight = weightGenerator.nextInt(10) + 1;
+                    System.out.println("Weight is: " + weight);
 
-                info = curr.getRegisterRequest().ipAddress + ":" + curr.getRegisterRequest().portNumber + " - " 
-                    + neighbor.getRegisterRequest().ipAddress + ":" + neighbor.getRegisterRequest().portNumber 
-                    + " - " + weight;
+                    curr.addWeight(weight);
+                    neighbor.addWeight(weight);
 
-                System.out.println(info);
+                    info = curr.getRegisterRequest().ipAddress + ":" + curr.getRegisterRequest().portNumber + " - " 
+                        + neighbor.getRegisterRequest().ipAddress + ":" + neighbor.getRegisterRequest().portNumber 
+                        + " - " + weight;
 
-                linkInfo.add(info);
-            }   
-        }
+                    System.out.println(info);
+                    linkInfo.add(info);
+                }
+            } // End for each loop  
+
+        } // End for loop
     } // End LinkWeights(numLinks, list) constructor
 
     public LinkWeights(DataInputStream din) {

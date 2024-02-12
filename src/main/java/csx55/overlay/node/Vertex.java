@@ -13,6 +13,7 @@ public class Vertex {
      * and the weight on those connections
      */
     private int vertexIndex; /* where it is in our vertices ArrayList in Registry.java */
+    // private int weight = 0;
     private ArrayList<Vertex> neighbors = new ArrayList<>();
     private ArrayList<Integer> neighborWeights = new ArrayList<>();
 
@@ -28,6 +29,24 @@ public class Vertex {
     public int getIndex() {
         return this.vertexIndex;
     } // End getIndex() method
+
+    // public void setWeight(int w) {
+    //     if (this.weight == 0) {
+    //         this.weight = w;
+    //     }
+    // } // End setWeight(w) method
+
+    // public int getWeight() {
+    //     return this.weight;
+    // } // End getWeight() method
+
+    // public boolean hasWeight() {
+    //     if (this.weight == 0) {
+    //         return false;
+    //     } else {
+    //         return true;
+    //     }
+    // } // End hasWeight() method
 
     public boolean addNeighbor(Vertex vertexToAdd) {
         if (!neighbors.contains(vertexToAdd)) {
