@@ -1,8 +1,9 @@
 package csx55.overlay.wireformats;
 
-import java.io.DataInputStream;
-import java.io.IOException;
-import java.util.Random;
+import java.io.*;
+import java.util.*;
+
+import csx55.overlay.node.*;
 
 public class LinkWeights implements Event {
 
@@ -62,10 +63,14 @@ public class LinkWeights implements Event {
         try {
             numberOfLinks = din.readInt();
 
-            for 
+         
         } catch (IOException err) {
             System.err.println(err.getMessage());
         } // End try-catch block
     } // End setBytes() method
+
+    public static void main(String[] commandLineArgs) {
+
+    } // End main method
 
 } // End LinkWeights class
