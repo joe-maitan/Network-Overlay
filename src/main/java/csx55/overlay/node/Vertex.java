@@ -80,6 +80,10 @@ public class Vertex {
 
     public ArrayList<Vertex> getNeighbors() {
         return this.neighbors;
-    }
+    } // End getNeighbors() method
+
+    public ArrayList<Integer> getWeightList() {
+        return this.neighborWeights;
+    } // End getWeightList() method
     
 } // End Links class

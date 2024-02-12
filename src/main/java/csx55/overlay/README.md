@@ -15,4 +15,4 @@ Go into this directory for the jar: ~/CS455/csx55/build/libs$
 
 java -cp build/libs/csx55.jar csx55.overlay.node.Registry 5505
 
-java -cp build/libs/csx55.jar csx55.overlay.node.MessagingNode dragonfly 5505
+java -cp build/libs/csx55.jar csx55.overlay.node.MessagingNode shark 5505

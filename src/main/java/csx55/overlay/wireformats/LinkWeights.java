@@ -16,7 +16,14 @@ public class LinkWeights implements Event {
     public LinkWeights(ArrayList<Vertex> list) {
         System.out.println("Is list empty: " + (list.size() == 0));
         // this.numberOfLinks = list.size();
-        System.out.println("LinkWeights constructor: numberOfLinks = " + numberOfLinks);
+        System.out.println("LinkWeights constructor: numberOfLinks = " + list.size());
+
+        int i = 0;
+        for (Vertex v : list) {
+            System.out.println(v.getRegisterRequest().ipAddress);
+            System.out.println(v.getWeightList().indexOf(i));
+            i++;
+        }
     } // End LinkWeights(numLinks, list) constructor
 
     public LinkWeights(DataInputStream din) {
@@ -36,15 +43,12 @@ public class LinkWeights implements Event {
 
         try {
             dout.writeInt(getType());
-            dout.writeInt(numberOfLinks);
+            
 
-            // for (Vertex v : vertices) {
-            //     byte[] vertexByte = v.getBytes();
-            //     int vertexLength = vertexByte.length;
+            
 
-            //     dout.writeInt(vertexLength);
-            //     dout.write(vertexByte);
-            // } // End for each loop
+
+            
 
             dout.flush();
             marshalledBytes = baOutputStream.toByteArray();
@@ -61,7 +65,7 @@ public class LinkWeights implements Event {
     @Override
     public void setBytes(DataInputStream din) {
         try {
-            numberOfLinks = din.readInt();
+            
 
          
         } catch (IOException err) {

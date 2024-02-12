@@ -174,6 +174,8 @@ public class Registry extends Node {
     public void send_overlay_link_weights() {
         if (overlayIsConstructed == true) {
             LinkWeights overlayLinkWeights = new LinkWeights(this.vertices);
+
+            
         } else {
             System.out.println("Overlay is not setup. Please construct overlay.");
             return;
