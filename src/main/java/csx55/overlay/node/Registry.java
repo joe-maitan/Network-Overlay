@@ -172,7 +172,12 @@ public class Registry extends Node {
     public void list_weights() {} // End list_weights() method
 
     public void send_overlay_link_weights() {
-        LinkWeights overlayLinkWeights = new LinkWeights(this.vertices);
+        if (overlayIsConstructed == true) {
+            LinkWeights overlayLinkWeights = new LinkWeights(this.vertices);
+        } else {
+            System.out.println("Overlay is not setup. Please construct overlay.");
+            return;
+        } // End send_overlay_link_weights() method
     } // End list_weights() method
 
     @Override
