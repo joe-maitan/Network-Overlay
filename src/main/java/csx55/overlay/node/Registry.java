@@ -53,6 +53,8 @@ public class Registry extends Node {
 
     public void start(int numberOfRounds) {
         TaskInitiate startRounds;
+
+        // send_message(0, startRounds.getBytes(), "");
     } // End start() method
 
     public void construct_overlay(int numberOfConnections) {
@@ -175,11 +177,13 @@ public class Registry extends Node {
         if (overlayIsConstructed == true) {
             LinkWeights overlayLinkWeights = new LinkWeights(this.vertices);
 
-            
+
         } else {
             System.out.println("Overlay is not setup. Please construct overlay.");
             return;
         } // End send_overlay_link_weights() method
+
+        // send_message(0, overlayLinkWeights.getBytes(), "");
     } // End list_weights() method
 
     @Override

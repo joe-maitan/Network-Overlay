@@ -11,18 +11,32 @@ public class LinkWeights implements Event {
     private ArrayList<String> linkInfo; /* format of hostNameA:portNumA - hostNameB:portNumB - weight */
     private int weightOfLink;
 
+    private Random weightGenerator = new Random();
+
     public LinkWeights() {} // End default constructor
 
     public LinkWeights(ArrayList<Vertex> list) {
+        linkInfo = new ArrayList<>();
         System.out.println("Is list empty: " + (list.size() == 0));
         // this.numberOfLinks = list.size();
         System.out.println("LinkWeights constructor: numberOfLinks = " + list.size());
 
-        int i = 0;
-        for (Vertex v : list) {
-            System.out.println(v.getRegisterRequest().ipAddress);
-            System.out.println(v.getWeightList().indexOf(i));
-            i++;
+        for (int i = 0; i < list.size(); ++i) {
+            Vertex curr = list.get(i);
+            Vertex neighbor = list.get(i + 1);
+
+            String info;
+            if (curr.hasNeighbor(curr.getNeighbors().indexOf(neighbor)) && neighbor.hasNeighbor(neighbor.getNeighbors().indexOf(curr))) {
+                int weight = weightGenerator.nextInt(10) + 1;
+
+                info = curr.getRegisterRequest().ipAddress + ":" + curr.getRegisterRequest().portNumber + " - " 
+                    + neighbor.getRegisterRequest().ipAddress + ":" + neighbor.getRegisterRequest().portNumber 
+                    + " - " + weight;
+
+                System.out.println(info);
+
+                linkInfo.add(info);
+            }   
         }
     } // End LinkWeights(numLinks, list) constructor
 
@@ -48,7 +62,7 @@ public class LinkWeights implements Event {
             
 
 
-            
+
 
             dout.flush();
             marshalledBytes = baOutputStream.toByteArray();
@@ -66,7 +80,7 @@ public class LinkWeights implements Event {
     public void setBytes(DataInputStream din) {
         try {
             
-
+           numberOfLinks = din.readInt();
          
         } catch (IOException err) {
             System.err.println(err.getMessage());
