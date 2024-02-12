@@ -9,15 +9,17 @@ public class LinkWeights implements Event {
 
     private int numberOfLinks; /* number of neighbors the given vertex is connected to */
     private ArrayList<String> linkInfo; /* format of hostNameA:portNumA - hostNameB:portNumB - weight */
-    private int weightOfLink;
+    ArrayList<String> edges = new ArrayList<>();
+    private HashMap<String, Integer> map = new HashMap<>();
 
+    private int weightOfLink;
     private Random weightGenerator = new Random();
 
+    public HashMap<String, Integer> getEdges() {
+        return this.map;
+    } // End getEdges() method
+
     public LinkWeights() {} // End default constructor
-
-    public LinkWeights(Vertex a, Vertex b, int weight) {
-
-    }
 
     public LinkWeights(ArrayList<Vertex> list) {
         numberOfLinks = list.size();
@@ -27,29 +29,40 @@ public class LinkWeights implements Event {
         System.out.println("# of Links: " + numberOfLinks);
         System.out.println();
         
-
+        String currVector = "";
+        String neighborVector = "";
+        String key = "";
         for (Vertex curr : list) {
-            int i = 0;
-            for (Vertex neighbor : curr.getNeighbors()) {
-                String info;
-                
-                int weight;
-                
-                weight = weightGenerator.nextInt(10) + 1;
-                curr.addWeight(weight);
-                neighbor.addWeight(weight);
-                
-                info = curr.getRegisterRequest().ipAddress + ":" + curr.getRegisterRequest().portNumber + " - " 
-                    + neighbor.getRegisterRequest().ipAddress + ":" + neighbor.getRegisterRequest().portNumber 
-                    + " - " + weight;
+            for (Vertex neigh : curr.getNeighbors()) {
+                currVector = curr.getRegisterRequest().getAddress() + ":" + curr.getRegisterRequest().getPort();
+                neighborVector = neigh.getRegisterRequest().getAddress() + ":" + neigh.getRegisterRequest().getPort();
 
-                System.out.println(info);
-                linkInfo.add(info);
+                if (currVector.compareTo(neighborVector) <= 0) {
+                    key = currVector + " - " +  neighborVector;
+                } else {
+                    key = neighborVector + " - " +  currVector;
+                } // End if-else statement
 
-                i++;
-                
-            } // End for each loop  
-        } // End for loop
+                if (!edges.contains(key)) {
+                    edges.add(key);
+                    // System.out.println(key);
+                }
+            } // End for each loop      
+        } // End for each loop
+
+        // System.out.println("Adding weight to the edges");
+
+        int prevWeight = 0;
+        for (String link : edges) {
+            int weight = weightGenerator.nextInt(10) + 1;
+            // while (weight != prevWeight) { weight = weightGenerator.nextInt(10) + 1; }
+            
+            link += " - " + weight;
+            System.out.println(link);
+
+            prevWeight = weight;
+        } // End for each loop
+        
     } // End LinkWeights(numLinks, list) constructor
 
     public LinkWeights(DataInputStream din) {

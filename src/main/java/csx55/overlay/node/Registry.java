@@ -158,19 +158,21 @@ public class Registry extends Node {
         } // End for loop
     } // End list_messaging_nodes() method
 
-    public void list_weights() {} // End list_weights() method
+    public void list_weights() {
+        
+    } // End list_weights() method
 
     public void send_overlay_link_weights() {
         if (overlayIsConstructed == true) {
             LinkWeights overlayLinkWeights = new LinkWeights(this.vertices);
+            
 
+            // send_message(0, overlayLinkWeights.getBytes(), "");
 
         } else {
             System.out.println("Overlay is not setup. Please construct overlay.");
             return;
         } // End send_overlay_link_weights() method
-
-        // send_message(0, overlayLinkWeights.getBytes(), "");
     } // End list_weights() method
 
     @Override
