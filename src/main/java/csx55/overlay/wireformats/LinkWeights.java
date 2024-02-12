@@ -40,13 +40,13 @@ public class LinkWeights implements Event {
             dout.writeInt(getType());
             dout.writeInt(numberOfLinks);
 
-            for (Vertex v : vertices) {
-                byte[] vertexByte = v.getBytes();
-                int vertexLength = vertexByte.length;
+            // for (Vertex v : vertices) {
+            //     byte[] vertexByte = v.getBytes();
+            //     int vertexLength = vertexByte.length;
 
-                dout.writeInt(vertexLength);
-                dout.write(vertexByte);
-            } // End for each loop
+            //     dout.writeInt(vertexLength);
+            //     dout.write(vertexByte);
+            // } // End for each loop
 
             dout.flush();
             marshalledBytes = baOutputStream.toByteArray();
@@ -56,6 +56,8 @@ public class LinkWeights implements Event {
         } catch (IOException err) {
             System.err.println(err.getMessage());
         } // End try-catch block
+
+        return marshalledBytes;
     } // End getBytes() method
 
     @Override

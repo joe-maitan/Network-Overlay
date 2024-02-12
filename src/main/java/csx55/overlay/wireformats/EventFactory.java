@@ -30,19 +30,19 @@ public class EventFactory {
             } else if (messageProtocol == Protocol.DEREGISTER_RESPONSE) {
                 return new DeregisterResponse(din);
             } else if (messageProtocol == Protocol.LINK_WEIGHTS) {
-
+                return new LinkWeights(din);
             } else if (messageProtocol == Protocol.MESSAGE) {
-
+                return new Message();
             } else if (messageProtocol == Protocol.MESSAGING_NODES_LIST) {
-
+                return new MessagingNodesList(din);
             } else if (messageProtocol == Protocol.TASK_INITIATE) {
-
+                return new TaskInitiate(din);
             } else if (messageProtocol == Protocol.TASK_SUMMARY_REQUEST) {
-
+                return new TaskSummaryRequest(din);
             } else if (messageProtocol == Protocol.TASK_SUMMARY_RESPONSE) {
-
+                return new TaskSummaryResponse();
             } else if (messageProtocol == Protocol.TASK_COMPLETE) {
-
+                return new TaskComplete(din);
             } // End if-else statements
         } catch (IOException err) {
             System.err.println(err.getMessage());

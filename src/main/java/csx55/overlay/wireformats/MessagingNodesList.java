@@ -105,41 +105,47 @@ public class MessagingNodesList implements Event {
         }
     } // End setBytes(din) method
     
-    public static void main(String[] args) {
+    // public static void main(String[] args) {
 
         
-        RegisterRequest r1 = new RegisterRequest("joe", 72);
-        RegisterRequest r2 = new RegisterRequest("eggo", 325);
-        RegisterRequest r3 = new RegisterRequest("mitch", 1215);
+    //     RegisterRequest r1 = new RegisterRequest("joe", 72);
+    //     RegisterRequest r2 = new RegisterRequest("eggo", 325);
+    //     RegisterRequest r3 = new RegisterRequest("mitch", 1215);
 
-        Vertex v1 = new Vertex(0, r1);
-        Vertex v2 = new Vertex(0, r2);
-        Vertex v3 = new Vertex(0, r3);
+    //     Vertex v1 = new Vertex(0, r1);
+    //     Vertex v2 = new Vertex(0, r2);
+    //     Vertex v3 = new Vertex(0, r3);
 
-        v1.addNeighbor(v2);
-        v1.addNeighbor(v3);
+    //     v1.addNeighbor(v2);
+    //     v1.addNeighbor(v3);
 
-        MessagingNodesList test = new MessagingNodesList(v1, v1.getNeighbors());
-        byte[] arr = test.getBytes();
+    //     System.out.println("length before marshalling: " + v1.getNeighbors().size());
+
+    //     MessagingNodesList test = new MessagingNodesList(v1, v1.getNeighbors());
+    //     byte[] arr = test.getBytes();
     
-        ByteArrayInputStream baIn = new ByteArrayInputStream(arr);
-        DataInputStream din = new DataInputStream(new BufferedInputStream(baIn));
+    //     ByteArrayInputStream baIn = new ByteArrayInputStream(arr);
+    //     DataInputStream din = new DataInputStream(new BufferedInputStream(baIn));
     
-        int msg_type = 0;
+    //     int msg_type = 0;
         
-        try {
-            msg_type = din.readInt();
-            System.out.println("Successfully read in msg_type: " + msg_type);
-        } catch (IOException err) {
-            System.err.println("Error reading message type or deserializing: " + err.getMessage());
-        }
+    //     try {
+    //         msg_type = din.readInt();
+    //         System.out.println("Successfully read in msg_type: " + msg_type);
+    //     } catch (IOException err) {
+    //         System.err.println("Error reading message type or deserializing: " + err.getMessage());
+    //     }
     
-        MessagingNodesList temp = new MessagingNodesList(din);
 
-        System.out.println("Types are the same: " + (test.getType() == temp.getType()));
-        System.out.println(test.msgNodePeerInfo.get(0).ipAddress);
-        System.out.println(test.msgNodePeerInfo.get(0).portNumber);
-        System.out.println(temp.msgNodePeerInfo.get(0).ipAddress);
-        System.out.println(temp.msgNodePeerInfo.get(0).portNumber);
-    }
+    //     MessagingNodesList temp = new MessagingNodesList(din);
+
+    //     System.out.println("length after unmarhsalling: " + temp.getMsgNodePeerList().size());
+
+
+    //     System.out.println("Types are the same: " + (test.getType() == temp.getType()));
+    //     System.out.println(test.msgNodePeerInfo.get(0).ipAddress);
+    //     System.out.println(test.msgNodePeerInfo.get(0).portNumber);
+    //     System.out.println(temp.msgNodePeerInfo.get(0).ipAddress);
+    //     System.out.println(temp.msgNodePeerInfo.get(0).portNumber);
+    // }
 } // End MessagingNodesList

@@ -21,15 +21,15 @@ public class TCPSender {
     } // End TCPSender(socket) constructor
 
     public void sendData(byte[] dataToSend) throws IOException {
-        System.out.println("Entering TCPSender.sendData(arr) method");
-        System.out.println("Is arr null: " + (dataToSend == null));
+        // System.out.println("Entering TCPSender.sendData(arr) method");
+        // System.out.println("Is arr null: " + (dataToSend == null));
         int dataLength = dataToSend.length;
 
         dout.writeInt(dataLength);
         dout.write(dataToSend, 0, dataLength);
         dout.flush();
 
-        System.out.println("Exiting TCPSender.sendData() method");
+        // System.out.println("Exiting TCPSender.sendData() method");
     } // End sendData(data) method
 
 } // End TCPSender class

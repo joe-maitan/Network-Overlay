@@ -59,10 +59,10 @@ public class MessagingNode extends Node  {
     
     @Override
     public void onEvent(Event event, int socketIndex) {
-        System.out.println("Entering MessagingNode.onEvent()");
+        // System.out.println("Entering MessagingNode.onEvent()");
         
         if (event == null) {
-            System.out.println("Event being passed in is null");
+            // System.out.println("Event being passed in is null");
             return;
         }
         
@@ -129,7 +129,7 @@ public class MessagingNode extends Node  {
                 } // End for loop
 
                 System.out.println("[MsgNode] has made " + numberOfConnections + " connections.");
-                System.out.println("[MsgNode] Exiting MessagingNodesList .onEvent()");
+                // System.out.println("[MsgNode] Exiting MessagingNodesList .onEvent()");
 
                 receiveTracker++;
 
