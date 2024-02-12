@@ -13,7 +13,7 @@ public class LinkWeights implements Event {
     public LinkWeights() {} // End default constructor
 
     public LinkWeights(int numLinks, ArrayList<Vertex> list) {
-        numberOfConnections = numLinks;
+        numberOfLinks = numLinks;
         vertices = new ArrayList<>();
 
         for (Vertex v : list) {

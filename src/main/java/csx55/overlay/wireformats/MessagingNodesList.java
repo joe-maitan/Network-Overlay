@@ -9,12 +9,14 @@ public class MessagingNodesList implements Event {
 
     private int numberPeerMessagingNodes; /* Number of connections the Node will establish */
     private ArrayList<RegisterRequest> msgNodePeerInfo = new ArrayList<>(); /* Contains each of the msgNodes peers register requests */
+    private ArrayList<Vertex> msgNodeNeighbors;
 
     public MessagingNodesList() {} // End default constructor
 
     public MessagingNodesList(Vertex v, ArrayList<Vertex> peers) {
         numberPeerMessagingNodes = v.getNeighborsSize();
         msgNodePeerInfo = new ArrayList<>();
+        msgNodeNeighbors = peers;
 
         RegisterRequest req;
         for (int i = 0; i < peers.size(); ++i) {
@@ -39,6 +41,10 @@ public class MessagingNodesList implements Event {
     public ArrayList<RegisterRequest> getMsgNodePeerList() {
         return this.msgNodePeerInfo;
     } // End getMsgNodePeerList() method
+
+    public ArrayList<Vertex> getMsgNodeVertices() {
+        return this.msgNodeNeighbors;
+    } // End getMsgNodeVertices() method
 
     @Override
     public byte[] getBytes() {
