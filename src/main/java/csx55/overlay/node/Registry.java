@@ -83,8 +83,8 @@ public class Registry extends Node {
 
                 // System.out.println("weight between the two vertices = " + weight);
                 
-                currVertex.addWeight(weight);
-                neighborVertex.addWeight(weight);
+                // currVertex.addWeight(weight);
+                // neighborVertex.addWeight(weight);
                 linkCount++;
                 
                 vertices.add(currVertex);

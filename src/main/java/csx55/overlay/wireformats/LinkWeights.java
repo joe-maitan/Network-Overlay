@@ -20,10 +20,10 @@ public class LinkWeights implements Event {
     }
 
     public LinkWeights(ArrayList<Vertex> list) {
+        numberOfLinks = list.size();
         linkInfo = new ArrayList<>();
-        System.out.println("Is list empty: " + (list.size() == 0));
-        // this.numberOfLinks = list.size();
-        System.out.println("LinkWeights constructor: numberOfLinks = " + list.size());
+        
+        System.out.println("# of Links: " + numberOfLinks);
 
         for (Vertex curr : list) {
             for (Vertex neighbor : curr.getNeighbors()) {
