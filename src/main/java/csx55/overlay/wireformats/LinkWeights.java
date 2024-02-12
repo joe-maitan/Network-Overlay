@@ -6,11 +6,23 @@ import java.util.Random;
 
 public class LinkWeights implements Event {
 
-    // Number of links
-    // link info 1
-    // link info 2
-    // ...
-    // link info 3
+    private int numberOfLinks; // number of neighbors the given vertex is connected to
+    private ArrayList<Vertex> vertices;
+
+    public LinkWeights() {} // End default constructor
+
+    public LinkWeights(int numLinks, ArrayList<Vertex> list) {
+        numberOfConnections = numLinks;
+        vertices = new ArrayList<>();
+
+        for (Vertex v : list) {
+            vertices.add(v);
+        } // End for-each loop
+    } // End LinkWeights(numLinks, list) constructor
+
+    public LinkWeights(DataInputStream din) {
+        setBytes(din);
+    } // End LinkWeights(din) constructor
 
     @Override
     public int getType() {
@@ -19,16 +31,41 @@ public class LinkWeights implements Event {
 
     @Override
     public byte[] getBytes() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getBytes'");
-    }
+        byte[] marshalledBytes = null;
+        ByteArrayOutputStream baOutputStream = new ByteArrayOutputStream();
+        DataOutputStream dout = new DataOutputStream(new BufferedOutputStream(baOutputStream));
+
+        try {
+            dout.writeInt(getType());
+            dout.writeInt(numberOfLinks);
+
+            for (Vertex v : vertices) {
+                byte[] vertexByte = v.getBytes();
+                int vertexLength = vertexByte.length;
+
+                dout.writeInt(vertexLength);
+                dout.write(vertexByte);
+            } // End for each loop
+
+            dout.flush();
+            marshalledBytes = baOutputStream.toByteArray();
+
+            baOutputStream.close();
+            dout.close();
+        } catch (IOException err) {
+            System.err.println(err.getMessage());
+        } // End try-catch block
+    } // End getBytes() method
 
     @Override
     public void setBytes(DataInputStream din) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setBytes'");
-    }
+        try {
+            numberOfLinks = din.readInt();
 
-    
-    
+            for 
+        } catch (IOException err) {
+            System.err.println(err.getMessage());
+        } // End try-catch block
+    } // End setBytes() method
+
 } // End LinkWeights class
