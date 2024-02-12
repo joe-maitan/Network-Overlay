@@ -140,16 +140,18 @@ public class Registry extends Node {
             // System.out.println("Vertices are all connected.");
 
             for (Vertex v : vertices) {
-                // System.out.println("Current vertex: " + v.getRegisterRequest().ipAddress + " " + v.getRegisterRequest().portNumber);
+                // System.out.println("Current vertex: " + v.getRegisterRequest().ipAddress);
 
-                MessagingNodesList newRequest = new MessagingNodesList(v, v.getNeighbors());
+                MessagingNodesList newRequest = new MessagingNodesList(v);
                 // System.out.println("Vertex's neighbors");
-                for (Vertex n : v.getNeighbors()) {
-                    // System.out.println(n.getRegisterRequest().ipAddress + " " + n.getRegisterRequest().portNumber);
+                // for (Vertex n : v.getNeighbors()) {
+                //     System.out.println(n.getRegisterRequest().ipAddress + " " + n.getRegisterRequest().portNumber);
 
-                    /* Sends a message node to each of the messaging nodes telling that node who it needs to connect to */
-                    send_message(n.getIndex(), newRequest.getBytes(), "");
-                }
+                //     /* Sends a message node to each of the messaging nodes telling that node who it needs to connect to */
+                //     send_message(n.getIndex(), newRequest.getBytes(), "");
+                // }
+
+                send_message(v.getIndex(), newRequest.getBytes(), "");
             } // End for-each loop
 
             overlayIsConstructed = true;
@@ -170,7 +172,9 @@ public class Registry extends Node {
         // } // End for loop
     } // End list_messaging_nodes() method
 
-    public void list_weights() {} // End list_weights() method
+    public void send_overlay_link_weights() {
+        LinkWeights overlayLinkWeights = new LinkWeights();
+    } // End list_weights() method
 
     @Override
     public void onEvent(Event event, int socketIndex) {

@@ -132,10 +132,6 @@ public class MessagingNode extends Node  {
                 // System.out.println("[MsgNode] Exiting MessagingNodesList .onEvent()");
 
                 receiveTracker++;
-
-                /* After connecting all of the nodes in the overlay respectively. We send the Register a assign overlay link weights message */
-                LinkWeights overlayLinkWeights = new LinkWeights(numberOfConnections, msg_node_list.getMsgNodeVertices());
-                // send_message(socket_index, overlayLinkWeights.getBytes(), "");
                 break;
             case 7: /* Task Initiate */
                 TaskInitiate initiate = (TaskInitiate) event;

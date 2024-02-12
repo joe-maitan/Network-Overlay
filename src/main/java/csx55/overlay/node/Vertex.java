@@ -42,6 +42,10 @@ public class Vertex {
         this.neighborWeights.add(weight);
     } // End assignLinkWeight() method
 
+    public int getWeight(int search) {
+        return this.neighborWeights.get(search);
+    } // End getWeight() method
+
     public boolean removeNeighbor(Vertex vertexToRemove) {
         if (neighbors.contains(vertexToRemove)) {
             this.neighbors.remove(vertexToRemove);

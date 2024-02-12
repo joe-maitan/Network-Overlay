@@ -7,18 +7,15 @@ import csx55.overlay.node.*;
 
 public class LinkWeights implements Event {
 
-    private int numberOfLinks; // number of neighbors the given vertex is connected to
-    private ArrayList<Vertex> vertices;
+    private int numberOfLinks; /* number of neighbors the given vertex is connected to */
+    private ArrayList<String> linkInfo; /* format of hostNameA:portNumA - hostNameB:portNumB - weight */
 
     public LinkWeights() {} // End default constructor
 
-    public LinkWeights(int numLinks, ArrayList<Vertex> list) {
-        numberOfLinks = numLinks;
-        vertices = new ArrayList<>();
-
-        for (Vertex v : list) {
-            vertices.add(v);
-        } // End for-each loop
+    public LinkWeights(ArrayList<RegisterRequest> list) {
+        System.out.println("Is list empty: " + (list.size() == 0));
+        // this.numberOfLinks = list.size();
+        System.out.println("LinkWeights constructor: numberOfLinks = " + numberOfLinks);
     } // End LinkWeights(numLinks, list) constructor
 
     public LinkWeights(DataInputStream din) {
