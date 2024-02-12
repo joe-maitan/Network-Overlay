@@ -9,10 +9,11 @@ public class LinkWeights implements Event {
 
     private int numberOfLinks; /* number of neighbors the given vertex is connected to */
     private ArrayList<String> linkInfo; /* format of hostNameA:portNumA - hostNameB:portNumB - weight */
+    private int weightOfLink;
 
     public LinkWeights() {} // End default constructor
 
-    public LinkWeights(ArrayList<RegisterRequest> list) {
+    public LinkWeights(ArrayList<Vertex> list) {
         System.out.println("Is list empty: " + (list.size() == 0));
         // this.numberOfLinks = list.size();
         System.out.println("LinkWeights constructor: numberOfLinks = " + numberOfLinks);

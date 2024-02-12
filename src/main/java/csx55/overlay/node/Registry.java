@@ -161,19 +161,18 @@ public class Registry extends Node {
     } // End construct_overlay() method
 
     public void list_messaging_nodes() {
-        /* Assignment says it should be the MessagingNodes host(machine) name */
-        MessagingNode temp = new MessagingNode("Joe", 72);
-        // listOfMessagingNodes.add(temp);
-        
-        /* TODO: Figure out how to make a collection of messagingNodes to be able to list over them  */
-        
-        // for (MessagingNode mn : listOfMessagingNodes) {
-        //     System.out.println(mn.msgNodeName + " " + mn.msgNodePortNumber);
-        // } // End for loop
+        RegisterRequest temp;
+        for (int i = 0; i < registered_messaging_nodes.size(); ++i) {
+            temp = registered_messaging_nodes.get(i);
+
+            System.out.println(temp.ipAddress + " " + temp.portNumber);
+        } // End for loop
     } // End list_messaging_nodes() method
 
+    public void list_weights() {} // End list_weights() method
+
     public void send_overlay_link_weights() {
-        LinkWeights overlayLinkWeights = new LinkWeights();
+        LinkWeights overlayLinkWeights = new LinkWeights(this.vertices);
     } // End list_weights() method
 
     @Override
@@ -270,7 +269,7 @@ public class Registry extends Node {
                     our_registry.construct_overlay(connections_required);
                 } // End if-else statement
             } else if (line.equals("send-overlay-link-weights")) {
-                our_registry.list_weights();
+                our_registry.send_overlay_link_weights();
             }  else if (line.contains("start")) {
                 String [] command = line.split(" ");
 
