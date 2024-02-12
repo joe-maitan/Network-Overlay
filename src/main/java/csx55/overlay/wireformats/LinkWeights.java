@@ -46,13 +46,13 @@ public class LinkWeights implements Event {
                 if (!edges.contains(key)) {
                     edges.add(key);
                     // System.out.println(key);
-                }
+                } // End if statement
             } // End for each loop      
         } // End for each loop
 
         // System.out.println("Adding weight to the edges");
 
-        int prevWeight = 0;
+        // int prevWeight = 0;
         for (String link : edges) {
             int weight = weightGenerator.nextInt(10) + 1;
             // while (weight != prevWeight) { weight = weightGenerator.nextInt(10) + 1; }
@@ -60,7 +60,7 @@ public class LinkWeights implements Event {
             link += " - " + weight;
             System.out.println(link);
 
-            prevWeight = weight;
+            // prevWeight = weight;
         } // End for each loop
     } // End LinkWeights(numLinks, list) constructor
 
