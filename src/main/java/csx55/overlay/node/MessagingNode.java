@@ -23,6 +23,8 @@ public class MessagingNode extends Node  {
     public ArrayList<String> msgNodeEdges;
     public HashMap<String, Integer> msgNodeMap;
 
+    public String shortestPath;
+
     public int sendTracker = 0;
     public int receiveTracker = 0;
     
@@ -78,7 +80,7 @@ public class MessagingNode extends Node  {
                     System.out.println("[MsgNode] Successfully registered.");
                 } // End if-else statement
 
-                receiveTracker++;
+                // receiveTracker++;
                 break;
             case 3: /* Deregister Response */
                 DeregisterResponse de_resp = (DeregisterResponse) event;
@@ -90,7 +92,7 @@ public class MessagingNode extends Node  {
                     System.out.println("[MsgNode] Successfully deregistered.");
                 } // End if-else statement
 
-                receiveTracker++;
+                // receiveTracker++;
                 this.node_server.close_server();
                 
                 try {
@@ -135,7 +137,7 @@ public class MessagingNode extends Node  {
                 System.out.println("[MsgNode] has made " + numberOfConnections + " connections.");
                 // System.out.println("[MsgNode] Exiting MessagingNodesList .onEvent()");
 
-                receiveTracker++;
+                // receiveTracker++;
                 break;
             case 7: /* Task Initiate */
                 TaskInitiate initiate = (TaskInitiate) event;
@@ -159,14 +161,6 @@ public class MessagingNode extends Node  {
                         
                         String currMsgNodeIP;    
                     }
-                    
-
-                //     if (calculateShortPath.getStatus() == 0) {
-                //         TaskComplete complete = new TaskComplete(this);
-                //         send_message(0, complete.getBytes(), "");
-                //     } else {
-                //         System.out.println("[MsgNode] did not finish task.");
-                //     } // End if-else statement
                 } // End if-else statement
                 
                 break;
@@ -174,6 +168,9 @@ public class MessagingNode extends Node  {
                 TaskSummaryRequest sum_req = (TaskSummaryRequest) event;
 
                 // Send back a TaskSummaryResponse event
+
+                TaskSummaryResponse rsp = new TaskSummaryResponse(null, null);
+                send_message(0, rsp.getBytes(), "");
                 break;
             default:
                 System.out.println("MessagingNode.java - Unrecognized Event.");
@@ -182,7 +179,9 @@ public class MessagingNode extends Node  {
     } // End onEvent() method
 
     public void printShortestPath() {
-
+        ShortestPath calc = new ShortestPath(msgNodeEdges, msgNodeMap);
+        // shortestPath = calc.getShortestPath()
+        // System.out.println(shorestPath)
     } // End printShortestPath()
 
     public static void main(String[] args) {
