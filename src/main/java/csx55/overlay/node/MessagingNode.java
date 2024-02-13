@@ -18,7 +18,8 @@ public class MessagingNode extends Node  {
 
     public Socket messaging_node_socket;
 
-    /* TODO: Do we declare the sink node as a variable in the MessagingNode class? */
+    public ArrayList<String> msgNodeEdges;
+    public HashMap<String, Integer> msgNodeLinkInfo;
 
     public int sendTracker = 0;
     public int receiveTracker = 0;
@@ -58,12 +59,7 @@ public class MessagingNode extends Node  {
     
     @Override
     public void onEvent(Event event, int socketIndex) {
-        // System.out.println("Entering MessagingNode.onEvent()");
-        
-        if (event == null) {
-            // System.out.println("Event being passed in is null");
-            return;
-        }
+        if (event == null) { return; }
         
         int messageProtocol = 0;
         messageProtocol = event.getType();
@@ -103,8 +99,13 @@ public class MessagingNode extends Node  {
 
                 break;
             case 4: /* Link weights */
-                
                 LinkWeights linkWeights = (LinkWeights) event;
+                System.out.println("[MsgNode] Link weights received and processed. Ready to send messages.");
+
+                msgNodeLinkInfo = linkWeights.getMap();
+                msgNodeEdges = linkWeights.getEdges();
+                System.out.println(msgNodeEdges.size());
+                System.out.println(msgNodeEdges.get(0));
                 break;
             case 5: /* message */
                 

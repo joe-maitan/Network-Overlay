@@ -133,8 +133,9 @@ public class Registry extends Node {
         if (overlayIsConstructed == true) {
             LinkWeights overlayLinkWeights = new LinkWeights(this.vertices);
             
-
-            send_message(0, overlayLinkWeights.getBytes(), "");
+            for (int i = 0; i < numberOfRegisteredNodes; ++i) { 
+                send_message(i, overlayLinkWeights.getBytes(), ""); 
+            } // End for loop
         } else {
             System.out.println("Overlay is not setup. Please construct overlay.");
             return;

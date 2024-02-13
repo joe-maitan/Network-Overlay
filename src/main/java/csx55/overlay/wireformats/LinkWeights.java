@@ -78,10 +78,7 @@ public class LinkWeights implements Event {
         try {
             dout.writeInt(getType());
 
-            // Serialize linkInfo
-            for (String link : linkInfo) {
-                dout.writeUTF(link);
-            } // End for each loop
+            // TODO: Figure out how to parse the list correctly
             
             dout.flush();
             marshalledBytes = baOutputStream.toByteArray();
@@ -100,16 +97,43 @@ public class LinkWeights implements Event {
         try {
             
            numberOfLinks = din.readInt();
-           // Deserialize linkInfo
-            linkInfo = new ArrayList<>();
-            for (int i = 0; i < numberOfLinks; i++) {
-                linkInfo.add(din.readUTF());
-            }
+           
+           // TODO: Figure out how to parse the list correctly
         } catch (IOException err) {
             System.err.println(err.getMessage());
         } // End try-catch block
     } // End setBytes() method
     public static void main(String[] commandLineArgs) {
+        ArrayList<Vertex> vertices = new ArrayList<>();
+
+        RegisterRequest r1 = new RegisterRequest("Joe", 72);
+        RegisterRequest r2 = new RegisterRequest("Craig", 0325);
+        RegisterRequest r3 = new RegisterRequest("Mitch", 1215);
+
+        Vertex v1 = new Vertex(0, r1);
+        Vertex v2 = new Vertex(0, r2);
+        Vertex v3 = new Vertex(0, r3);
+
+        v1.addNeighbor(v2);
+        v1.addNeighbor(v3);
+
+        vertices.add(v1);
+        vertices.add(v2);
+        vertices.add(v3);
+
+        LinkWeights test = new LinkWeights(vertices);
+        byte[] arr = test.getBytes();
+        ByteArrayInputStream baIn = new ByteArrayInputStream(arr);
+        DataInputStream din = new DataInputStream(new BufferedInputStream(baIn));
+
+        int msg_type = 0;
+
+        try {
+            msg_type = din.readInt();
+            System.out.println("Successfully read msg_type: " + msg_type);
+        } catch (IOException err) {
+            System.err.println(err.getMessage());
+        } // End try-catch block
 
     } // End main method
 
