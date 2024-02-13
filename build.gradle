@@ -1,3 +1,1 @@
-plugins {
-    id'java'
-    }
+plugins{id'java'}
