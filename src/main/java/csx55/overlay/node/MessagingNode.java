@@ -155,9 +155,10 @@ public class MessagingNode extends Node  {
                     for (int i = 0; i < initiate.getNumRounds(); ++i) {
                         dijkstra = new ShortestPath(msgNodeEdges, msgNodeMap);
 
-                        String sinkNode = peerMsgNodes.get(index.nextInt(peerMsgNodes.size())).getAddress();
+                        String sinkNode;peerMsgNodes.get(index.nextInt(peerMsgNodes.size())).getAddress();
                         for (int j = 0; j < 5; ++j) { // generate 5 messages for each node to send. 5 messages for every round
-                            Message m = new Message();
+                            sinkNode = peerMsgNodes.get(index.nextInt(peerMsgNodes.size())).getAddress();
+                            Message m = new Message(msgNodeIP, sinkNode);
                             dijkstra.calculateShortestPath(msgNodeIP, sinkNode);
                             send_message(i, m.getBytes(), "");
                         } // End for loop    
