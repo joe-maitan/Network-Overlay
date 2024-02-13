@@ -28,7 +28,7 @@ public class ShortestPath {
         return this.status;
     } // End getStatus() method
 
-    public Map<String, Integer> calculateShortestPath(String source, int portNum) {
+    public HashMap<String, Integer> calculateShortestPath(String source, int portNum) {
     
     } // End calculateShortestPath() method
 
