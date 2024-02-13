@@ -113,7 +113,6 @@ public class LinkWeights implements Event {
             System.err.println(err.getMessage());
         } // End try-catch block
     } // End setBytes() method
-
     public static void main(String[] commandLineArgs) {
 
     } // End main method

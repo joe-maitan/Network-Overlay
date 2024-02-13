@@ -15,7 +15,9 @@ public class TaskSummaryResponse implements Event {
 
     private int numberOfMsgsRelayed;
 
-    public TaskSummaryResponse(RegisterReqest node, int[] msgs) {
+    public TaskSummaryResponse() {} // End default constructor
+
+    public TaskSummaryResponse(RegisterRequest node, int[] msgs) {
         this.nodeIPAddress = node.getAddress();
         this.nodePortNumber = node.getPort();
         
@@ -93,7 +95,7 @@ public class TaskSummaryResponse implements Event {
     } // End setBytes() method
 
     public static void main(String[] args) {
-        RegisterRequest req = new RegisterReqest("Joe", 72);
+        RegisterRequest req = new RegisterRequest("Joe", 72);
         int[] nums = {1, 2, 3, 4, 5};
         TaskSummaryResponse rsp = new TaskSummaryResponse(req, nums);
         byte[] arr = req.getBytes();
@@ -112,7 +114,7 @@ public class TaskSummaryResponse implements Event {
         TaskSummaryResponse temp = new TaskSummaryResponse(din);
 
         if (rsp.getType() == msg_type) {
-            for (int i = 0; i < rsp.)
+            System.out.println("Msg type parsed in correctly");
         }
     } // End main method
 
