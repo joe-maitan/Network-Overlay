@@ -152,7 +152,7 @@ public class MessagingNode extends Node  {
 
                         for (int j = 0; j < 5; ++j) { // generate 5 messages for each node to send. 5 messages for every round
                             Message m = new Message();
-                            calculateShortPath.calculateShortestPath(msgNodeIP, msgNodePortNumber);
+                            // calculateShortPath.calculateShortestPath(msgNodeIP, msgNodePortNumber);
                             // send_message(i, m, "");
                         }
 
@@ -161,12 +161,12 @@ public class MessagingNode extends Node  {
                     }
                     
 
-                    if (calculateShortPath.getStatus() == 0) {
-                        TaskComplete complete = new TaskComplete(this);
-                        send_message(0, complete.getBytes(), "");
-                    } else {
-                        System.out.println("[MsgNode] did not finish task.");
-                    } // End if-else statement
+                //     if (calculateShortPath.getStatus() == 0) {
+                //         TaskComplete complete = new TaskComplete(this);
+                //         send_message(0, complete.getBytes(), "");
+                //     } else {
+                //         System.out.println("[MsgNode] did not finish task.");
+                //     } // End if-else statement
                 } // End if-else statement
                 
                 break;
@@ -184,6 +184,7 @@ public class MessagingNode extends Node  {
     public void printShortestPath() {
 
     } // End printShortestPath()
+
     public static void main(String[] args) {
         if (args.length < 2 || args.length > 2) {
             System.out.println("MessagingNode - Invalid number of arguments. Exiting program.");
