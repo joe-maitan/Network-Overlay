@@ -10,6 +10,8 @@ public class Registry extends Node {
     HashMap<Integer, RegisterRequest> registered_messaging_nodes = new HashMap<>();
 
     ArrayList<Vertex> vertices = new ArrayList<>();
+    ArrayList<String> edgesOfMessagingNodes;
+    HashMap<String, Integer> mapOfEdges;
     
     public int numberOfRegisteredNodes; /* number of nodes constituting the overlay */
 
@@ -128,15 +130,17 @@ public class Registry extends Node {
     } // End list_messaging_nodes() method
 
     public void list_weights() {
-        for (String edge : edges) {
+        for (String edge : edgesOfMessagingNodes) { 
+            System.out.println(edge + " - " + mapOfEdges.get(edge));
 
         } // End for each loop
         
     } // End list_weights() method
 
     public void send_overlay_link_weights() {
+        LinkWeights overlayLinkWeights;
         if (overlayIsConstructed == true) {
-            LinkWeights overlayLinkWeights = new LinkWeights(this.vertices);
+            overlayLinkWeights = new LinkWeights(this.vertices);
             
             for (int i = 0; i < numberOfRegisteredNodes; ++i) { 
                 send_message(i, overlayLinkWeights.getBytes(), ""); 
@@ -146,7 +150,8 @@ public class Registry extends Node {
             return;
         } // End send_overlay_link_weights() method
 
-        // overlayLinkWeights.get
+        this.edgesOfMessagingNodes = overlayLinkWeights.getEdges();
+        this.mapOfEdges = overlayLinkWeights.getMap();
     } // End list_weights() method
 
     @Override

@@ -24,20 +24,20 @@ public class ShortestPath {
         return this.status;
     } // End getStatus() method
 
-    public HashMap<String, Integer> calculateShortestPath(String source, int portNum) {
-        /* source is the current messaging node object */
-        String[] nodes = edges.get(0).split(" - ");
+    // public HashMap<String, Integer> calculateShortestPath(String source, int portNum) {
+    //     /* source is the current messaging node object */
+    //     String[] nodes = edges.get(0).split(" - ");
 
-        /* nodes[0] = Node a (from) */
-        /* nodes[1] */
+    //     /* nodes[0] = Node a (from) */
+    //     /* nodes[1] */
 
 
-        /* the destination if whwatever node we randomly choose */
-    } // End calculateShortestPath() method
+    //     /* the destination if whwatever node we randomly choose */
+    // } // End calculateShortestPath() method
 
-    public String calculateShortestPath(String source, int portNum) {
-        status = 0;
-        return "Umimplemented Dijkstras";
-    }
+    // public String calculateShortestPath(String source, int portNum) {
+    //     status = 0;
+    //     return "Umimplemented Dijkstras";
+    // }
     
 } // End ShortestPath class
