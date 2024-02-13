@@ -4,6 +4,7 @@ import java.io.*;
 import java.util.*;
 
 import csx55.overlay.node.*;
+import csx55.overlay.wireformats.*;
 
 public class LinkWeights implements Event {
 
@@ -79,6 +80,12 @@ public class LinkWeights implements Event {
             dout.writeInt(getType());
 
             // TODO: Figure out how to parse the list correctly
+            for (String link : linkInfo) {
+                byte[] linkInfoByte = link.getBytes();
+                int linkInfoLength = linkInfoByte.length;
+                dout.writeInt(linkInfoLength);
+                dout.write(linkInfoByte);
+            }
             
             dout.flush();
             marshalledBytes = baOutputStream.toByteArray();
@@ -96,9 +103,17 @@ public class LinkWeights implements Event {
     public void setBytes(DataInputStream din) {
         try {
             
-           numberOfLinks = din.readInt();
+            numberOfLinks = din.readInt();
            
-           // TODO: Figure out how to parse the list correctly
+            // TODO: Figure out how to parse the list correctly
+            linkInfo = new ArrayList<>();
+            String info = "";
+            for (int i = 0; i < numberOfLinks; i++) {
+                byte[] link = new byte[din.readInt()];
+                din.readFully(link);
+                info = new String(link);
+                linkInfo.add(info);
+            }
         } catch (IOException err) {
             System.err.println(err.getMessage());
         } // End try-catch block
@@ -134,6 +149,15 @@ public class LinkWeights implements Event {
         } catch (IOException err) {
             System.err.println(err.getMessage());
         } // End try-catch block
+
+        LinkWeights other = new LinkWeights(din);
+
+        if (test.getType() == msg_type && test.getEdges().size() == other.getEdges().size()) {
+            System.out.println("Success");
+        } else {
+            System.out.println("Womp womp");
+        }
+
 
     } // End main method
 
