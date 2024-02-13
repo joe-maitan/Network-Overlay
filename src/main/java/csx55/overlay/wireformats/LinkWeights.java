@@ -9,9 +9,7 @@ import csx55.overlay.wireformats.RegisterRequest;
 public class LinkWeights implements Event {
 
     private int numberOfLinks; /* number of neighbors the given vertex is connected to */
-    private ArrayList<String> linkInfo; /* format of hostNameA:portNumA - hostNameB:portNumB - weight */
-    
-    private ArrayList<String> edges = new ArrayList<>();
+    private ArrayList<String> edges = new ArrayList<>(); /* format of hostNameA:portNumA - hostNameB:portNumB - weight */
     private HashMap<String, Integer> map = new HashMap<>();
 
     private Random weightGenerator = new Random();
@@ -29,7 +27,6 @@ public class LinkWeights implements Event {
     public LinkWeights(ArrayList<Vertex> list) {
         System.out.println();
         numberOfLinks = list.size();
-        linkInfo = new ArrayList<>();
         
         String currVector = "";
         String neighborVector = "";
@@ -47,15 +44,14 @@ public class LinkWeights implements Event {
 
                 if (!edges.contains(newEdge)) {
                     int weight = weightGenerator.nextInt(10) + 1;
-                    edges.add(newEdge);
-                    System.out.println(newEdge + " - " + weight);
-
                     /* Store the value of the edge in a hash map with it being the key, and storing the weight as its corresponding value */
                     map.put(newEdge, weight); 
+                    
+                    System.out.println(newEdge + " - " + weight);
 
                     /* as a backup I am adding the weight to the end of the string and adding it an array list called linkInfo */
                     newEdge += " - " + weight;
-                    linkInfo.add(newEdge);
+                    edges.add(newEdge);
                 } // End if statement
             } // End for each loop      
         } // End for each loop
@@ -78,10 +74,10 @@ public class LinkWeights implements Event {
 
         try {
             dout.writeInt(getType());
-            dout.writeInt(linkInfo.size());
+            dout.writeInt(edges.size());
 
             // TODO: Figure out how to parse the list correctly
-            for (String link : linkInfo) {
+            for (String link : edges) {
                 byte[] linkInfoByte = link.getBytes();
                 int linkInfoLength = linkInfoByte.length;
                 dout.writeInt(linkInfoLength);
@@ -106,14 +102,14 @@ public class LinkWeights implements Event {
             numberOfLinks = din.readInt();
            
             // TODO: Figure out how to parse the list correctly
-            linkInfo = new ArrayList<>();
+            edges = new ArrayList<>();
             String info = "";
             for (int i = 0; i < numberOfLinks; i++) {
                 int linkLength = din.readInt();
                 byte[] link = new byte[linkLength];
                 din.readFully(link);
                 info = new String(link);
-                linkInfo.add(info);
+                edges.add(info);
             }
         } catch (IOException err) {
             System.err.println(err.getMessage());
@@ -154,9 +150,11 @@ public class LinkWeights implements Event {
         LinkWeights other = new LinkWeights(din);
 
         System.out.println(test.getType() == msg_type);
+        System.out.println();
 
         System.out.println(test.getEdges().get(0));
-        System.out.println(other.getEdges().size());
+        System.out.println();
+        System.out.println(other.getEdges().get(0));
 
     } // End main method
 
