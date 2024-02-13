@@ -17,43 +17,24 @@ public class ShortestPath {
     private ArrayList<String> edges;
     private HashMap<String, Integer> map;
 
+    private int status; /* 0 for success, 1 for failure */
+
     public ShortestPath(ArrayList<String> e, HashMap<String, Integer> m) {
         this.edges = e;
         this.map = m;
     } // End ShortestPath() constructor
 
-    public Map<String, Integer> calculateShortestPath(String source) {
-        Map<String, Integer> shortestDistances = new HashMap<>();
-        Set<String> visited = new HashSet<>();
-        PriorityQueue<String> queue = new PriorityQueue<>(Comparator.comparingInt(shortestDistances::get));
-        
-        for (String edge : edges) {
-            shortestDistances.put(edge, Integer.MAX_VALUE);
-        }
+    public int getStatus() {
+        return this.status;
+    } // End getStatus() method
 
-        shortestDistances.put(source, 0);
-        queue.add(source);
-
-        while (!queue.isEmpty()) {
-            String current = queue.poll();
-            visited.add(current);
-
-            for (String neighbor : edges) {
-                if (neighbor.startsWith(current)) {
-                    String[] vertices = neighbor.split(" - ");
-                    String next = vertices[0].equals(current) ? vertices[1] : vertices[0];
-                    if (!visited.contains(next)) {
-                        int weight = map.get(neighbor);
-                        int newDistance = shortestDistances.get(current) + weight;
-                        if (newDistance < shortestDistances.get(next)) {
-                            shortestDistances.put(next, newDistance);
-                            queue.add(next);
-                        }
-                    }
-                }
-            }
-        }
-        return shortestDistances;
+    public Map<String, Integer> calculateShortestPath(String source, int portNum) {
+    
     } // End calculateShortestPath() method
+
+    public String calculateShortestPath(String source, int portNum) {
+        status = 0;
+        return "Umimplemented Dijkstras";
+    }
     
 } // End ShortestPath class

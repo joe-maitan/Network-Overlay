@@ -1,5 +1,6 @@
 package csx55.overlay.node;
 
+import csx55.overlay.dijkstra.ShortestPath;
 import csx55.overlay.wireformats.*;
 
 import java.io.*;
@@ -20,7 +21,7 @@ public class MessagingNode extends Node  {
     public Socket messaging_node_socket;
 
     public ArrayList<String> msgNodeEdges;
-    public HashMap<String, Integer> msgNodeLinkInfo;
+    public HashMap<String, Integer> msgNodeMap;
 
     public int sendTracker = 0;
     public int receiveTracker = 0;
@@ -101,12 +102,14 @@ public class MessagingNode extends Node  {
                 break;
             case 4: /* Link weights */
                 LinkWeights linkWeights = (LinkWeights) event;
-                System.out.println("[MsgNode] Link weights received and processed. Ready to send messages.");
-
-                msgNodeLinkInfo = linkWeights.getMap();
+                msgNodeMap = linkWeights.getMap();
                 msgNodeEdges = linkWeights.getEdges();
-                // System.out.println(msgNodeEdges.size());
-                // System.out.println(msgNodeEdges.get(0));
+
+                if (msgNodeMap != null && msgNodeEdges != null) {
+                    System.out.println("[MsgNode] Link weights received and processed. Ready to send messages.");
+                } else {
+                    System.out.println("[MsgNode] Did not receive Link weights.");
+                } // end if-else statement
                 break;
             case 5: /* message */
                 
@@ -135,12 +138,37 @@ public class MessagingNode extends Node  {
                 receiveTracker++;
                 break;
             case 7: /* Task Initiate */
-                
                 TaskInitiate initiate = (TaskInitiate) event;
-                System.out.println("[MsgNode] Task Initiated. # of rounds: " + initiate.getNumRounds());
+                if (msgNodeEdges == null || msgNodeMap == null) {
+                    System.out.println("Cannot initiate task. Do not have link weight information");
+                } else {
+                    System.out.println("[MsgNode] Task Initiated. # of rounds: " + initiate.getNumRounds());
 
-                TaskComplete complete = new TaskComplete();
-                send_message(0, complete.getBytes(), "");
+                    /* START COMPUTING DIJKSTRAS*/
+                    ShortestPath calculateShortPath;
+                    for (int i = 0; i < initiate.getNumRounds(); ++i) {
+                        System.out.println("Inside of taskInitaite: " + msgNodeEdges.get(i));
+                        calculateShortPath = new ShortestPath(msgNodeEdges, msgNodeMap);
+
+                        for (int j = 0; j < 5; ++j) { // generate 5 messages for each node to send. 5 messages for every round
+                            Message m = new Message();
+                            calculateShortPath.calculateShortestPath(node_ip_address, node_port_number);
+                            // send_message(i, m, "");
+                        }
+
+                        
+                        String currMsgNodeIP;    
+                    }
+                    
+
+                    if (calculateShortPath.getStatus() == 0) {
+                        TaskComplete complete = new TaskComplete(this);
+                        send_message(0, complete.getBytes(), "");
+                    } else {
+                        System.out.println("[MsgNode] did not finish task.");
+                    } // End if-else statement
+                } // End if-else statement
+                
                 break;
             case 9:
                 TaskSummaryRequest sum_req = (TaskSummaryRequest) event;
