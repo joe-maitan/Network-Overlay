@@ -4,12 +4,15 @@ import java.io.*;
 
 public class Message implements Event {
 
-    // Source Node (From)
-    // Sink Node (To)
+    private String sourceNode;
+    private String sinkNode;
 
     public Message() {} // End default constructor
 
-    // public Message(sourceNode, sinkNode) {} // End Message(sourceNode, sinkNode) constructor
+    public Message(String source, String sink) {
+        this.sourceNode = source;
+        this.sinkNode = sink;
+    } // End Message(sourceNode, sinkNode) constructor
 
     public Message(DataInputStream din) {
         setBytes(din);
@@ -22,14 +25,43 @@ public class Message implements Event {
 
     @Override
     public byte[] getBytes() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getBytes'");
+        byte[] marshalledBytes = null;
+        ByteArrayOutputStream baOutputStream = new ByteArrayOutputStream();
+        DataOutputStream dout = new DataOutputStream(new BufferedOutputStream(baOutputStream));
+
+        try {
+            dout.writeInt(getType());
+
+            byte[] sourceByte = sourceNode.getBytes();
+            dout.writeInt(sourceByte.length);
+            dout.write(sourceByte);
+
+            byte[] sinkByte = sinkNode.getBytes();
+            dout.writeInt(sinkByte.length);
+            dout.write(sinkByte);
+
+            marshalledBytes = baOutputStream.toByteArray();
+            dout.close();
+        } catch (IOException err) {
+            System.err.println(err.getMessage());
+        } // End try-catch
+        
+        return marshalledBytes;
     } // End getBytes() method
 
     @Override
     public void setBytes(DataInputStream din) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setBytes'");
+        try {
+            byte[] sourceByte = new byte[din.readInt()];
+            din.readFully(sourceByte);
+            sourceNode = new String(sourceByte);
+
+            byte[] sinkByte = new byte[din.readInt()];
+            din.readFully(sinkByte);
+            sinkNode = new String(sinkByte);
+        } catch (IOException err) {
+            System.err.println(err.getMessage());
+        }
     } // End setBytes(din) method
     
 } // End Message class

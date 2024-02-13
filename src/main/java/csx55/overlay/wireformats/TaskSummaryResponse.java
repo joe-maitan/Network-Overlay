@@ -23,10 +23,8 @@ public class TaskSummaryResponse implements Event {
         
         this.numberOfMsgsSent = msgs[0];
         this.sumOfMsgsSent = msgs[1];
-
         this.numberOfMsgsReceived = msgs[2];
         this.sumOfMsgsReceived = msgs[3];
-
         this.numberOfMsgsRelayed = msgs[4];
     } // End TaskSummaryResponse(node, int[]) constructor
 

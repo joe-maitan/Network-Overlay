@@ -23,7 +23,15 @@ public class MessagingNode extends Node  {
     public ArrayList<String> msgNodeEdges;
     public HashMap<String, Integer> msgNodeMap;
 
+    private RegisterRequest msgNodeRegisterRequest;
+
     public String shortestPath;
+
+    public int numberOfMsgsSent;
+    public int sumOfMsgsSent;
+    public int numberOfMsgsReceived;
+    public int sumOfMsgsReceived;
+    public int numberOfMsgsRelayed;
 
     public int sendTracker = 0;
     public int receiveTracker = 0;
@@ -55,6 +63,7 @@ public class MessagingNode extends Node  {
             // System.out.println("[MsgNode] Port # of ServerSocket: " + msgNodePortNumber);
     
             RegisterRequest reg_request = new RegisterRequest(msgNodeIP, msgNodePortNumber); /* Created a new registry request */
+            msgNodeRegisterRequest = reg_request;
             node_server.send_msg(0, reg_request.getBytes());
         } catch (Exception e) {
             System.err.println(e.getMessage());
@@ -80,7 +89,6 @@ public class MessagingNode extends Node  {
                     System.out.println("[MsgNode] Successfully registered.");
                 } // End if-else statement
 
-                // receiveTracker++;
                 break;
             case 3: /* Deregister Response */
                 DeregisterResponse de_resp = (DeregisterResponse) event;
@@ -92,7 +100,6 @@ public class MessagingNode extends Node  {
                     System.out.println("[MsgNode] Successfully deregistered.");
                 } // End if-else statement
 
-                // receiveTracker++;
                 this.node_server.close_server();
                 
                 try {
@@ -114,11 +121,10 @@ public class MessagingNode extends Node  {
                 } // end if-else statement
                 break;
             case 5: /* message */
-                
+                System.out.println("[MsgNode] has received a message.");
                 Message msg = (Message) event;
                 break;
             case 6: /* MessagingNodesList */
-                // System.out.println("[MsgNode] Received a MessaingNodesList event");
                 MessagingNodesList msg_node_list = (MessagingNodesList) event;
 
                 numberOfConnections = msg_node_list.getNumPeers();
@@ -135,32 +141,27 @@ public class MessagingNode extends Node  {
                 } // End for loop
 
                 System.out.println("[MsgNode] has made " + numberOfConnections + " connections.");
-                // System.out.println("[MsgNode] Exiting MessagingNodesList .onEvent()");
-
-                // receiveTracker++;
                 break;
             case 7: /* Task Initiate */
                 TaskInitiate initiate = (TaskInitiate) event;
+                Random index = new Random();
                 if (msgNodeEdges == null || msgNodeMap == null) {
                     System.out.println("Cannot initiate task. Do not have link weight information");
                 } else {
                     System.out.println("[MsgNode] Task Initiated. # of rounds: " + initiate.getNumRounds());
 
                     /* START COMPUTING DIJKSTRAS*/
-                    ShortestPath calculateShortPath;
+                    ShortestPath dijkstra;
                     for (int i = 0; i < initiate.getNumRounds(); ++i) {
-                        System.out.println("Inside of taskInitaite: " + msgNodeEdges.get(i));
-                        calculateShortPath = new ShortestPath(msgNodeEdges, msgNodeMap);
+                        dijkstra = new ShortestPath(msgNodeEdges, msgNodeMap);
 
+                        String sinkNode = peerMsgNodes.get(index.nextInt(peerMsgNodes.size())).getAddress();
                         for (int j = 0; j < 5; ++j) { // generate 5 messages for each node to send. 5 messages for every round
                             Message m = new Message();
-                            // calculateShortPath.calculateShortestPath(msgNodeIP, msgNodePortNumber);
-                            // send_message(i, m, "");
-                        }
-
-                        
-                        String currMsgNodeIP;    
-                    }
+                            dijkstra.calculateShortestPath(msgNodeIP, sinkNode);
+                            send_message(i, m.getBytes(), "");
+                        } // End for loop    
+                    } // End for loop
                 } // End if-else statement
                 
                 break;
@@ -168,8 +169,15 @@ public class MessagingNode extends Node  {
                 TaskSummaryRequest sum_req = (TaskSummaryRequest) event;
 
                 // Send back a TaskSummaryResponse event
+                int[] msgs = new int[5];
+                
+                msgs[0] = numberOfMsgsSent;
+                msgs[1] = sumOfMsgsSent;
+                msgs[2] = numberOfMsgsReceived;
+                msgs[3] = sumOfMsgsReceived;
+                msgs[4] = numberOfMsgsRelayed;
 
-                TaskSummaryResponse rsp = new TaskSummaryResponse(null, null);
+                TaskSummaryResponse rsp = new TaskSummaryResponse(msgNodeRegisterRequest, msgs);
                 send_message(0, rsp.getBytes(), "");
                 break;
             default:
