@@ -1,12 +1,8 @@
 package csx55.overlay.node;
 
-import java.io.*;
-import java.net.*;
 import java.util.*;
 
 import csx55.overlay.wireformats.*;
-import csx55.overlay.util.*;
-import csx55.overlay.transport.*;
 
 public class Registry extends Node {
 

@@ -1,6 +1,5 @@
 package csx55.overlay.wireformats;
 
-import csx55.overlay.wireformats.*;
 import java.io.*;
 
 public class EventFactory {
@@ -20,7 +19,6 @@ public class EventFactory {
 
             int messageProtocol = din.readInt(); /* Read in the messageType */
 
-            // TODO Add if statemnt for every protocol and make sure we call the right constructor
             if (messageProtocol == Protocol.REGISTER_REQUEST) {
                 return new RegisterRequest(din);
             } else if (messageProtocol == Protocol.REGISTER_RESPONSE) {
@@ -32,7 +30,7 @@ public class EventFactory {
             } else if (messageProtocol == Protocol.LINK_WEIGHTS) {
                 return new LinkWeights(din);
             } else if (messageProtocol == Protocol.MESSAGE) {
-                return new Message();
+                return new Message(din);
             } else if (messageProtocol == Protocol.MESSAGING_NODES_LIST) {
                 return new MessagingNodesList(din);
             } else if (messageProtocol == Protocol.TASK_INITIATE) {
@@ -40,7 +38,7 @@ public class EventFactory {
             } else if (messageProtocol == Protocol.TASK_SUMMARY_REQUEST) {
                 return new TaskSummaryRequest(din);
             } else if (messageProtocol == Protocol.TASK_SUMMARY_RESPONSE) {
-                return new TaskSummaryResponse();
+                return new TaskSummaryResponse(din);
             } else if (messageProtocol == Protocol.TASK_COMPLETE) {
                 return new TaskComplete(din);
             } // End if-else statements

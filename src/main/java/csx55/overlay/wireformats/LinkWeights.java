@@ -9,14 +9,18 @@ public class LinkWeights implements Event {
 
     private int numberOfLinks; /* number of neighbors the given vertex is connected to */
     private ArrayList<String> linkInfo; /* format of hostNameA:portNumA - hostNameB:portNumB - weight */
-    ArrayList<String> edges = new ArrayList<>();
+    
+    private ArrayList<String> edges = new ArrayList<>();
     private HashMap<String, Integer> map = new HashMap<>();
 
-    private int weightOfLink;
     private Random weightGenerator = new Random();
 
-    public HashMap<String, Integer> getEdges() {
+    public HashMap<String, Integer> getMap() {
         return this.map;
+    } // End getEdges() method
+
+    public ArrayList<String> getEdges() {
+        return this.edges;
     } // End getEdges() method
 
     public LinkWeights() {} // End default constructor
