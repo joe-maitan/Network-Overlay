@@ -1,8 +1,5 @@
 package csx55.overlay.transport;
 
-// import csx55.overlay.node.*;
-// import csx55.overlay.wireformats.RegisterRequest;
-
 import java.net.*;
 import java.io.*;
 import java.util.*;
