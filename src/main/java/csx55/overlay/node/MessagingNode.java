@@ -152,7 +152,7 @@ public class MessagingNode extends Node  {
 
                         for (int j = 0; j < 5; ++j) { // generate 5 messages for each node to send. 5 messages for every round
                             Message m = new Message();
-                            calculateShortPath.calculateShortestPath(node_ip_address, node_port_number);
+                            calculateShortPath.calculateShortestPath(msgNodeIP, msgNodePortNumber);
                             // send_message(i, m, "");
                         }
 

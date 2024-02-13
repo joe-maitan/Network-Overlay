@@ -128,6 +128,9 @@ public class Registry extends Node {
     } // End list_messaging_nodes() method
 
     public void list_weights() {
+        for (String edge : edges) {
+
+        } // End for each loop
         
     } // End list_weights() method
 
@@ -142,6 +145,8 @@ public class Registry extends Node {
             System.out.println("Overlay is not setup. Please construct overlay.");
             return;
         } // End send_overlay_link_weights() method
+
+        // overlayLinkWeights.get
     } // End list_weights() method
 
     @Override

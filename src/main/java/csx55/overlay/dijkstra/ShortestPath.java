@@ -10,12 +10,8 @@ import java.util.Set;
 
 public class ShortestPath {
 
-    // Start Node
-    // list of connections and weights
-    // sink node
-
-    private ArrayList<String> edges;
-    private HashMap<String, Integer> map;
+    private ArrayList<String> edges; /* list of all the edges connecting the nodes */
+    private HashMap<String, Integer> map; /* Map of all the edges and their corresponding weights */
 
     private int status; /* 0 for success, 1 for failure */
 
@@ -29,7 +25,14 @@ public class ShortestPath {
     } // End getStatus() method
 
     public HashMap<String, Integer> calculateShortestPath(String source, int portNum) {
-    
+        /* source is the current messaging node object */
+        String[] nodes = edges.get(0).split(" - ");
+
+        /* nodes[0] = Node a (from) */
+        /* nodes[1] */
+
+
+        /* the destination if whwatever node we randomly choose */
     } // End calculateShortestPath() method
 
     public String calculateShortestPath(String source, int portNum) {
