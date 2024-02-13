@@ -1,6 +1,7 @@
 package csx55.overlay.node;
 
 import csx55.overlay.wireformats.*;
+
 import java.io.*;
 import java.net.*;
 import java.util.*;
@@ -104,8 +105,8 @@ public class MessagingNode extends Node  {
 
                 msgNodeLinkInfo = linkWeights.getMap();
                 msgNodeEdges = linkWeights.getEdges();
-                System.out.println(msgNodeEdges.size());
-                System.out.println(msgNodeEdges.get(0));
+                // System.out.println(msgNodeEdges.size());
+                // System.out.println(msgNodeEdges.get(0));
                 break;
             case 5: /* message */
                 
@@ -134,9 +135,12 @@ public class MessagingNode extends Node  {
                 receiveTracker++;
                 break;
             case 7: /* Task Initiate */
+                
                 TaskInitiate initiate = (TaskInitiate) event;
+                System.out.println("[MsgNode] Task Initiated. # of rounds: " + initiate.getNumRounds());
 
-                // Send back a task complete event
+                TaskComplete complete = new TaskComplete();
+                send_message(0, complete.getBytes(), "");
                 break;
             case 9:
                 TaskSummaryRequest sum_req = (TaskSummaryRequest) event;

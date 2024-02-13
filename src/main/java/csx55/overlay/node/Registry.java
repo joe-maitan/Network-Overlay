@@ -48,9 +48,11 @@ public class Registry extends Node {
     } // End deregister_node() method
 
     public void start(int numberOfRounds) {
-        TaskInitiate startRounds;
+        TaskInitiate startRounds = new TaskInitiate(numberOfRounds);
 
-        // send_message(0, startRounds.getBytes(), "");
+        for (int i = 0; i < numberOfRegisteredNodes; ++i) {
+            send_message(i, startRounds.getBytes(), "");
+        } // End for loop
     } // End start() method
 
     public void construct_overlay(int numberOfConnections) {
@@ -176,22 +178,18 @@ public class Registry extends Node {
                 DeregisterResponse dereg_response = new DeregisterResponse(value, info);
                 send_message(socketIndex, dereg_response.getBytes(), info);
                 break;
-            case 4: /* Link weights */
-                LinkWeights linkWeights = (LinkWeights) event;
-                break;
             case 5: /* message */
                 Message msg = (Message) event;
                 break;
-            case 6: /* List Messaging Nodes */
-                MessagingNodesList msg_node_list = (MessagingNodesList) event;
-                break;
-            // case 7: /* Task Initiate */
-            //     TaskInitiate initiate = (TaskInitiate) event;
-            //     break;
             case 8: /* Task Complete */
                 TaskComplete taskComplete = (TaskComplete) event;
+                System.out.println("[Registry] nodes have completed rounds");
 
-                // Send a task summary request
+                TaskSummaryRequest summary = new TaskSummaryRequest(value);
+                
+                for (int i = 0; i < numberOfRegisteredNodes; ++i) {
+                    send_message(i, summary.getBytes(), "");
+                } // End for loop
                 break;
             case 10: /* Task Summary Response */
                 TaskSummaryResponse sum_rsp = (TaskSummaryResponse) event;

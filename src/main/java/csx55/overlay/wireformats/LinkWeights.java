@@ -4,7 +4,7 @@ import java.io.*;
 import java.util.*;
 
 import csx55.overlay.node.*;
-import csx55.overlay.wireformats.*;
+import csx55.overlay.wireformats.RegisterRequest;
 
 public class LinkWeights implements Event {
 
@@ -78,6 +78,7 @@ public class LinkWeights implements Event {
 
         try {
             dout.writeInt(getType());
+            dout.writeInt(linkInfo.size());
 
             // TODO: Figure out how to parse the list correctly
             for (String link : linkInfo) {
@@ -102,14 +103,14 @@ public class LinkWeights implements Event {
     @Override
     public void setBytes(DataInputStream din) {
         try {
-            
             numberOfLinks = din.readInt();
            
             // TODO: Figure out how to parse the list correctly
             linkInfo = new ArrayList<>();
             String info = "";
             for (int i = 0; i < numberOfLinks; i++) {
-                byte[] link = new byte[din.readInt()];
+                int linkLength = din.readInt();
+                byte[] link = new byte[linkLength];
                 din.readFully(link);
                 info = new String(link);
                 linkInfo.add(info);
@@ -152,12 +153,10 @@ public class LinkWeights implements Event {
 
         LinkWeights other = new LinkWeights(din);
 
-        if (test.getType() == msg_type && test.getEdges().size() == other.getEdges().size()) {
-            System.out.println("Success");
-        } else {
-            System.out.println("Womp womp");
-        }
+        System.out.println(test.getType() == msg_type);
 
+        System.out.println(test.getEdges().get(0));
+        System.out.println(other.getEdges().size());
 
     } // End main method
 
