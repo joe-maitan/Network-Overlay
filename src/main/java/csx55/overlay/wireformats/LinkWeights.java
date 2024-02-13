@@ -26,45 +26,37 @@ public class LinkWeights implements Event {
     public LinkWeights() {} // End default constructor
 
     public LinkWeights(ArrayList<Vertex> list) {
+        System.out.println();
         numberOfLinks = list.size();
         linkInfo = new ArrayList<>();
         
-        System.out.println("Entering the LinkWeights constructor");
-        System.out.println("# of Links: " + numberOfLinks);
-        System.out.println();
-        
         String currVector = "";
         String neighborVector = "";
-        String key = "";
+        String newEdge = "";
         for (Vertex curr : list) {
             for (Vertex neigh : curr.getNeighbors()) {
                 currVector = curr.getRegisterRequest().getAddress() + ":" + curr.getRegisterRequest().getPort();
                 neighborVector = neigh.getRegisterRequest().getAddress() + ":" + neigh.getRegisterRequest().getPort();
 
                 if (currVector.compareTo(neighborVector) <= 0) {
-                    key = currVector + " - " +  neighborVector;
+                    newEdge = currVector + " - " +  neighborVector;
                 } else {
-                    key = neighborVector + " - " +  currVector;
+                    newEdge = neighborVector + " - " +  currVector;
                 } // End if-else statement
 
-                if (!edges.contains(key)) {
-                    edges.add(key);
-                    // System.out.println(key);
+                if (!edges.contains(newEdge)) {
+                    int weight = weightGenerator.nextInt(10) + 1;
+                    edges.add(newEdge);
+                    System.out.println(newEdge + " - " + weight);
+
+                    /* Store the value of the edge in a hash map with it being the key, and storing the weight as its corresponding value */
+                    map.put(newEdge, weight); 
+
+                    /* as a backup I am adding the weight to the end of the string and adding it an array list called linkInfo */
+                    newEdge += " - " + weight;
+                    linkInfo.add(newEdge);
                 } // End if statement
             } // End for each loop      
-        } // End for each loop
-
-        // System.out.println("Adding weight to the edges");
-
-        // int prevWeight = 0;
-        for (String link : edges) {
-            int weight = weightGenerator.nextInt(10) + 1;
-            // while (weight != prevWeight) { weight = weightGenerator.nextInt(10) + 1; }
-            
-            link += " - " + weight;
-            System.out.println(link);
-
-            // prevWeight = weight;
         } // End for each loop
     } // End LinkWeights(numLinks, list) constructor
 

@@ -47,7 +47,7 @@ public class MessagingNode extends Node  {
             /* Validation that we have collected the right information */
             // System.out.println("[MsgNode] Host name: " + msgNodeHostName);
             System.out.println("[MsgNode] IP Address: " + msgNodeIP + " at socket port #: " + messaging_node_socket.getLocalPort());
-            System.out.println("[MsgNode] Port # of ServerSocket: " + msgNodePortNumber);
+            // System.out.println("[MsgNode] Port # of ServerSocket: " + msgNodePortNumber);
     
             RegisterRequest reg_request = new RegisterRequest(msgNodeIP, msgNodePortNumber); /* Created a new registry request */
             node_server.send_msg(0, reg_request.getBytes());
@@ -111,7 +111,7 @@ public class MessagingNode extends Node  {
                 Message msg = (Message) event;
                 break;
             case 6: /* MessagingNodesList */
-                System.out.println("[MsgNode] Received a MessaingNodesList event");
+                // System.out.println("[MsgNode] Received a MessaingNodesList event");
                 MessagingNodesList msg_node_list = (MessagingNodesList) event;
 
                 numberOfConnections = msg_node_list.getNumPeers();
