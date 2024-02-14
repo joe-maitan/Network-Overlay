@@ -20,7 +20,7 @@ public class Registry extends Node {
 
     private boolean overlayIsConstructed = false;
 
-    public ArrayList<TaskSummaryResponse> statisticList;
+    public ArrayList<TaskSummaryResponse> statisticList = new ArrayList<>();
     public StatisticsCollectorAndDisplay display;
 
     public Registry() {} // End Registry default constructor
@@ -190,20 +190,22 @@ public class Registry extends Node {
                 Message msg = (Message) event;
                 break;
             case 8: /* Task Complete */
+                // System.out.println("[Registry] nodes have completed rounds");
                 TaskComplete taskComplete = (TaskComplete) event;
 
                 try {
                     Thread.sleep(15000);
+                    // System.out.println("[Registry] Waiting for nodes to complete rounds...");
                 } catch (InterruptedException err) {
                     System.err.println(err.getMessage());
                 }
 
-                System.out.println("[Registry] nodes have completed rounds");
+                System.out.println("[Registry] nodes have completed rounds. Sending TaskSummaryRequest()");
                 TaskSummaryRequest summary = new TaskSummaryRequest();
                 
-                // for (int i = 0; i < numberOfRegisteredNodes; ++i) {
-                    send_message(socketIndex, summary.getBytes(), "");
-                // } // End for loop
+                for (int i = 0; i < numberOfRegisteredNodes; ++i) {
+                    send_message(i, summary.getBytes(), "");
+                } // End for loop
                 break;
             case 10: /* Task Summary Response */
                 System.out.println("[Registry] received TaskSummaryResponse");
@@ -213,13 +215,16 @@ public class Registry extends Node {
                 statisticList.add(sum_rsp);
 
                 try {
-                    Thread.sleep(10000);
+                    Thread.sleep(10000); 
                 } catch (InterruptedException err) {
                     System.err.println(err.getMessage());
                 }
 
-                display = new StatisticsCollectorAndDisplay(statisticList);
-                break;
+                if (statisticList.size() == numberOfRegisteredNodes) {
+                    display = new StatisticsCollectorAndDisplay(statisticList);
+                    display.displayStatistics();
+                    break;
+                } 
             default:
                 System.out.println("Registry.java - Unrecognized Event.");
         } // End switch statement

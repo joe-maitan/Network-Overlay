@@ -23,6 +23,7 @@ public class TaskSummaryRequest implements Event {
 
         try {
             dout.writeInt(getType());
+            dout.writeInt(0);
             dout.flush();
 
             marshalledBytes = baOutputStream.toByteArray();
@@ -36,6 +37,12 @@ public class TaskSummaryRequest implements Event {
     } // End getBytes() method
 
     @Override
-    public void setBytes(DataInputStream din) {} // End setBytes() method
+    public void setBytes(DataInputStream din) {
+        try {
+            din.readInt();
+        } catch (IOException err) {
+            System.err.println(err.getMessage());
+        }
+    } // End setBytes() method
 
 } // End TaskSummaryRequest class

@@ -26,13 +26,13 @@ public class StatisticsCollectorAndDisplay {
     // } // End processListInformation() method
 
     public void displayStatistics() {
-        String header = "\tNumber Of Messages Sent\tNumber Of Messages Received\tSummation Of Sent Messages\tSummation Of Received Messages\tNumber Of Messages Relayed";
+        String header = "\tNumber Of Messages Sent\t\tNumber Of Messages Received\t\tSummation Of Sent Messages\t\tSummation Of Received Messages\t\tNumber Of Messages Relayed";
 
         System.out.println(header);
 
         int numberOfNodes = 1;
         for (TaskSummaryResponse rsp : responseList) {
-            String out = "Node: " + numberOfNodes + "\t" + rsp.getMsgSent() + "\t" + rsp.getMsgReceived() + "\t" + rsp.getMsgSentSum() + "\t" + rsp.getMsgReceivedSum() + "\t" + rsp.getMsgsRelayed();
+            String out = "Node: " + numberOfNodes + "\t\t\t" + rsp.getMsgSent() + "\t\t\t" + rsp.getMsgReceived() + "\t\t\t" + rsp.getMsgSentSum() + "\t\t\t" + rsp.getMsgReceivedSum() + "\t\t\t" + rsp.getMsgsRelayed();
             System.out.println(out);
             numberOfNodes++;
         } // End for each loop
