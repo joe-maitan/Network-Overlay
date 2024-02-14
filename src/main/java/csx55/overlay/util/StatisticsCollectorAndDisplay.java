@@ -19,7 +19,7 @@ public class StatisticsCollectorAndDisplay {
 
         int sumOfNumberMessagesReceived = 0;
         int sumOfAllMessagesReceived = 0;
-        String header = "\tNumber Of Messages Sent\tNumber Of Messages Received\tSummation Of Sent Messages\tSummation Of Received Messages\tNumber Of Messages Relayed";
+        String header = "\t| Number Of Messages Sent | Number Of Messages Received | Summation Of Sent Messages | Summation Of Received Messages | Number Of Messages Relayed";
 
         System.out.println(header);
 
@@ -35,7 +35,7 @@ public class StatisticsCollectorAndDisplay {
             sumOfAllMessagesReceived += rsp.getMsgReceivedSum();
         } // End for each loop
 
-        String tail = "Sum\t\t " + sumOfNumberMessagesSent + "\t" + sumOfNumberMessagesReceived + "\t" + sumOfAllMessagesSent + "\t" + sumOfAllMessagesReceived;
+        String tail = "Sum\t\t " + sumOfNumberMessagesSent + "\t\t\t" + sumOfNumberMessagesReceived + "\t\t\t" + sumOfAllMessagesSent + "\t\t\t" + sumOfAllMessagesReceived;
         System.out.println(tail);
     } // End displayStatistics() method
 

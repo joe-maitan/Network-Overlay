@@ -98,7 +98,7 @@ public class Registry extends Node {
                 if (currVertex.getNeighborsSize() < numberOfConnections) {
                     int neighborIndex = currVertex.getIndex() + 1;
                     
-                    while (currVertex.getNeighborsSize() < numberOfConnections && neighborIndex <= vertices.size()) {
+                    while (currVertex.getNeighborsSize() < numberOfConnections && neighborIndex < vertices.size()) {
                         Vertex neighbor = vertices.get(neighborIndex);
                         
                         if (currVertex.hasNeighbor(neighborIndex) == false && neighbor.hasNeighbor(currVertex.getIndex()) == false) {

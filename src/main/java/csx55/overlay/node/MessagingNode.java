@@ -143,9 +143,13 @@ public class MessagingNode extends Node  {
 
                 for (RegisterRequest r : peerMsgNodes) {
                     try {
-                        Socket peerSocket = new Socket(r.getAddress(), r.getPort());
+                        Socket peerSocket;
+                        peerSocket = new Socket(r.getAddress(), r.getPort());
                         peerSockets.add(peerSocket);
-                        // System.out.println("[MsgNode] has connected to " + peerSocket.getInetAddress().getHostAddress());
+                        addSocket(peerSocket);
+
+                        // System.out.println("This is the index of the node in TCPSenders: " + );
+                        System.out.println("[MsgNode] has connected to " + peerSocket.getInetAddress().getHostName() + " at " + peerSockets.indexOf(peerSocket));
                     } catch (IOException err) {
                         System.err.println(err.getMessage());
                     } // End try-catch block
@@ -171,8 +175,8 @@ public class MessagingNode extends Node  {
                             
                             Message m = new Message(payload);
                             Socket s = peerSockets.get(gen.nextInt(peerSockets.size()));
-                            System.out.println("Inside of TaskInitate. Sending message to " + s.getInetAddress().getHostName() + " at index: " + peerSockets.indexOf(s));
-                            send_message(peerSockets.indexOf(s), m.getBytes(), "");
+                            System.out.println("[MsgNode] Sending message to " + s.getInetAddress().getHostName() + " at index: " + peerSockets.indexOf(s));
+                            send_message(node_server.socket_connetions.indexOf(s), m.getBytes(), "");
 
                             sendTracker++;
                             sumOfMsgsSent += payload;
