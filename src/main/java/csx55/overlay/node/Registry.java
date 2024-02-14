@@ -173,6 +173,9 @@ public class Registry extends Node {
             for (int i = 0; i < numberOfRegisteredNodes; ++i) {
                 send_message(i, summary.getBytes(), "");
             } // End for loop
+
+            numTasksComp = 0;
+            numberOfTaskCompleted.set(0);
         } // End if-else statement
     } // End taskComplete(event) method
 

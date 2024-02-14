@@ -127,8 +127,7 @@ public class MessagingNode extends Node  {
                 } // end if-else statement
                 break;
             case 5: /* message */
-                // TODO: WHY IS THIS NOT PRINTING WHEN I AM SENDING MESSAGES
-                System.out.println("[MsgNode] has received a message.");
+                // System.out.println("[MsgNode] has received a message.");
                 Message msg = (Message) event;
 
                 receiveTracker++;
@@ -149,7 +148,7 @@ public class MessagingNode extends Node  {
                         addSocket(peerSocket);
 
                         // System.out.println("This is the index of the node in TCPSenders: " + );
-                        System.out.println("[MsgNode] has connected to " + peerSocket.getInetAddress().getHostName() + " at " + peerSockets.indexOf(peerSocket));
+                        // System.out.println("[MsgNode] has connected to " + peerSocket.getInetAddress().getHostName() + " at " + peerSockets.indexOf(peerSocket));
                     } catch (IOException err) {
                         System.err.println(err.getMessage());
                     } // End try-catch block
@@ -175,7 +174,7 @@ public class MessagingNode extends Node  {
                             
                             Message m = new Message(payload);
                             Socket s = peerSockets.get(gen.nextInt(peerSockets.size()));
-                            System.out.println("[MsgNode] Sending message to " + s.getInetAddress().getHostName() + " at index: " + peerSockets.indexOf(s));
+                            // System.out.println("[MsgNode] Sending message to " + s.getInetAddress().getHostName() + " at index: " + peerSockets.indexOf(s));
                             send_message(node_server.socket_connetions.indexOf(s), m.getBytes(), "");
 
                             sendTracker++;
