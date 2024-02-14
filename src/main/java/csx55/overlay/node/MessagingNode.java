@@ -255,7 +255,7 @@ public class MessagingNode extends Node  {
                     /* the onEvent for DeregisterReponse closes the server thread and the nodes socket */
                     return;
                 default:
-                    System.out.println("Unrecognized command. Please try again");
+                    System.out.println("[MsgNode] Unrecognized command. Please try again");
                     break;
             } // End switch statement
         } // End while loop

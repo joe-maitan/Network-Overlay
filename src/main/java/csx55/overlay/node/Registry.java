@@ -175,8 +175,7 @@ public class Registry extends Node {
             } // End for loop
 
             numTasksComp = 0;
-            numberOfTaskCompleted.set(0);
-        } // End if-else statement
+        }
     } // End taskComplete(event) method
 
     public synchronized void taskSummary(Event event) {
@@ -231,12 +230,15 @@ public class Registry extends Node {
                 taskComplete(event);
                 break;
             case 10: /* Task Summary Response */
+                numberOfTaskCompleted.set(0);
                 taskSummary(event);
-                statisticList.clear();
+                // statisticList.clear();
                 break;
             default:
                 System.out.println("Registry.java - Unrecognized Event.");
         } // End switch statement
+
+        statisticList.clear();
     } // End onEvent() method
 
     public static void main(String[] args) {
@@ -284,12 +286,14 @@ public class Registry extends Node {
                 } else {
                     rounds = Integer.parseInt(command[1]);
                     our_registry.start(rounds);
+
+
                 } // End if-else statement
             } else if (line.equals("exit")) {
                 our_registry.node_server.close_server();
                 break;
             } else {
-                System.out.println("Unrecognized command. Please try again");
+                System.out.println("[Registry] Unrecognized command. Please try again");
             } // End if-else statements
         } // End while loop
 
