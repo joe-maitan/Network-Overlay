@@ -2,6 +2,7 @@ package csx55.overlay.node;
 
 import java.util.*;
 
+import csx55.overlay.transport.TCPSender;
 import csx55.overlay.util.StatisticsCollectorAndDisplay;
 import csx55.overlay.wireformats.*;
 
@@ -151,6 +152,35 @@ public class Registry extends Node {
         this.mapOfEdges = overlayLinkWeights.getMap();
     } // End list_weights() method
 
+    public synchronized void taskComplete(Event event) {
+        // System.out.println("[Registry] nodes have completed rounds");
+        TaskComplete taskComplete = (TaskComplete) event;
+
+        try {
+            Thread.sleep(15000);
+            // System.out.println("[Registry] Waiting for nodes to complete rounds...");
+        } catch (InterruptedException err) {
+            System.err.println(err.getMessage());
+        }
+
+        System.out.println("[Registry] nodes have completed rounds. Sending TaskSummaryRequest()");
+
+        System.out.println("printing TCP sender objects");
+        for (TCPSender s : this.node_server.senders) {
+            System.out.println(s.index);
+        }
+
+        TaskSummaryRequest summary = new TaskSummaryRequest();
+        
+        for (int i = 0; i < numberOfRegisteredNodes; ++i) {
+            send_message(i, summary.getBytes(), "");
+        } // End for loop
+    }
+
+    public synchronized void taskSummary(Event event) {
+
+    } // End taskSummary() method
+    
     @Override
     public void onEvent(Event event, int socketIndex) {
         int messageProtocol = event.getType();
@@ -190,22 +220,7 @@ public class Registry extends Node {
                 Message msg = (Message) event;
                 break;
             case 8: /* Task Complete */
-                // System.out.println("[Registry] nodes have completed rounds");
-                TaskComplete taskComplete = (TaskComplete) event;
-
-                try {
-                    Thread.sleep(15000);
-                    // System.out.println("[Registry] Waiting for nodes to complete rounds...");
-                } catch (InterruptedException err) {
-                    System.err.println(err.getMessage());
-                }
-
-                System.out.println("[Registry] nodes have completed rounds. Sending TaskSummaryRequest()");
-                TaskSummaryRequest summary = new TaskSummaryRequest();
-                
-                for (int i = 0; i < numberOfRegisteredNodes; ++i) {
-                    send_message(i, summary.getBytes(), "");
-                } // End for loop
+                taskComplete(event);
                 break;
             case 10: /* Task Summary Response */
                 System.out.println("[Registry] received TaskSummaryResponse");
@@ -214,17 +229,13 @@ public class Registry extends Node {
                 System.out.println("[Registry] adding TaskSummarRespose to list");
                 statisticList.add(sum_rsp);
 
-                try {
-                    Thread.sleep(10000); 
-                } catch (InterruptedException err) {
-                    System.err.println(err.getMessage());
-                }
-
                 if (statisticList.size() == numberOfRegisteredNodes) {
                     display = new StatisticsCollectorAndDisplay(statisticList);
                     display.displayStatistics();
                     break;
                 } 
+
+                break;
             default:
                 System.out.println("Registry.java - Unrecognized Event.");
         } // End switch statement

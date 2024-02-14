@@ -94,23 +94,24 @@ public class TCPServerThread implements Runnable {
     } // End get_socket_index() method
 
     public void add_socket(Socket s) {
-        socket_connetions.add(s); /* Add the socket to the ArrayList containing them */
+        if (!socket_connetions.contains(s)) {
+            socket_connetions.add(s); /* Add the socket to the ArrayList containing them */
 
-        try {
-            send = new TCPSender(s, socket_connetions.indexOf(s), serverThreadNode); 
-            read = new TCPReceiverThread(s, socket_connetions.indexOf(s), serverThreadNode);
-            
-            senders.add(send);
-            readers.add(read);
+            try {
+                send = new TCPSender(s, socket_connetions.indexOf(s), serverThreadNode); 
+                read = new TCPReceiverThread(s, socket_connetions.indexOf(s), serverThreadNode);
+                
+                senders.add(send);
+                readers.add(read);
 
-            Thread server_read_thread = new Thread(read); 
+                Thread server_read_thread = new Thread(read); 
             
-            /* starts the TCPReceiver thread and begins to read in information while it has information to read */
-            server_read_thread.start(); 
-        } catch (IOException err) {
-            System.err.println(err.getMessage());
-        } // End try-catch block
-                       
+                /* starts the TCPReceiver thread and begins to read in information while it has information to read */
+                server_read_thread.start(); 
+            } catch (IOException err) {
+                System.err.println(err.getMessage());
+            } // End try-catch block
+        }            
     } // End add_socket() method
     
 } // End TCPServerThread class
