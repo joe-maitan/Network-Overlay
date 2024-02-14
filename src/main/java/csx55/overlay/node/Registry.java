@@ -180,7 +180,6 @@ public class Registry extends Node {
     } // End taskComplete(event) method
 
     public synchronized void taskSummary(Event event) {
-        // System.out.println("[Registry] received TaskSummaryResponse. Adding to list.");
         TaskSummaryResponse sum_rsp = (TaskSummaryResponse) event;
         statisticList.add(sum_rsp);
 
@@ -188,8 +187,6 @@ public class Registry extends Node {
             display = new StatisticsCollectorAndDisplay(statisticList);
             display.displayStatistics();
         } // End if statement
-
-        // System.out.println("Size of our statistic list: " + statisticList.size());
     } // End taskSummary(event) method
     
     @Override
@@ -235,6 +232,7 @@ public class Registry extends Node {
                 break;
             case 10: /* Task Summary Response */
                 taskSummary(event);
+                statisticList.clear();
                 break;
             default:
                 System.out.println("Registry.java - Unrecognized Event.");

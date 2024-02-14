@@ -127,12 +127,10 @@ public class MessagingNode extends Node  {
                 } // end if-else statement
                 break;
             case 5: /* message */
-                // System.out.println("[MsgNode] has received a message.");
                 Message msg = (Message) event;
-
-                receiveTracker++;
                 sumOfMsgsReceived += msg.getPayload();
                 numberOfMsgsRelayed++;
+                receiveTracker++;
                 break;
             case 6: /* MessagingNodesList */
                 MessagingNodesList msg_node_list = (MessagingNodesList) event;
@@ -202,6 +200,9 @@ public class MessagingNode extends Node  {
 
                 System.out.println("[MsgNode] Sending TaskSummaryResponse");
                 TaskSummaryResponse rsp = new TaskSummaryResponse(msgNodeRegisterRequest, msgs);
+
+                // System.out.println("[MsgNode] Number of messages Recieved: " + msgs[2]);
+                
                 send_message(0, rsp.getBytes(), "");
 
                 sendTracker = 0;
