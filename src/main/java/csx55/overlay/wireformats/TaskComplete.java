@@ -33,7 +33,6 @@ public class TaskComplete implements Event {
         return Protocol.TASK_COMPLETE;
     } // End getType() method
 
-    /* TODO: Figure out where the null pointer is coming from */
     @Override
     public byte[] getBytes() {
         byte[] marshalledBytes = null;

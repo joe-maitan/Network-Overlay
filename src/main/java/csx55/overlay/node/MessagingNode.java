@@ -35,6 +35,8 @@ public class MessagingNode extends Node  {
 
     public int sendTracker = 0;
     public int receiveTracker = 0;
+
+    public ArrayList<Socket> peerSockets = new ArrayList<>();
     
     public MessagingNode(String machineName, int portNum, int socketIndex) {
         msgNodeHostName = machineName;
@@ -59,7 +61,7 @@ public class MessagingNode extends Node  {
             
             /* Validation that we have collected the right information */
             // System.out.println("[MsgNode] Host name: " + msgNodeHostName);
-            System.out.println("[MsgNode] IP Address: " + msgNodeIP + " at socket port #: " + messaging_node_socket.getLocalPort());
+            System.out.println("[MsgNode] IP Address: " + msgNodeIP + " - Port #: " + messaging_node_socket.getLocalPort());
             // System.out.println("[MsgNode] Port # of ServerSocket: " + msgNodePortNumber);
     
             RegisterRequest reg_request = new RegisterRequest(msgNodeIP, msgNodePortNumber); /* Created a new registry request */
@@ -123,6 +125,7 @@ public class MessagingNode extends Node  {
             case 5: /* message */
                 System.out.println("[MsgNode] has received a message.");
                 Message msg = (Message) event;
+                sumOfMsgsReceived += msg.getPayload();
                 break;
             case 6: /* MessagingNodesList */
                 MessagingNodesList msg_node_list = (MessagingNodesList) event;
@@ -134,6 +137,7 @@ public class MessagingNode extends Node  {
                 for (RegisterRequest r : peerMsgNodes) {
                     try {
                         peerSocket = new Socket(r.getAddress(), r.getPort());
+                        peerSockets.add(peerSocket);
                         // System.out.println("[MsgNode] has connected to " + peerSocket.getInetAddress().getHostAddress());
                     } catch (IOException err) {
                         System.err.println(err.getMessage());
@@ -153,19 +157,25 @@ public class MessagingNode extends Node  {
                     /* START COMPUTING DIJKSTRAS*/
                     ShortestPath dijkstra;
                     for (int i = 0; i < initiate.getNumRounds(); ++i) {
-                        Random payload = new Random();
+                        Random gen = new Random();
                         dijkstra = new ShortestPath(msgNodeEdges, msgNodeMap);
 
-                        String sinkNode;peerMsgNodes.get(index.nextInt(peerMsgNodes.size())).getAddress();
-                        for (int j = 0; j < 5; ++j) { // generate 5 messages for each node to send. 5 messages for every round
+                        String sinkNode;
+                        for (int j = 1; j < 6; ++j) { // generate 5 messages for each node to send. 5 messages for every round
                             sinkNode = peerMsgNodes.get(index.nextInt(peerMsgNodes.size())).getAddress();
-                            Message m = new Message(payload.nextInt());
+                            int payload = gen.nextInt();
+                            
+                            Message m = new Message(payload);
                             dijkstra.calculateShortestPath(msgNodeIP, sinkNode);
                             send_message(i, m.getBytes(), "");
+
+                            sumOfMsgsSent = sumOfMsgsSent + payload;
                         } // End for loop    
                     } // End for loop
                 } // End if-else statement
-                
+
+                TaskComplete complete = new TaskComplete();
+                send_message(0, complete.getBytes(), node_ip_address);
                 break;
             case 9:
                 TaskSummaryRequest sum_req = (TaskSummaryRequest) event;
@@ -173,9 +183,9 @@ public class MessagingNode extends Node  {
                 // Send back a TaskSummaryResponse event
                 int[] msgs = new int[5];
                 
-                msgs[0] = numberOfMsgsSent;
+                msgs[0] = sendTracker;
                 msgs[1] = sumOfMsgsSent;
-                msgs[2] = numberOfMsgsReceived;
+                msgs[2] = receiveTracker;
                 msgs[3] = sumOfMsgsReceived;
                 msgs[4] = numberOfMsgsRelayed;
 
