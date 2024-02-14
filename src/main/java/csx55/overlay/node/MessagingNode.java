@@ -171,7 +171,7 @@ public class MessagingNode extends Node  {
                             
                             Message m = new Message(payload);
                             Socket s = peerSockets.get(gen.nextInt(peerSockets.size()));
-                            System.out.println("Inside of TaskInitate. Sending message to " + s.getInetAddress().getHostName());
+                            System.out.println("Inside of TaskInitate. Sending message to " + s.getInetAddress().getHostName() + " at index: " + peerSockets.indexOf(s));
                             send_message(peerSockets.indexOf(s), m.getBytes(), "");
 
                             sendTracker++;
