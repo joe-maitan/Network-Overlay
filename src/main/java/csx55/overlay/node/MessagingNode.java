@@ -134,13 +134,13 @@ public class MessagingNode extends Node  {
                 for (RegisterRequest r : peerMsgNodes) {
                     try {
                         peerSocket = new Socket(r.getAddress(), r.getPort());
-                        System.out.println("[MsgNode] has connected to " + peerSocket.getInetAddress().getHostAddress());
+                        // System.out.println("[MsgNode] has connected to " + peerSocket.getInetAddress().getHostAddress());
                     } catch (IOException err) {
                         System.err.println(err.getMessage());
                     } // End try-catch block
                 } // End for loop
 
-                System.out.println("[MsgNode] has made " + numberOfConnections + " connections.");
+                System.out.println("[MsgNode] All connections are established. Number of connections: " + numberOfConnections);
                 break;
             case 7: /* Task Initiate */
                 TaskInitiate initiate = (TaskInitiate) event;
@@ -153,12 +153,13 @@ public class MessagingNode extends Node  {
                     /* START COMPUTING DIJKSTRAS*/
                     ShortestPath dijkstra;
                     for (int i = 0; i < initiate.getNumRounds(); ++i) {
+                        Random payload = new Random();
                         dijkstra = new ShortestPath(msgNodeEdges, msgNodeMap);
 
                         String sinkNode;peerMsgNodes.get(index.nextInt(peerMsgNodes.size())).getAddress();
                         for (int j = 0; j < 5; ++j) { // generate 5 messages for each node to send. 5 messages for every round
                             sinkNode = peerMsgNodes.get(index.nextInt(peerMsgNodes.size())).getAddress();
-                            Message m = new Message(msgNodeIP, sinkNode);
+                            Message m = new Message(payload.nextInt());
                             dijkstra.calculateShortestPath(msgNodeIP, sinkNode);
                             send_message(i, m.getBytes(), "");
                         } // End for loop    

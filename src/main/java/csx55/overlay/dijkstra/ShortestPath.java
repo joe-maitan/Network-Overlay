@@ -26,11 +26,17 @@ public class ShortestPath {
 
     /* source is the current messaging node object */
     /* sinkNode is the node we want to send the message to */
-    public void calculateShortestPath(String sourceNode, String sinkNode) {
+    public void calculateShortestPath(String sourceNode, String destinationNode) {
         System.out.println("Our source node: " + sourceNode);
-        System.out.println("Our sinkNode: " + sinkNode);
+        System.out.println("Our destinationNode: " + destinationNode);
         
         String[] nodes = edges.get(0).split(" - "); /* the edges come in the format of: hostNameA:portNumA - hostNameB:portNumB */
+
+        String nodeA = nodes[0];
+        String nodeB = nodes[1];
+
+        System.out.println("Node A: " + nodeA);
+        System.out.println("Node B: " + nodeB);
 
     } // End calculateShortestPath() method
  

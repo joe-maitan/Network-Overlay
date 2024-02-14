@@ -4,27 +4,21 @@ import java.io.*;
 
 public class Message implements Event {
 
-    private String sourceNode;
-    private String sinkNode;
+    private int payload;
 
     public Message() {} // End default constructor
 
-    public Message(String source, String sink) {
-        this.sourceNode = source;
-        this.sinkNode = sink;
+    public Message(int p) {
+        this.payload = p;
     } // End Message(sourceNode, sinkNode) constructor
 
     public Message(DataInputStream din) {
         setBytes(din);
     } // End Message(din) constructor
 
-    public String getSourceNode() {
-        return this.sourceNode;
-    } // End getSourceNode() method
-
-    public String getSinkNode() {
-        return this.sinkNode;
-    } // End getSinkNode() method
+    public int getPayload() {
+        return this.payload;
+    } // End getPayload() method
 
     @Override
     public int getType() {
@@ -40,15 +34,7 @@ public class Message implements Event {
         try {
             dout.writeInt(getType());
 
-            byte[] sourceByte = sourceNode.getBytes();
-            int sourceByteLength = sourceByte.length;
-            dout.writeInt(sourceByteLength);
-            dout.write(sourceByte);
-
-            byte[] sinkByte = sinkNode.getBytes();
-            int sinkByteLength = sinkByte.length;
-            dout.writeInt(sinkByteLength);
-            dout.write(sinkByte);
+            dout.writeInt(payload);
 
             marshalledBytes = baOutputStream.toByteArray();
             dout.close();
@@ -62,20 +48,14 @@ public class Message implements Event {
     @Override
     public void setBytes(DataInputStream din) {
         try {
-            byte[] sourceByte = new byte[din.readInt()];
-            din.readFully(sourceByte);
-            sourceNode = new String(sourceByte);
-
-            byte[] sinkByte = new byte[din.readInt()];
-            din.readFully(sinkByte);
-            sinkNode = new String(sinkByte);
+            payload = din.readInt();
         } catch (IOException err) {
             System.err.println(err.getMessage());
         }
     } // End setBytes(din) method
 
     public static void main(String[] args) {
-        Message test = new Message("Joe", "72");
+        Message test = new Message(72);
 
         byte[] arr = test.getBytes(); /* marshalling the data */
         ByteArrayInputStream baIn = new ByteArrayInputStream(arr);
@@ -92,7 +72,7 @@ public class Message implements Event {
 
         Message other = new Message(din);
 
-        if (test.getType() == other.getType() && test.getSourceNode().equals(other.getSourceNode()) && test.getSinkNode().equals(other.getSinkNode())) {
+        if (test.getType() == other.getType() && test.getPayload() == other.getPayload()) {
             System.out.println("message wireformat successful");
         } else {
             System.out.println("Womp womp");
