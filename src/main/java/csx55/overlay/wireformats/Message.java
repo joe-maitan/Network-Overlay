@@ -33,10 +33,13 @@ public class Message implements Event {
 
         try {
             dout.writeInt(getType());
-
             dout.writeInt(payload);
 
+            dout.flush();
+
             marshalledBytes = baOutputStream.toByteArray();
+            
+            baOutputStream.close();
             dout.close();
         } catch (IOException err) {
             System.err.println(err.getMessage());
@@ -51,32 +54,7 @@ public class Message implements Event {
             payload = din.readInt();
         } catch (IOException err) {
             System.err.println(err.getMessage());
-        }
+        } // End try-catch block
     } // End setBytes(din) method
 
-    public static void main(String[] args) {
-        Message test = new Message(72);
-
-        byte[] arr = test.getBytes(); /* marshalling the data */
-        ByteArrayInputStream baIn = new ByteArrayInputStream(arr);
-        DataInputStream din = new DataInputStream(new BufferedInputStream(baIn));
-
-        int msg_type = 0;
-
-        try {
-            msg_type = din.readInt();
-            System.out.println("Successfully read in msg_type: " + (msg_type == 5));
-        } catch (IOException err) {
-            System.err.println(err.getMessage());
-        }
-
-        Message other = new Message(din);
-
-        if (test.getType() == other.getType() && test.getPayload() == other.getPayload()) {
-            System.out.println("message wireformat successful");
-        } else {
-            System.out.println("Womp womp");
-        }
-    }
-    
 } // End Message class

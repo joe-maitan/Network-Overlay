@@ -51,7 +51,6 @@ public class Registry extends Node {
 
     public void start(int numberOfRounds) {
         TaskInitiate startRounds = new TaskInitiate(numberOfRounds);
-
         for (int i = 0; i < numberOfRegisteredNodes; ++i) {
             send_message(i, startRounds.getBytes(), "");
         } // End for loop
@@ -99,14 +98,11 @@ public class Registry extends Node {
                                 neighbor.addNeighbor(currVertex);
                                 linkCount++;
                             } // End if statement
-
                         } // End if statement
 
                         ++neighborIndex;
                     } // End while loop
-
                 } // End for loop
-
             } // End for-each loop loop
 
             for (Vertex v : vertices) {
@@ -124,7 +120,6 @@ public class Registry extends Node {
         RegisterRequest temp;
         for (int i = 0; i < registered_messaging_nodes.size(); ++i) {
             temp = registered_messaging_nodes.get(i);
-
             System.out.println(temp.getAddress() + " - " + temp.getPort());
         } // End for loop
     } // End list_messaging_nodes() method
@@ -132,9 +127,7 @@ public class Registry extends Node {
     public void list_weights() {
         for (String edge : edgesOfMessagingNodes) { 
             System.out.println(edge + " - " + mapOfEdges.get(edge));
-
         } // End for each loop
-        
     } // End list_weights() method
 
     public void send_overlay_link_weights() {

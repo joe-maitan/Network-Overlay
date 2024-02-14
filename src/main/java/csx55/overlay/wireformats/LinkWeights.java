@@ -46,7 +46,7 @@ public class LinkWeights implements Event {
                     int weight = weightGenerator.nextInt(10) + 1;
                     map.put(newEdge, weight); /* Store the value of the edge in a hash map with it being the key, and storing the weight as its corresponding value */
                     edges.add(newEdge);
-                    System.out.println(newEdge + " - " + weight);
+                    // System.out.println(newEdge + " - " + weight);
                 } // End if statement
             } // End for each loop      
         } // End for each loop
