@@ -179,7 +179,6 @@ public class MessagingNode extends Node  {
                 break;
             case 9:
                 TaskSummaryRequest sum_req = (TaskSummaryRequest) event;
-
                 // Send back a TaskSummaryResponse event
                 int[] msgs = new int[5];
                 
@@ -191,6 +190,9 @@ public class MessagingNode extends Node  {
 
                 TaskSummaryResponse rsp = new TaskSummaryResponse(msgNodeRegisterRequest, msgs);
                 send_message(0, rsp.getBytes(), "");
+                
+
+                
                 break;
             default:
                 System.out.println("MessagingNode.java - Unrecognized Event.");

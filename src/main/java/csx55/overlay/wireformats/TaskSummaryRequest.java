@@ -4,13 +4,7 @@ import java.io.*;
 
 public class TaskSummaryRequest implements Event {
 
-    private boolean taskComplete;
-
     public TaskSummaryRequest() {} // End default constructor
-
-    public TaskSummaryRequest(boolean value) {
-        this.taskComplete = value;
-    } // End TaskSummaryRequest(bool) constructor
 
     public TaskSummaryRequest(DataInputStream din) {
         setBytes(din);
@@ -29,7 +23,6 @@ public class TaskSummaryRequest implements Event {
 
         try {
             dout.writeInt(getType());
-            dout.writeBoolean(taskComplete);
             dout.flush();
 
             marshalledBytes = baOutputStream.toByteArray();
@@ -43,12 +36,6 @@ public class TaskSummaryRequest implements Event {
     } // End getBytes() method
 
     @Override
-    public void setBytes(DataInputStream din) {
-        try {
-            taskComplete = din.readBoolean();
-        } catch (IOException err) {
-            System.err.println(err.getMessage());
-        }
-    } // End setBytes() method
+    public void setBytes(DataInputStream din) {} // End setBytes() method
 
 } // End TaskSummaryRequest class

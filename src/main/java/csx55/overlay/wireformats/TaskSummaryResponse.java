@@ -54,11 +54,10 @@ public class TaskSummaryResponse implements Event {
 
             dout.writeInt(numberOfMsgsSent);
             dout.writeInt(sumOfMsgsSent);
-            
             dout.writeInt(numberOfMsgsReceived);
             dout.writeInt(sumOfMsgsReceived);
-            
             dout.writeInt(numberOfMsgsRelayed);
+            
             dout.flush();
 
             marshalledBytes = baOutputStream.toByteArray();
@@ -110,6 +109,8 @@ public class TaskSummaryResponse implements Event {
         }
 
         TaskSummaryResponse temp = new TaskSummaryResponse(din);
+
+        System.out.println(rsp.getType());
 
         if (rsp.getType() == msg_type) {
             System.out.println("Msg type parsed in correctly");
