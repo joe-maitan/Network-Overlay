@@ -26,11 +26,7 @@ public class LinkWeights implements Event {
 
     public LinkWeights(ArrayList<Vertex> list) {
         numberOfLinks = list.size();
-        // System.out.println("numberOfLinks =" + numberOfLinks);
 
-        // for (int i = 0 ; i < numberOfLinks; ++i) {System.out.println(list.get(i).getRegisterRequest().getAddress());}
-        // System.out.println();
-        
         String currVector = "";
         String neighborVector = "";
         String newEdge = "";
@@ -50,6 +46,7 @@ public class LinkWeights implements Event {
                     int weight = weightGenerator.nextInt(10) + 1;
                     map.put(newEdge, weight); /* Store the value of the edge in a hash map with it being the key, and storing the weight as its corresponding value */
                     edges.add(newEdge);
+                    System.out.println(newEdge + " - " + weight);
                 } // End if statement
             } // End for each loop      
         } // End for each loop
@@ -74,7 +71,6 @@ public class LinkWeights implements Event {
             dout.writeInt(getType());
             dout.writeInt(edges.size());
 
-            // TODO: Figure out how to parse the list correctly
             for (String link : edges) {
                 byte[] linkInfoByte = link.getBytes();
                 int linkInfoLength = linkInfoByte.length;
@@ -98,8 +94,7 @@ public class LinkWeights implements Event {
     public void setBytes(DataInputStream din) {
         try {
             numberOfLinks = din.readInt();
-           
-            // TODO: Figure out how to parse the list correctly
+    
             edges = new ArrayList<>();
             String info = "";
             for (int i = 0; i < numberOfLinks; i++) {
@@ -108,52 +103,10 @@ public class LinkWeights implements Event {
                 din.readFully(link);
                 info = new String(link);
                 edges.add(info);
-            }
+            } // End for loop
         } catch (IOException err) {
             System.err.println(err.getMessage());
         } // End try-catch block
     } // End setBytes() method
-    // public static void main(String[] commandLineArgs) {
-    //     ArrayList<Vertex> vertices = new ArrayList<>();
-
-    //     RegisterRequest r1 = new RegisterRequest("Joe", 72);
-    //     RegisterRequest r2 = new RegisterRequest("Craig", 0325);
-    //     RegisterRequest r3 = new RegisterRequest("Mitch", 1215);
-
-    //     Vertex v1 = new Vertex(0, r1);
-    //     Vertex v2 = new Vertex(0, r2);
-    //     Vertex v3 = new Vertex(0, r3);
-
-    //     v1.addNeighbor(v2);
-    //     v1.addNeighbor(v3);
-
-    //     vertices.add(v1);
-    //     vertices.add(v2);
-    //     vertices.add(v3);
-
-    //     LinkWeights test = new LinkWeights(vertices);
-    //     byte[] arr = test.getBytes();
-    //     ByteArrayInputStream baIn = new ByteArrayInputStream(arr);
-    //     DataInputStream din = new DataInputStream(new BufferedInputStream(baIn));
-
-    //     int msg_type = 0;
-
-    //     try {
-    //         msg_type = din.readInt();
-    //         System.out.println("Successfully read msg_type: " + msg_type);
-    //     } catch (IOException err) {
-    //         System.err.println(err.getMessage());
-    //     } // End try-catch block
-
-    //     LinkWeights other = new LinkWeights(din);
-
-    //     System.out.println(test.getType() == msg_type);
-    //     System.out.println();
-
-    //     System.out.println(test.getEdges().get(0));
-    //     System.out.println();
-    //     System.out.println(other.getEdges().get(0));
-
-    // } // End main method
-
+    
 } // End LinkWeights class

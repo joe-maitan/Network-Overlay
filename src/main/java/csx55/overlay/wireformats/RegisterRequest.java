@@ -9,7 +9,6 @@ public class RegisterRequest implements Event {
 
     public RegisterRequest() {} // End default constructor
 
-    /* This constructor servers as our setBytes() method */
     public RegisterRequest(String ip, int port) {
         ipAddress = ip;
         portNumber = port;
@@ -71,28 +70,5 @@ public class RegisterRequest implements Event {
             System.err.println(err.getMessage());
         } // End try-catch block
     } // End setBytes() method
-
-    // public static void main(String[] args) {
-    //     RegisterRequest rq = new RegisterRequest("joe", 72);
-    //     byte[] arr = rq.getBytes(); /* marshalling the data */
-    //     ByteArrayInputStream baIn = new ByteArrayInputStream(arr);
-    //     DataInputStream din = new DataInputStream(new BufferedInputStream(baIn));
-        
-    //     int msg_type = 0;
-    //     try{
-    //         msg_type = din.readInt();
-    //     } catch (Exception e) {
-    //         System.out.println(e.getMessage());
-    //     }
-
-    //     RegisterRequest other = new RegisterRequest(din); /* unmarshalling */
-        
-    //     if (rq.getType() == msg_type && rq.ipAddress.equals(other.ipAddress) && rq.portNumber == other.portNumber) {
-    //         System.out.println("RegisterReqest - Success");
-    //     } else{
-    //         System.out.println("RegisterRequest - Unsuccessful");
-    //     }
-
-    // }
 
 } // End RegisterRequest class

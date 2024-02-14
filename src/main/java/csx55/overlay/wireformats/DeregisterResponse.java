@@ -72,28 +72,4 @@ public class DeregisterResponse implements Event {
         } // End try-catch block
     } // End setBytes(din) method
 
-    // public static void main(String[] args) {
-    //     DeregisterResponse drg = new DeregisterResponse(true, "Deregistered successfully");
-    //     byte[] arr = drg.getBytes();
-
-    //     ByteArrayInputStream baIn = new ByteArrayInputStream(arr);
-    //     DataInputStream din = new DataInputStream(baIn);
-
-    //     int msg_type = 0;
-
-    //     try {
-    //         msg_type = din.readInt();
-    //     } catch (Exception e) {
-    //         System.err.println(e.getMessage());
-    //     }
-
-    //     DeregisterResponse other = new DeregisterResponse(din);
-
-    //     if (drg.getType() == msg_type && drg.getStatus() == other.getStatus() && drg.getInfo().equals(other.getInfo())) {
-    //         System.out.println("DeregisterResponse - Success");
-    //     } else {
-    //         System.out.println("DeregisterResponse - Failure");
-    //     }
-    // }
-    
 } // End DeregisterResponse class

@@ -72,43 +72,4 @@ public class RegisterResponse implements Event {
         } // End try-catch block
     } // End setBytes(din) method
 
-    // public static void main(String[] args) {
-    //     RegisterResponse rsp = new RegisterResponse(true, "Life is good");
-    //     // RegisterResponse rsp_two = new RegisterResponse(false, "Live is still good");
-    //     byte[] arr = rsp.getBytes();
-    //     ByteArrayInputStream baIn = new ByteArrayInputStream(arr);
-    //     DataInputStream din = new DataInputStream(new BufferedInputStream(baIn));
-
-    //     int msg_type = 0;
-    //     try {
-    //         msg_type = din.readInt();
-    //     } catch (Exception err) {
-    //         System.err.println(err.getMessage());
-    //     }
-
-    //     RegisterResponse other = new RegisterResponse(din);
-
-    //     if (rsp.getType() == msg_type && rsp.getStatus() == other.getStatus() && rsp.getInfo().equals(other.getInfo())) {
-    //         System.out.println("RegisterResponse - Success");
-    //         // System.out.println(msg_type);
-    //         // System.out.println(rsp.getType());
-
-    //         // System.out.println(rsp.getStatus());
-    //         // System.out.println(other.getStatus());
-
-    //         // System.out.println(rsp.getInfo());
-    //         // System.out.println(other.getInfo());
-    //     } else {
-    //         System.out.println("RegisterResponse - Failure");
-    //         // System.out.println(msg_type);
-    //         // System.out.println(rsp.getType());
-
-    //         // System.out.println(rsp.getStatus());
-    //         // System.out.println(other.getStatus());
-
-    //         // System.out.println(rsp.getInfo());
-    //         // System.out.println(other.getInfo());
-    //     }
-    // }
-
 } // End RegisterResponse class

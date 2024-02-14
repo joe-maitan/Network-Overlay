@@ -30,12 +30,8 @@ public class ShortestPath {
         System.out.println("Our source node: " + sourceNode);
         System.out.println("Our sinkNode: " + sinkNode);
         
-        String[] nodes = edges.get(0).split(" - ");
+        String[] nodes = edges.get(0).split(" - "); /* the edges come in the format of: hostNameA:portNumA - hostNameB:portNumB */
 
-        
-
-        // System.out.println(nodes[0]);
-        // System.out.println(nodes[1]);
     } // End calculateShortestPath() method
  
 } // End ShortestPath class

@@ -72,27 +72,4 @@ public class DeregisterRequest implements Event {
         } // End try-catch block
     } // End setBytes() method
 
-    // public static void main(String[] args) {
-    //     DeregisterRequest dq = new DeregisterRequest("joe", 7200);
-    //     byte[] arr = dq.getBytes(); /* marshalling the data*/
-
-    //     ByteArrayInputStream baIn = new ByteArrayInputStream(arr);
-    //     DataInputStream din = new DataInputStream(new BufferedInputStream(baIn));
-
-    //     int msg_type = 0;
-    //     try{
-    //         msg_type = din.readInt();
-    //     } catch (Exception e) {
-    //         System.out.println(e.getMessage());
-    //     }
-
-    //     DeregisterRequest other = new DeregisterRequest(din);
-
-    //     if (dq.getType() == msg_type && dq.hostName.equals(other.hostName) && dq.portNumber == other.portNumber) {
-    //         System.out.println("DeregisterRequest - Success!");
-    //     } else {
-    //         System.out.println("DeregisterRequest - Unsuccessful");
-    //     }
-    // }
-
 } // End DeregisterRequest class
