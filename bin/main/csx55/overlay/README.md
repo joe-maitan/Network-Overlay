@@ -17,5 +17,7 @@ java -cp build/libs/csx55.jar csx55.overlay.node.Registry 5505
 
 java -cp build/libs/csx55.jar csx55.overlay.node.MessagingNode shark 5505
 
+Tar command for submission: tar -cvf Joseph_Maitan_HW1.tar overlay
+
 How to test wireformats:
 java -cp build/libs/csx55.jar csx55.overlay.wireformats.class

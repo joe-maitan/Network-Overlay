@@ -40,6 +40,7 @@ public class TaskComplete implements Event {
         try {
             dout.writeInt(getType());
 
+            /* TODO: Figure out what is going wrong here */
             byte[] ipAddressByte = nodeIPAddress.getBytes();
             int ipAddressLength = ipAddressByte.length;
             dout.writeInt(ipAddressLength);
@@ -70,5 +71,31 @@ public class TaskComplete implements Event {
             System.err.println(err.getMessage());
         }
     } // End setBytes(din) method
+
+    public static void main(String[] args) {
+        RegisterRequest test = new RegisterRequest("Joe", 72);
+        TaskComplete test2 = new TaskComplete(test);
+
+        byte[] arr = test2.getBytes();
+
+        ByteArrayInputStream baIn = new ByteArrayInputStream(arr);
+        DataInputStream din = new DataInputStream(new BufferedInputStream(baIn));
+
+        int msg_type = 0;
+
+        try {
+            msg_type = din.readInt();
+        } catch (IOException err) {
+            System.err.println(err.getMessage());
+        }
+
+        TaskComplete temp = new TaskComplete(din);
+
+        if (test2.getType() == temp.getType() && test2.getAddress().equals(temp.getAddress()) && test2.getPort() == temp.getPort()) {
+            System.out.println("Who fucks? I fuck");
+        } else {
+            System.out.println("Womp womp");
+        }
+    }
 
 } // End TaskComplete class

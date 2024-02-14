@@ -182,7 +182,7 @@ public class Registry extends Node {
                 send_message(socketIndex, dereg_response.getBytes(), info);
                 break;
             case 5: /* message */
-                System.out.println("Registry has receieved Msg (not good)");
+                // System.out.println("Registry has receieved Msg (not good)");
                 Message msg = (Message) event;
                 break;
             case 8: /* Task Complete */

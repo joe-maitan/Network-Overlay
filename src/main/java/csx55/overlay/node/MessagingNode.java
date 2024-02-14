@@ -169,7 +169,7 @@ public class MessagingNode extends Node  {
                             dijkstra.calculateShortestPath(msgNodeIP, sinkNode);
                             send_message(i, m.getBytes(), "");
 
-                            sumOfMsgsSent = sumOfMsgsSent + payload;
+                            sumOfMsgsSent += payload;
                         } // End for loop    
                     } // End for loop
                 } // End if-else statement
