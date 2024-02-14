@@ -28,6 +28,26 @@ public class TaskSummaryResponse implements Event {
         this.numberOfMsgsRelayed = msgs[4];
     } // End TaskSummaryResponse(node, int[]) constructor
 
+    public Integer getMsgSent() {
+        return this.numberOfMsgsSent;
+    }
+    
+    public Integer getMsgReceived() {
+        return this.numberOfMsgsReceived;
+    }
+    
+    public Integer getMsgSentSum() {
+        return this.sumOfMsgsSent;
+    }
+
+    public Integer getMsgReceivedSum() {
+        return this.sumOfMsgsReceived;
+    }
+
+    public Integer getMsgsRelayed() {
+        return this.numberOfMsgsRelayed;
+    }
+
     public TaskSummaryResponse(DataInputStream din) {
         setBytes(din);
     } // End TaskSummaryResponse(din) constructor

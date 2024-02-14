@@ -2,6 +2,7 @@ package csx55.overlay.node;
 
 import java.util.*;
 
+import csx55.overlay.util.StatisticsCollectorAndDisplay;
 import csx55.overlay.wireformats.*;
 
 public class Registry extends Node {
@@ -18,6 +19,9 @@ public class Registry extends Node {
     public int linkCount = 0;
 
     private boolean overlayIsConstructed = false;
+
+    public ArrayList<TaskSummaryResponse> statisticList;
+    public StatisticsCollectorAndDisplay display;
 
     public Registry() {} // End Registry default constructor
 
@@ -186,23 +190,35 @@ public class Registry extends Node {
                 Message msg = (Message) event;
                 break;
             case 8: /* Task Complete */
-                System.out.println("[Registry] nodes have completed rounds");
                 TaskComplete taskComplete = (TaskComplete) event;
 
                 try {
-                    wait(15);
+                    Thread.sleep(15000);
                 } catch (InterruptedException err) {
                     System.err.println(err.getMessage());
                 }
-                
+
+                System.out.println("[Registry] nodes have completed rounds");
                 TaskSummaryRequest summary = new TaskSummaryRequest();
                 
-                for (int i = 0; i < numberOfRegisteredNodes; ++i) {
-                    send_message(i, summary.getBytes(), "");
-                } // End for loop
+                // for (int i = 0; i < numberOfRegisteredNodes; ++i) {
+                    send_message(socketIndex, summary.getBytes(), "");
+                // } // End for loop
                 break;
             case 10: /* Task Summary Response */
+                System.out.println("[Registry] received TaskSummaryResponse");
                 TaskSummaryResponse sum_rsp = (TaskSummaryResponse) event;
+
+                System.out.println("[Registry] adding TaskSummarRespose to list");
+                statisticList.add(sum_rsp);
+
+                try {
+                    Thread.sleep(10000);
+                } catch (InterruptedException err) {
+                    System.err.println(err.getMessage());
+                }
+
+                display = new StatisticsCollectorAndDisplay(statisticList);
                 break;
             default:
                 System.out.println("Registry.java - Unrecognized Event.");

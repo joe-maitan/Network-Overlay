@@ -72,6 +72,10 @@ public class MessagingNode extends Node  {
         } // End try-catch block
     } // End MessagingNode() constructor
     
+    public RegisterRequest getMsgNodeRegisterRequest() {
+        return this.msgNodeRegisterRequest;
+    } // End getMsgNodeRegisterRequest() method
+
     @Override
     public void onEvent(Event event, int socketIndex) {
         if (event == null) { return; }
@@ -166,7 +170,7 @@ public class MessagingNode extends Node  {
                             
                             Message m = new Message(payload);
                             // dijkstra.calculateShortestPath(msgNodeIP, sinkNode);
-                            send_message(i, m.getBytes(), "");
+                            send_message(socketIndex, m.getBytes(), "");
 
                             sumOfMsgsSent += payload;
                         } // End for loop    
@@ -174,10 +178,11 @@ public class MessagingNode extends Node  {
                 } // End if-else statement
 
                 System.out.println("[MsgNode] Task completed. Sending TaskComplete to Registry.");
-                TaskComplete complete = new TaskComplete();
+                TaskComplete complete = new TaskComplete(getMsgNodeRegisterRequest());
                 send_message(0, complete.getBytes(), node_ip_address);
                 break;
             case 9:
+                System.out.println("[MsgNode] Received TaskSummaryRequest");
                 TaskSummaryRequest sum_req = (TaskSummaryRequest) event;
                 // Send back a TaskSummaryResponse event
                 int[] msgs = new int[5];
