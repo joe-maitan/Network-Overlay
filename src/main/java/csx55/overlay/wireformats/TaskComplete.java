@@ -2,8 +2,6 @@ package csx55.overlay.wireformats;
 
 import java.io.*;
 
-import csx55.overlay.node.MessagingNode;
-
 public class TaskComplete implements Event {
 
     private String nodeIPAddress;
@@ -72,30 +70,5 @@ public class TaskComplete implements Event {
             System.err.println(err.getMessage());
         }
     } // End setBytes(din) method
-
-
-    // public static void main(String[] args) {
-    //     RegisterRequest req = new RegisterRequest("joe", 72);
-    //     byte[] arr = req.getBytes();
-
-    //     ByteArrayInputStream baIn = new ByteArrayInputStream(arr);
-    //     DataInputStream din = new DataInputStream(new BufferedInputStream(baIn));
-
-    //     int msg_type = 0; 
-
-    //     try {
-    //         msg_type = din.readInt();
-    //     } catch (IOException err) {
-    //         System.err.println(err.getMessage());
-    //     }
-
-    //     RegisterRequest temp = new RegisterRequest(din);
-
-    //     if (req.getType() == msg_type && req.getAddress().equals(temp.getAddress()) && req.getPort() == temp.getPort()) {
-    //         System.out.println("FUCK YEAH");
-    //     } else {
-    //         System.out.println("Womp womp");
-    //     }
-    // }
 
 } // End TaskComplete class

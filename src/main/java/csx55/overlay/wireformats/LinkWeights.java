@@ -4,7 +4,6 @@ import java.io.*;
 import java.util.*;
 
 import csx55.overlay.node.*;
-import csx55.overlay.wireformats.RegisterRequest;
 
 public class LinkWeights implements Event {
 

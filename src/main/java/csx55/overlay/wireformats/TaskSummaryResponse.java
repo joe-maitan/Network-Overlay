@@ -91,30 +91,4 @@ public class TaskSummaryResponse implements Event {
         }
     } // End setBytes() method
 
-    public static void main(String[] args) {
-        RegisterRequest req = new RegisterRequest("Joe", 72);
-        int[] nums = {1, 2, 3, 4, 5};
-        TaskSummaryResponse rsp = new TaskSummaryResponse(req, nums);
-        byte[] arr = req.getBytes();
-
-        ByteArrayInputStream baIn = new ByteArrayInputStream(arr);
-        DataInputStream din = new DataInputStream(new BufferedInputStream(baIn));
-
-        int msg_type = 0;
-        try {
-            msg_type = din.readInt();
-            System.out.println("Successfully read in msg_type = " + msg_type);
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
-        }
-
-        TaskSummaryResponse temp = new TaskSummaryResponse(din);
-
-        System.out.println(rsp.getType());
-
-        if (rsp.getType() == msg_type) {
-            System.out.println("Msg type parsed in correctly");
-        }
-    } // End main method
-
 } // End TaskSummaryResponse class

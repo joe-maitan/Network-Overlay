@@ -190,9 +190,7 @@ public class MessagingNode extends Node  {
 
                 TaskSummaryResponse rsp = new TaskSummaryResponse(msgNodeRegisterRequest, msgs);
                 send_message(0, rsp.getBytes(), "");
-                
 
-                
                 break;
             default:
                 System.out.println("MessagingNode.java - Unrecognized Event.");
