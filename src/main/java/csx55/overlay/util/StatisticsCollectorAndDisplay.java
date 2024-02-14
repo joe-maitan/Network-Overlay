@@ -7,25 +7,18 @@ import csx55.overlay.wireformats.TaskSummaryResponse;
 
 public class StatisticsCollectorAndDisplay {
 
-    private AtomicInteger numMsgsSent;
-    private AtomicInteger numMsgsReceived;
-
     private ArrayList<TaskSummaryResponse> responseList;
-
 
     public StatisticsCollectorAndDisplay(ArrayList<TaskSummaryResponse> list) {
         this.responseList = list;
-        // processListInformation();
     } // End StatisticsCollectorAndDisplay
 
-    // public void processListInformation() {
-    //     for (TaskSummaryResponse rsp : responseList) {
-    //         numMsgsSent += responseList.get(responseList.indexOf(rsp)).getMsgSent();
-    //         numMsgsReceived
-    //     }
-    // } // End processListInformation() method
-
     public void displayStatistics() {
+        int sumOfAllMessagesSent = 0;
+        int sumOfNumberMessagesSent = 0;
+
+        int sumOfNumberMessagesReceived = 0;
+        int sumOfAllMessagesReceived = 0;
         String header = "\tNumber Of Messages Sent\t\tNumber Of Messages Received\t\tSummation Of Sent Messages\t\tSummation Of Received Messages\t\tNumber Of Messages Relayed";
 
         System.out.println(header);
@@ -35,7 +28,15 @@ public class StatisticsCollectorAndDisplay {
             String out = "Node: " + numberOfNodes + "\t\t\t" + rsp.getMsgSent() + "\t\t\t" + rsp.getMsgReceived() + "\t\t\t" + rsp.getMsgSentSum() + "\t\t\t" + rsp.getMsgReceivedSum() + "\t\t\t" + rsp.getMsgsRelayed();
             System.out.println(out);
             numberOfNodes++;
+
+            sumOfNumberMessagesSent += rsp.getMsgSent();
+            sumOfAllMessagesSent += rsp.getMsgSentSum();
+            sumOfNumberMessagesReceived += rsp.getMsgReceived();
+            sumOfAllMessagesReceived += rsp.getMsgReceivedSum();
         } // End for each loop
+
+        String tail = "Sum\t " + sumOfNumberMessagesSent + "\t" + sumOfNumberMessagesReceived + "\t" + sumOfAllMessagesSent + "\t" + sumOfAllMessagesReceived;
+        System.out.println(tail);
     } // End displayStatistics() method
 
 

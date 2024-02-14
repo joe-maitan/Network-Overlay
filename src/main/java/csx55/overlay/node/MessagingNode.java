@@ -127,9 +127,13 @@ public class MessagingNode extends Node  {
                 } // end if-else statement
                 break;
             case 5: /* message */
+                // TODO: WHY IS THIS NOT PRINTING WHEN I AM SENDING MESSAGES
                 System.out.println("[MsgNode] has received a message.");
                 Message msg = (Message) event;
+
+                receiveTracker++;
                 sumOfMsgsReceived += msg.getPayload();
+                numberOfMsgsRelayed++;
                 break;
             case 6: /* MessagingNodesList */
                 MessagingNodesList msg_node_list = (MessagingNodesList) event;
@@ -152,27 +156,27 @@ public class MessagingNode extends Node  {
             case 7: /* Task Initiate */
                 TaskInitiate initiate = (TaskInitiate) event;
                 Random index = new Random();
+
                 if (msgNodeEdges == null || msgNodeMap == null) {
                     System.out.println("Cannot initiate task. Do not have link weight information");
                 } else {
                     System.out.println("[MsgNode] Task Initiated. # of rounds: " + initiate.getNumRounds());
 
-                    /* START COMPUTING DIJKSTRAS*/
-                    ShortestPath dijkstra;
+                    /* START COMPUTING DIJKSTRAS */
                     for (int i = 0; i < initiate.getNumRounds(); ++i) {
                         Random gen = new Random();
-                        // dijkstra = new ShortestPath(msgNodeEdges, msgNodeMap);
-
-                        String sinkNode;
+            
                         for (int j = 1; j < 6; ++j) { // generate 5 messages for each node to send. 5 messages for every round
-                            sinkNode = peerMsgNodes.get(index.nextInt(peerMsgNodes.size())).getAddress();
                             int payload = gen.nextInt();
                             
                             Message m = new Message(payload);
-                            // dijkstra.calculateShortestPath(msgNodeIP, sinkNode);
-                            send_message(socketIndex, m.getBytes(), "");
+                            Socket s = peerSockets.get(gen.nextInt(peerSockets.size()));
+                            System.out.println("Inside of TaskInitate. Sending message to " + s.getInetAddress().getHostName());
+                            send_message(peerSockets.indexOf(s), m.getBytes(), "");
 
+                            sendTracker++;
                             sumOfMsgsSent += payload;
+                            numberOfMsgsRelayed++;
                         } // End for loop    
                     } // End for loop
                 } // End if-else statement
@@ -193,9 +197,15 @@ public class MessagingNode extends Node  {
                 msgs[3] = sumOfMsgsReceived;
                 msgs[4] = numberOfMsgsRelayed;
 
+                System.out.println("[MsgNode] Sending TaskSummaryResponse");
                 TaskSummaryResponse rsp = new TaskSummaryResponse(msgNodeRegisterRequest, msgs);
                 send_message(0, rsp.getBytes(), "");
 
+                sendTracker = 0;
+                sumOfMsgsSent = 0;
+                receiveTracker = 0;
+                sumOfMsgsReceived = 0;
+                numberOfMsgsRelayed = 0;
                 break;
             default:
                 System.out.println("MessagingNode.java - Unrecognized Event.");

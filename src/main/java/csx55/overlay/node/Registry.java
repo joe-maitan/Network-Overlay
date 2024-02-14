@@ -1,6 +1,7 @@
 package csx55.overlay.node;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import csx55.overlay.transport.TCPSender;
 import csx55.overlay.util.StatisticsCollectorAndDisplay;
@@ -23,6 +24,8 @@ public class Registry extends Node {
 
     public ArrayList<TaskSummaryResponse> statisticList = new ArrayList<>();
     public StatisticsCollectorAndDisplay display;
+
+    private AtomicInteger numberOfTaskCompleted = new AtomicInteger(0);
 
     public Registry() {} // End Registry default constructor
 
@@ -56,6 +59,7 @@ public class Registry extends Node {
 
     public void start(int numberOfRounds) {
         TaskInitiate startRounds = new TaskInitiate(numberOfRounds);
+        
         for (int i = 0; i < numberOfRegisteredNodes; ++i) {
             send_message(i, startRounds.getBytes(), "");
         } // End for loop
@@ -152,34 +156,38 @@ public class Registry extends Node {
         this.mapOfEdges = overlayLinkWeights.getMap();
     } // End list_weights() method
 
-    public synchronized void taskComplete(Event event) {
-        // System.out.println("[Registry] nodes have completed rounds");
+    public void taskComplete(Event event) {
         TaskComplete taskComplete = (TaskComplete) event;
+        int numTasksComp = numberOfTaskCompleted.incrementAndGet();
 
-        try {
-            Thread.sleep(15000);
-            // System.out.println("[Registry] Waiting for nodes to complete rounds...");
-        } catch (InterruptedException err) {
-            System.err.println(err.getMessage());
-        }
+        if (numTasksComp == numberOfRegisteredNodes) {
+            System.out.println("[Registry] Received all taskComplete events.");
+            try {
+                Thread.sleep(10000);
+            } catch (InterruptedException err) {
+                System.err.println(err.getMessage());
+            } // End try-catch block
 
-        System.out.println("[Registry] nodes have completed rounds. Sending TaskSummaryRequest()");
-
-        System.out.println("printing TCP sender objects");
-        for (TCPSender s : this.node_server.senders) {
-            System.out.println(s.index);
-        }
-
-        TaskSummaryRequest summary = new TaskSummaryRequest();
-        
-        for (int i = 0; i < numberOfRegisteredNodes; ++i) {
-            send_message(i, summary.getBytes(), "");
-        } // End for loop
-    }
+            System.out.println("[Registry] Sending TaskSummaryRequest.");
+            TaskSummaryRequest summary = new TaskSummaryRequest();
+            for (int i = 0; i < numberOfRegisteredNodes; ++i) {
+                send_message(i, summary.getBytes(), "");
+            } // End for loop
+        } // End if-else statement
+    } // End taskComplete(event) method
 
     public synchronized void taskSummary(Event event) {
+        // System.out.println("[Registry] received TaskSummaryResponse. Adding to list.");
+        TaskSummaryResponse sum_rsp = (TaskSummaryResponse) event;
+        statisticList.add(sum_rsp);
 
-    } // End taskSummary() method
+        if (statisticList.size() == numberOfRegisteredNodes) {
+            display = new StatisticsCollectorAndDisplay(statisticList);
+            display.displayStatistics();
+        } // End if statement
+
+        // System.out.println("Size of our statistic list: " + statisticList.size());
+    } // End taskSummary(event) method
     
     @Override
     public void onEvent(Event event, int socketIndex) {
@@ -223,18 +231,7 @@ public class Registry extends Node {
                 taskComplete(event);
                 break;
             case 10: /* Task Summary Response */
-                System.out.println("[Registry] received TaskSummaryResponse");
-                TaskSummaryResponse sum_rsp = (TaskSummaryResponse) event;
-
-                System.out.println("[Registry] adding TaskSummarRespose to list");
-                statisticList.add(sum_rsp);
-
-                if (statisticList.size() == numberOfRegisteredNodes) {
-                    display = new StatisticsCollectorAndDisplay(statisticList);
-                    display.displayStatistics();
-                    break;
-                } 
-
+                taskSummary(event);
                 break;
             default:
                 System.out.println("Registry.java - Unrecognized Event.");
