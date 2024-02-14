@@ -133,10 +133,9 @@ public class MessagingNode extends Node  {
                 numberOfConnections = msg_node_list.getNumPeers();
                 peerMsgNodes = msg_node_list.getMsgNodePeerList();
 
-                Socket peerSocket;
                 for (RegisterRequest r : peerMsgNodes) {
                     try {
-                        peerSocket = new Socket(r.getAddress(), r.getPort());
+                        Socket peerSocket = new Socket(r.getAddress(), r.getPort());
                         peerSockets.add(peerSocket);
                         // System.out.println("[MsgNode] has connected to " + peerSocket.getInetAddress().getHostAddress());
                     } catch (IOException err) {
@@ -158,7 +157,7 @@ public class MessagingNode extends Node  {
                     ShortestPath dijkstra;
                     for (int i = 0; i < initiate.getNumRounds(); ++i) {
                         Random gen = new Random();
-                        dijkstra = new ShortestPath(msgNodeEdges, msgNodeMap);
+                        // dijkstra = new ShortestPath(msgNodeEdges, msgNodeMap);
 
                         String sinkNode;
                         for (int j = 1; j < 6; ++j) { // generate 5 messages for each node to send. 5 messages for every round
@@ -166,7 +165,7 @@ public class MessagingNode extends Node  {
                             int payload = gen.nextInt();
                             
                             Message m = new Message(payload);
-                            dijkstra.calculateShortestPath(msgNodeIP, sinkNode);
+                            // dijkstra.calculateShortestPath(msgNodeIP, sinkNode);
                             send_message(i, m.getBytes(), "");
 
                             sumOfMsgsSent += payload;
@@ -174,6 +173,7 @@ public class MessagingNode extends Node  {
                     } // End for loop
                 } // End if-else statement
 
+                System.out.println("[MsgNode] Task completed. Sending TaskComplete to Registry.");
                 TaskComplete complete = new TaskComplete();
                 send_message(0, complete.getBytes(), node_ip_address);
                 break;

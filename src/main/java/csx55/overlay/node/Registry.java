@@ -186,16 +186,15 @@ public class Registry extends Node {
                 Message msg = (Message) event;
                 break;
             case 8: /* Task Complete */
+                System.out.println("[Registry] nodes have completed rounds");
                 TaskComplete taskComplete = (TaskComplete) event;
 
-                // try {
-                //     wait(15);
-                // } catch (InterruptedException err) {
-                //     System.err.println(err.getMessage());
-                // }
-
-                System.out.println("[Registry] nodes have completed rounds");
-
+                try {
+                    wait(15);
+                } catch (InterruptedException err) {
+                    System.err.println(err.getMessage());
+                }
+                
                 TaskSummaryRequest summary = new TaskSummaryRequest();
                 
                 for (int i = 0; i < numberOfRegisteredNodes; ++i) {
