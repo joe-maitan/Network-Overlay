@@ -47,7 +47,8 @@ public class MatrixThreads {
 
             for (int column = 0; column < arr.length; ++column) {
                 for (int row = 0; row < arr.length; ++row) {
-                    arr[column][row] = numberGenerator.nextInt();
+                    int randomValue = 1000 - numberGenerator.nextInt(2000);
+                    arr[column][row] = randomValue;
                 } // End nested for loop
             } // End for loop
 
