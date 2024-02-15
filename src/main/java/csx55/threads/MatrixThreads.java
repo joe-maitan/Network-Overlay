@@ -1,17 +1,14 @@
 package csx55.threads;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class MatrixThreads {
-
-    // final int THREAD_POOL_SIZE;
-    // final int MATRIX_DIMENSIONS;
-    // final int SEED;
     public static void main(String[] args) {
         if (args.length < 3) {
             System.err.println("Invalid # of arguments");
             System.exit(1);
-        } 
+        } // End if statement
 
         final int THREAD_POOL_SIZE = Integer.parseInt(args[0]);
         final int MATRIX_DIMENSIONS = Integer.parseInt(args[1]);
@@ -20,7 +17,7 @@ public class MatrixThreads {
         if (THREAD_POOL_SIZE <= 0 || MATRIX_DIMENSIONS <= 1 || SEED < 0) {
             System.err.println("Invalid entry for arguments");
             System.exit(1);
-        }
+        } // End if statement
 
         ArrayList<Matrix> matrices = new ArrayList<>();
         
@@ -44,18 +41,38 @@ public class MatrixThreads {
         matrices.add(d);
 
         for (Matrix m : matrices) {
-            m.populateArray(m.data, MATRIX_DIMENSIONS);
+            Random numberGenerator = new Random(SEED);
+            int[][] arr = new int[MATRIX_DIMENSIONS][MATRIX_DIMENSIONS];
+
+            for (int column = 0; column < arr.length; ++column) {
+                for (int row = 0; row < arr.length; ++row) {
+                    arr[column][row] = numberGenerator.nextInt();
+                } // End nested for loop
+            } // End for loop
+
+            m.setData(arr);
+        } // End for each loop
+
+        // a.populateArray(a.getData(), SEED);
+        // b.populateArray(b.getData(), SEED);
+        // c.populateArray(c.getData(), SEED);
+        // d.populateArray(d.getData(), SEED);
+
+        for (Matrix m : matrices) {
             System.out.println("Sum of the elements in input matrix " + m.getName() + " = " + m.sumOfMatrixElements(m.data, MATRIX_DIMENSIONS));
         } // End for each loop
 
         System.out.println();
 
         Matrix x = new Matrix('X', MATRIX_DIMENSIONS);
+        System.out.println("Calcutating Matrix X");
         x.data = x.multiplyMatrices(a.data, b.data, MATRIX_DIMENSIONS);
 
         Matrix y = new Matrix('Y', MATRIX_DIMENSIONS);
+        System.out.println("Calculating Matrix Y");
         y.data = y.multiplyMatrices(c.data, d.data, MATRIX_DIMENSIONS);
 
+        System.out.println("Calculating Matrix Z");
         Matrix z = new Matrix('Z', MATRIX_DIMENSIONS);
         z.data = z.multiplyMatrices(x.data, y.data, MATRIX_DIMENSIONS);
 

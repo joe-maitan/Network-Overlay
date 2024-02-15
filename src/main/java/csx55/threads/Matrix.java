@@ -12,17 +12,20 @@ public class Matrix {
 
     public Matrix(char name, int dimensions) {
         this.name = name;
-        int[][] newArr = new int[dimensions][dimensions];
-        this.data = newArr;
+        this.data = new int[dimensions][dimensions];
     } // End Matrix() constructor
 
     public char getName() {
         return this.name;
     } // End getName() method
 
-    // public int[][] getData() {
-    //     return this.data;
-    // } // End getData() method
+    public int[][] getData() {
+        return this.data;
+    } // End getData() method
+
+    public void setData(int[][] d) {
+        this.data = d;
+    } // End setData() method
 
     public double getTime() {
         return this.timeToComputeSum;
@@ -79,10 +82,10 @@ public class Matrix {
         for (int row = 0; row < dimensions; ++row) {
             for (int column = 0; column < dimensions; ++column) {
                 sum += arr[row][column];
-            }
-        }
+            } // End nested for loop
+        } // End for loop
 
         return sum;
-    } // End sumOfMatrixElements
+    } // End sumOfMatrixElements() method
 
 } // End Matrix class

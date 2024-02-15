@@ -1,3 +1,3 @@
-Example of how to run threads code: java csx55.threads.MatrixThreads thread-pool-size matrix-dimension seed
+Example of how to run threads code: java -cp build/libs/csx55.jar csx55.threads.MatrixThreads 8 3000 31459
 
-java csx55.threads.MatrixThreads 8 3000 31459
+java -cp build/libs/csx55.jar csx55.threads.MatrixThreads 8 3000 31459
