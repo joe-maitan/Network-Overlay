@@ -239,7 +239,7 @@ public class MessagingNode extends Node  {
         Scanner user_in = new Scanner(System.in);
         String line = null;
 
-        while (line != "exit") {
+        while (line != "exit-overlay") {
             line = user_in.nextLine();
 
             switch(line) {
