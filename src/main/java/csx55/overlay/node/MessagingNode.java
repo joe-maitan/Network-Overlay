@@ -253,7 +253,9 @@ public class MessagingNode extends Node  {
                     DeregisterRequest deregister = new DeregisterRequest(newMessagingNode.msgNodeIP, newMessagingNode.msgNodePortNumber);
                     newMessagingNode.node_server.send_msg(0, deregister.getBytes());
                     /* the onEvent for DeregisterReponse closes the server thread and the nodes socket */
-                    return;
+                    user_in.close();
+                    System.exit(1);
+                    break;
                 default:
                     System.out.println("[MsgNode] Unrecognized command. Please try again");
                     break;

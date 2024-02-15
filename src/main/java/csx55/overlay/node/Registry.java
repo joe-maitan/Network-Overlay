@@ -185,6 +185,7 @@ public class Registry extends Node {
         if (statisticList.size() == numberOfRegisteredNodes) {
             display = new StatisticsCollectorAndDisplay(statisticList);
             display.displayStatistics();
+            statisticList.clear();
         } // End if statement
     } // End taskSummary(event) method
     
@@ -238,7 +239,7 @@ public class Registry extends Node {
                 System.out.println("Registry.java - Unrecognized Event.");
         } // End switch statement
 
-        statisticList.clear();
+        // statisticList.clear();
     } // End onEvent() method
 
     public static void main(String[] args) {

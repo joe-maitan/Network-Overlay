@@ -37,9 +37,8 @@ public class StatisticsCollectorAndDisplay {
 
         String tail = "Sum\t\t " + sumOfNumberMessagesSent + "\t\t\t" + sumOfNumberMessagesReceived + "\t\t\t" + sumOfAllMessagesSent + "\t\t\t" + sumOfAllMessagesReceived;
         System.out.println(tail);
+
+        responseList.clear();
     } // End displayStatistics() method
-
-
-
     
 } // End StatisticsCollectoryAndDisplay class
