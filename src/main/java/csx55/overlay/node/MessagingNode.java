@@ -52,7 +52,7 @@ public class MessagingNode extends Node  {
             node_server.add_socket(messaging_node_socket); /* Add this socket to our list of connections */
             msgNodeIndex = node_server.socket_connetions.indexOf(messaging_node_socket);
 
-            System.out.println("[MsgNode] has connected to [Registry]");
+            // System.out.println("[MsgNode] has connected to [Registry]");
 
             this.msgNodeIP = InetAddress.getLocalHost().toString();
             this.msgNodeHostName = msgNodeIP.substring(0, msgNodeIP.indexOf('/'));
@@ -61,7 +61,7 @@ public class MessagingNode extends Node  {
             
             /* Validation that we have collected the right information */
             // System.out.println("[MsgNode] Host name: " + msgNodeHostName);
-            System.out.println("[MsgNode] IP Address: " + msgNodeIP + " - Port #: " + messaging_node_socket.getLocalPort());
+            // System.out.println("[MsgNode] IP Address: " + msgNodeIP + " - Port #: " + messaging_node_socket.getLocalPort());
             // System.out.println("[MsgNode] Port # of ServerSocket: " + msgNodePortNumber);
     
             RegisterRequest reg_request = new RegisterRequest(msgNodeIP, msgNodePortNumber); /* Created a new registry request */
@@ -127,10 +127,10 @@ public class MessagingNode extends Node  {
                 } // end if-else statement
                 break;
             case 5: /* message */
+                receiveTracker++;
                 Message msg = (Message) event;
                 sumOfMsgsReceived += msg.getPayload();
                 numberOfMsgsRelayed++;
-                receiveTracker++;
                 break;
             case 6: /* MessagingNodesList */
                 MessagingNodesList msg_node_list = (MessagingNodesList) event;
@@ -221,6 +221,7 @@ public class MessagingNode extends Node  {
         ShortestPath calc = new ShortestPath(msgNodeEdges, msgNodeMap);
         // shortestPath = calc.getShortestPath()
         // System.out.println(shorestPath)
+        System.out.println("Unimplemented method - printShortestPath()");
     } // End printShortestPath()
 
     public static void main(String[] args) {
@@ -254,8 +255,7 @@ public class MessagingNode extends Node  {
                     newMessagingNode.node_server.send_msg(0, deregister.getBytes());
                     /* the onEvent for DeregisterReponse closes the server thread and the nodes socket */
                     user_in.close();
-                    System.exit(1);
-                    break;
+                    return;
                 default:
                     System.out.println("[MsgNode] Unrecognized command. Please try again");
                     break;

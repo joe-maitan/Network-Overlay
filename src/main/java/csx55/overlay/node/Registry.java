@@ -20,6 +20,7 @@ public class Registry extends Node {
 
     public int linkCount = 0;
 
+    private boolean linksAreAssigned = false;
     private boolean overlayIsConstructed = false;
 
     public ArrayList<TaskSummaryResponse> statisticList = new ArrayList<>();
@@ -48,6 +49,9 @@ public class Registry extends Node {
     public boolean deregister_node(int socket_index, DeregisterRequest dereg_rq) {
         if (registered_messaging_nodes.containsKey(socket_index)) {
             registered_messaging_nodes.remove(socket_index);
+            node_server.socket_connetions.remove(socket_index);
+            // node_server.readers.remove(socket_index);
+            // node_server.senders.remove(socket_index);
             --numberOfRegisteredNodes;
             String success = String.format("Deregistration request successful. The number of messaging nodes currently constituting the overlay is (%d)", numberOfRegisteredNodes);
             System.out.println(success);
@@ -163,12 +167,12 @@ public class Registry extends Node {
         if (numTasksComp == numberOfRegisteredNodes) {
             System.out.println("[Registry] Received all taskComplete events.");
             try {
-                Thread.sleep(10000);
+                Thread.sleep(15000);
             } catch (InterruptedException err) {
                 System.err.println(err.getMessage());
             } // End try-catch block
 
-            System.out.println("[Registry] Sending TaskSummaryRequest.");
+            System.out.println("[Registry] Sending TaskSummaryRequest.\n");
             TaskSummaryRequest summary = new TaskSummaryRequest();
             for (int i = 0; i < numberOfRegisteredNodes; ++i) {
                 send_message(i, summary.getBytes(), "");
@@ -242,6 +246,10 @@ public class Registry extends Node {
         // statisticList.clear();
     } // End onEvent() method
 
+    public boolean isOverlayConstructed() {
+        return overlayIsConstructed;
+    }
+
     public static void main(String[] args) {
         if (args.length < 1 || args.length > 1) {
             System.out.println("Registry - Invalid number of arguments. Exiting program.");
@@ -262,9 +270,17 @@ public class Registry extends Node {
             line = user_in.nextLine();
  
             if (line.equals("list-messaging-nodes")) {
-                our_registry.list_messaging_nodes();
+                if (our_registry.numberOfRegisteredNodes > 0) {
+                    our_registry.list_messaging_nodes();
+                } else { 
+                    System.out.println("No Messaging Nodes to list");
+                }
             } else if (line.equals("list-weights")) {
-                our_registry.list_weights();
+                if (our_registry.isOverlayConstructed()) {
+                    our_registry.list_weights();
+                } else {
+                    System.out.println("Need to setup overlay");
+                }
             } else if (line.contains("setup-overlay")) {
                 int connections_required = 4; /* Connections Required by default are 4 */
             
@@ -278,7 +294,7 @@ public class Registry extends Node {
                 } // End if-else statement
             } else if (line.equals("send-overlay-link-weights")) {
                 our_registry.send_overlay_link_weights();
-            }  else if (line.contains("start")) {
+            } else if (line.contains("start")) {
                 String [] command = line.split(" ");
 
                 int rounds = 0;
@@ -287,8 +303,6 @@ public class Registry extends Node {
                 } else {
                     rounds = Integer.parseInt(command[1]);
                     our_registry.start(rounds);
-
-
                 } // End if-else statement
             } else if (line.equals("exit")) {
                 our_registry.node_server.close_server();

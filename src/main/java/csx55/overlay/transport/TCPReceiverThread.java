@@ -47,10 +47,16 @@ public class TCPReceiverThread implements Runnable {
             } catch (IOException ioe) {
                 System.out.println(ioe.getMessage());
                 break;
+            } catch (NullPointerException err) {
+                System.err.println(err.getMessage());
             } // End try-catch block
         } // End while loop
 
-        // System.out.println("Exiting .run() method for TCPReceieverThread");
+        try {
+            this.socket.close();
+        } catch (IOException err) {
+            System.out.println(err.getMessage());
+        } 
     } // End run() method
 
 } // End TCPReceiverThread class
