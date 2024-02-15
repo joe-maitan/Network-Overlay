@@ -40,8 +40,9 @@ public class MatrixThreads {
         matrices.add(c);
         matrices.add(d);
 
+        Random numberGenerator = new Random(SEED);
         for (Matrix m : matrices) {
-            Random numberGenerator = new Random(SEED);
+             
             int[][] arr = new int[MATRIX_DIMENSIONS][MATRIX_DIMENSIONS];
 
             for (int column = 0; column < arr.length; ++column) {
@@ -78,7 +79,7 @@ public class MatrixThreads {
 
         double cumulativeTime = x.getTime() + y.getTime() + z.getTime();
        
-        String output = String.format("Cumulative time to compute matrices X, Y, and Z using a thread pool of size = %d is : %.3f", THREAD_POOL_SIZE, cumulativeTime);
+        String output = String.format("Cumulative time to compute matrices X, Y, and Z using a thread pool of size = %d is : %.3f s", THREAD_POOL_SIZE, cumulativeTime);
         System.out.println(output);
     } // End main method
     
