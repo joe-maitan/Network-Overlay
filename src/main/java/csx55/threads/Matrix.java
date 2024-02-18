@@ -29,6 +29,18 @@ public class Matrix {
         return this.timeToComputeSum;
     } // End getTime() method
 
+    public int sumOfMatrixElements(int[][] arr, int dimensions) { /* DO NOT SYNCHRONIZE */
+        int sum = 0;
+        
+        for (int row = 0; row < dimensions; ++row) {
+            for (int column = 0; column < dimensions; ++column) {
+                sum += arr[row][column];
+            } // End nested for loop
+        } // End for loop
+
+        return sum;
+    } // End sumOfMatrixElements() method
+
     public int[] getColumn(int[][] array, int columnIndex) {
         int[] column = new int[array.length];
         for (int i = 0; i < array.length; i++) {
@@ -75,6 +87,8 @@ public class Matrix {
 
         double totalTime = (endTime - startTime) / 1e9;
 
+
+        // TODO: Figure out how to get the names of the matrices that made the product
         System.out.println("Calculation of matrix " + this.getName() + " (Product of ? and ?) complete - sum of the elements in " + this.getName() + " is: " + sumOfMatrixElements(productArr, desiredDimensions));
         String timeToCompute = String.format("Time to compute matrix " + this.getName() + ": %.3f s", totalTime);
         System.out.println(timeToCompute);
@@ -84,17 +98,5 @@ public class Matrix {
 
         return productArr;
     } // End multiplyMatrices() method
-
-    public int sumOfMatrixElements(int[][] arr, int dimensions) { /* DO NOT SYNCHRONIZE */
-        int sum = 0;
-        
-        for (int row = 0; row < dimensions; ++row) {
-            for (int column = 0; column < dimensions; ++column) {
-                sum += arr[row][column];
-            } // End nested for loop
-        } // End for loop
-
-        return sum;
-    } // End sumOfMatrixElements() method
 
 } // End Matrix class
