@@ -23,6 +23,10 @@ public class ThreadPool {
         return this.jobQueue.poll();
     } // End removeJob() method
 
+    public int addValue(int value) {
+        return value;
+    } // End addValue() method
+
     public int dotProduct(int[] row, int[] col) {
         int  product = 0;
         for (int i = 0; i < row.length; ++i) {
@@ -35,9 +39,11 @@ public class ThreadPool {
     } // End product() method
 
     public void run() {
+        int value = 0;
         while (jobQueue.size() != 0) {
             Job j = removeJob();
-            dotProduct(j.getRowArr(), j.getColArr());
+            value = dotProduct(j.getRowArr(), j.getColArr());
+            addValue(value);
         } // End while loop
     } // End run() method
 
