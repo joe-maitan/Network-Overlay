@@ -35,10 +35,10 @@ public class ThreadPool {
     } // End product() method
 
     public void run() {
-        // sycnrhonize queue, when a job is avaliable take it.
-        // Get a new job from the q
-        // Do the job (dot product here)
-        // repeat
+        while (jobQueue.size() != 0) {
+            Job j = removeJob();
+            dotProduct(j.getRowArr(), j.getColArr());
+        } // End while loop
     } // End run() method
 
 } // End ThreadPool class

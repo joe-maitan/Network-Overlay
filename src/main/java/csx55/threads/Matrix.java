@@ -79,7 +79,7 @@ public class Matrix {
 
                 pool.addJob(newJob);
 
-                productArr[row][column] = dotProduct(new, columnArr); /* Give one thread a dot product at a time */
+                // productArr[row][column] = dotProduct(new, columnArr); /* Give one thread a dot product at a time */
                 
                 // for (int k = 0; k < desiredDimensions; ++k) {
                 //     productArr[row][column] = (arr_one[row][k] * arr_two[k][column]);
