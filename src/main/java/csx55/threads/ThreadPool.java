@@ -9,11 +9,16 @@ public class ThreadPool {
     private int value;
     
     public ThreadPool(final int sizeOfPool) {
+        System.out.println("Creating thread pool");
         threads = new Thread[sizeOfPool];
 
         for (int i = 0; i < threads.length; ++i) {
             threads[i] = new Thread(this::run);
+            String name = Integer.toString(i);
+            threads[i].setName(name);
         } // End for loop
+
+        System.out.println("Finished creating thread pool");
     } // End ThreadPool() constrcutor
 
     public void addJob(Job j) {
