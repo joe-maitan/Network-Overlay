@@ -81,6 +81,8 @@ public class Matrix {
                 Job newJob = new Job(rowArr, columnArr);
 
                 System.out.println("Adding the newJob to the pools job queue");
+
+                // TODO: Figure out where the issue is inside of addJob() method
                 pool.addJob(newJob);
                 productArr[row][column] = pool.getValue();
                 
