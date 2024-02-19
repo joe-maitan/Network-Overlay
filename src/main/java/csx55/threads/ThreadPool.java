@@ -18,9 +18,16 @@ public class ThreadPool {
         } // End for loop
     } // End ThreadPool() constrcutor
 
+    public void startAllThreads() {
+        for (int i = 0; i < threads.length; ++i) {
+            threads[i].start();
+        }
+    } // End startAllThreads() method
+
     public void addJob(Job j) {
         try {
             this.jobQueue.put(j);
+            System.out.println("Successfully added a job");
         } catch (InterruptedException err) {
             System.err.println(err.getMessage());
         } // End try-catch block
@@ -31,6 +38,7 @@ public class ThreadPool {
 
         try {
             j = this.jobQueue.take();
+            System.out.println("Successfully removed a job");
         } catch (InterruptedException err) {
             System.err.println(err.getMessage());
         } // End try-catch block
@@ -58,16 +66,20 @@ public class ThreadPool {
     } // End product() method
 
     public void run() {
+        // System.out.println("Entering run method");
         boolean calculatingMatrices = true;
         
         int value = 0;
         while (calculatingMatrices) {
             if (jobQueue.size() != 0) {
+                System.out.println("Thread is taking on a job");
                 Job j = removeJob();
                 value = dotProduct(j.getRowArr(), j.getColArr());
                 setValue(value);
-            } /* else we do not remove a job */
+            }
         } // End while loop
+
+        // System.out.println("run() - exiting while loop");
     } // End run() method
 
 } // End ThreadPool class

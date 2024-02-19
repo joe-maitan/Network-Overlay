@@ -62,6 +62,7 @@ public class Matrix {
     // } // End product() method
 
     public int[][] multiplyMatrices(int[][] arr_one, int[][] arr_two, int desiredDimensions, ThreadPool pool) {
+        System.out.println("Entering multiplyingMatrices");
         long startTime;
         long endTime;
         int[][] productArr = new int[desiredDimensions][desiredDimensions];

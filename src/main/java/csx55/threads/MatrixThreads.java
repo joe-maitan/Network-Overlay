@@ -20,6 +20,7 @@ public class MatrixThreads {
         } // End if statement
 
         ThreadPool pool = new ThreadPool(THREAD_POOL_SIZE);
+        pool.startAllThreads();
         ArrayList<Matrix> matrices = new ArrayList<>();
         
         System.out.println("Dimensionality of the square matrices is: " + MATRIX_DIMENSIONS);
