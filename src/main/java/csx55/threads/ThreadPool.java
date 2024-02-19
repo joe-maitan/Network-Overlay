@@ -9,7 +9,6 @@ public class ThreadPool {
     private int value;
     
     public ThreadPool(final int sizeOfPool) {
-        System.out.println("Creating thread pool");
         threads = new Thread[sizeOfPool];
 
         for (int i = 0; i < threads.length; ++i) {
@@ -17,16 +16,26 @@ public class ThreadPool {
             String name = Integer.toString(i);
             threads[i].setName(name);
         } // End for loop
-
-        System.out.println("Finished creating thread pool");
     } // End ThreadPool() constrcutor
 
     public void addJob(Job j) {
-        this.jobQueue.add(j);
+        try {
+            this.jobQueue.put(j);
+        } catch (InterruptedException err) {
+            System.err.println(err.getMessage());
+        } // End try-catch block
     } // End addJob(j) method
 
     public Job removeJob() {
-        return this.jobQueue.poll();
+        Job j = null;
+
+        try {
+            j = this.jobQueue.take();
+        } catch (InterruptedException err) {
+            System.err.println(err.getMessage());
+        } // End try-catch block
+
+        return j; 
     } // End removeJob() method
 
     public void setValue(int value) {
@@ -49,11 +58,15 @@ public class ThreadPool {
     } // End product() method
 
     public void run() {
+        boolean calculatingMatrices = true;
+        
         int value = 0;
-        while (jobQueue.size() != 0) {
-            Job j = removeJob();
-            value = dotProduct(j.getRowArr(), j.getColArr());
-            setValue(value);
+        while (calculatingMatrices) {
+            if (jobQueue.size() != 0) {
+                Job j = removeJob();
+                value = dotProduct(j.getRowArr(), j.getColArr());
+                setValue(value);
+            } /* else we do not remove a job */
         } // End while loop
     } // End run() method
 
