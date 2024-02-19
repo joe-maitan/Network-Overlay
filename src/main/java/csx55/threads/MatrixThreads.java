@@ -19,6 +19,7 @@ public class MatrixThreads {
             System.exit(1);
         } // End if statement
 
+        ThreadPool pool = new ThreadPool(THREAD_POOL_SIZE);
         ArrayList<Matrix> matrices = new ArrayList<>();
         
         System.out.println("Dimensionality of the square matrices is: " + MATRIX_DIMENSIONS);
@@ -54,11 +55,6 @@ public class MatrixThreads {
 
             m.setData(arr);
         } // End for each loop
-
-        // a.populateArray(a.getData(), SEED);
-        // b.populateArray(b.getData(), SEED);
-        // c.populateArray(c.getData(), SEED);
-        // d.populateArray(d.getData(), SEED);
 
         for (Matrix m : matrices) {
             System.out.println("Sum of the elements in input matrix " + m.getName() + " = " + m.sumOfMatrixElements(m.data, MATRIX_DIMENSIONS));
