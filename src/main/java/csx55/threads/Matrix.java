@@ -50,18 +50,18 @@ public class Matrix {
         return column;
     } // End getColumn() method
 
-    public int dotProduct(int[] row, int[] col) {
-        int  product = 0;
-        for (int i = 0; i < row.length; ++i) {
-            for (int j = 0; j < col.length; ++j) {
-                product += row[i] * col[j];
-            } // End nested for loop
-        } // End outer for loop
+    // public int dotProduct(int[] row, int[] col) {
+    //     int  product = 0;
+    //     for (int i = 0; i < row.length; ++i) {
+    //         for (int j = 0; j < col.length; ++j) {
+    //             product += row[i] * col[j];
+    //         } // End nested for loop
+    //     } // End outer for loop
 
-        return product;
-    } // End product() method
+    //     return product;
+    // } // End product() method
 
-    public int[][] multiplyMatrices(int[][] arr_one, int[][] arr_two, int desiredDimensions) {
+    public int[][] multiplyMatrices(int[][] arr_one, int[][] arr_two, int desiredDimensions, ThreadPool pool) {
         long startTime;
         long endTime;
         int[][] productArr = new int[desiredDimensions][desiredDimensions];
@@ -75,7 +75,11 @@ public class Matrix {
             for (int column = 0; column < desiredDimensions; ++column) {
                 columnArr = getColumn(arr_two, column);
 
-                productArr[row][column] = dotProduct(rowArr, columnArr); /* Give one thread a dot product at a time */
+                Job newJob = new Job(rowArr, columnArr);
+
+                pool.addJob(newJob);
+
+                productArr[row][column] = dotProduct(new, columnArr); /* Give one thread a dot product at a time */
                 
                 // for (int k = 0; k < desiredDimensions; ++k) {
                 //     productArr[row][column] = (arr_one[row][k] * arr_two[k][column]);
@@ -86,7 +90,6 @@ public class Matrix {
         endTime = System.nanoTime();
 
         double totalTime = (endTime - startTime) / 1e9;
-
 
         // TODO: Figure out how to get the names of the matrices that made the product
         System.out.println("Calculation of matrix " + this.getName() + " (Product of ? and ?) complete - sum of the elements in " + this.getName() + " is: " + sumOfMatrixElements(productArr, desiredDimensions));
