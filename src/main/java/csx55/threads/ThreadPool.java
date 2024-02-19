@@ -6,6 +6,7 @@ public class ThreadPool {
 
     private Thread[] threads;
     private SynchronousQueue<Job> jobQueue = new SynchronousQueue<>();
+    private int value;
     
     public ThreadPool(final int sizeOfPool) {
         threads = new Thread[sizeOfPool];
@@ -23,9 +24,13 @@ public class ThreadPool {
         return this.jobQueue.poll();
     } // End removeJob() method
 
-    public int addValue(int value) {
-        return value;
+    public void setValue(int value) {
+        this.value = value;
     } // End addValue() method
+
+    public int getValue() {
+        return this.value;
+    } // End getValue() method
 
     public int dotProduct(int[] row, int[] col) {
         int  product = 0;
@@ -43,7 +48,7 @@ public class ThreadPool {
         while (jobQueue.size() != 0) {
             Job j = removeJob();
             value = dotProduct(j.getRowArr(), j.getColArr());
-            addValue(value);
+            setValue(value);
         } // End while loop
     } // End run() method
 
