@@ -71,13 +71,16 @@ public class Matrix {
         int[] columnArr = new int[desiredDimensions];
 
         startTime = System.nanoTime();
+        System.out.println("Starting time");
         for (int row = 0; row < desiredDimensions; ++row) {
             rowArr = arr_one[row];
             for (int column = 0; column < desiredDimensions; ++column) {
                 columnArr = getColumn(arr_two, column);
 
+                System.out.println("Creating newJob object");
                 Job newJob = new Job(rowArr, columnArr);
 
+                System.out.println("Adding the newJob to the pools job queue");
                 pool.addJob(newJob);
                 productArr[row][column] = pool.getValue();
                 

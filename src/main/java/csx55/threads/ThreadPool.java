@@ -5,7 +5,7 @@ import java.util.concurrent.SynchronousQueue;
 public class ThreadPool {
 
     private Thread[] threads;
-    private SynchronousQueue<Job> jobQueue = new SynchronousQueue<>();
+    private volatile SynchronousQueue<Job> jobQueue = new SynchronousQueue<>();
     private int value;
     
     public ThreadPool(final int sizeOfPool) {
@@ -25,9 +25,10 @@ public class ThreadPool {
     } // End startAllThreads() method
 
     public void addJob(Job j) {
+        System.out.println("Entering addJob() method");
         try {
+            System.out.println("Entering try statement");
             this.jobQueue.put(j);
-            System.out.println("Successfully added a job");
         } catch (InterruptedException err) {
             System.err.println(err.getMessage());
         } // End try-catch block
