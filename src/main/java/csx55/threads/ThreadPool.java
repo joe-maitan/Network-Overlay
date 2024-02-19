@@ -35,11 +35,12 @@ public class ThreadPool {
     } // End addJob(j) method
 
     public Job removeJob() {
+        System.out.println("Entering removeJob() method");
         Job j = null;
 
         try {
-            j = this.jobQueue.take();
             System.out.println("Successfully removed a job");
+            j = this.jobQueue.take();
         } catch (InterruptedException err) {
             System.err.println(err.getMessage());
         } // End try-catch block
@@ -48,10 +49,12 @@ public class ThreadPool {
     } // End removeJob() method
 
     public void setValue(int value) {
+        System.out.println("Entering setValue(value)");
         this.value = value;
     } // End addValue() method
 
     public int getValue() {
+        System.out.println("Entering getValue()");
         return this.value;
     } // End getValue() method
 
@@ -67,7 +70,7 @@ public class ThreadPool {
     } // End product() method
 
     public void run() {
-        // System.out.println("Entering run method");
+        System.out.println("Entering run method");
         boolean calculatingMatrices = true;
         
         int value = 0;

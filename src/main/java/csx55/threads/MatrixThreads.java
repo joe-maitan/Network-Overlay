@@ -10,9 +10,13 @@ public class MatrixThreads {
             System.exit(1);
         } // End if statement
 
-        final int THREAD_POOL_SIZE = Integer.parseInt(args[0]);
-        final int MATRIX_DIMENSIONS = Integer.parseInt(args[1]);
-        final int SEED = Integer.parseInt(args[2]);
+        final int THREAD_POOL_SIZE = 8;
+        final int MATRIX_DIMENSIONS = 3000;
+        final int SEED = 31459;
+
+        // final int THREAD_POOL_SIZE = Integer.parseInt(args[0]);
+        // final int MATRIX_DIMENSIONS = Integer.parseInt(args[1]);
+        // final int SEED = Integer.parseInt(args[2]);
 
         if (THREAD_POOL_SIZE <= 0 || MATRIX_DIMENSIONS <= 1 || SEED < 0) {
             System.err.println("Invalid entry for arguments");
