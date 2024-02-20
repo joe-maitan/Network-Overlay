@@ -5,23 +5,23 @@ import java.util.Random;
 
 public class MatrixThreads {
     public static void main(String[] args) {
-        final int THREAD_POOL_SIZE = 8;
-        final int MATRIX_DIMENSIONS = 4;
-        final int SEED = 31459;
+        // final int THREAD_POOL_SIZE = 8;
+        // final int MATRIX_DIMENSIONS = 4;
+        // final int SEED = 31459;
         
-        // if (args.length < 3) {
-        //     System.err.println("Invalid # of arguments");
-        //     System.exit(1);
-        // } // End if statement
+        if (args.length < 3) {
+            System.err.println("Invalid # of arguments");
+            System.exit(1);
+        } // End if statement
 
-        // final int THREAD_POOL_SIZE = Integer.parseInt(args[0]);
-        // final int MATRIX_DIMENSIONS = Integer.parseInt(args[1]);
-        // final int SEED = Integer.parseInt(args[2]);
+        final int THREAD_POOL_SIZE = Integer.parseInt(args[0]);
+        final int MATRIX_DIMENSIONS = Integer.parseInt(args[1]);
+        final int SEED = Integer.parseInt(args[2]);
 
-        // if (THREAD_POOL_SIZE <= 0 || MATRIX_DIMENSIONS <= 1 || SEED < 0) {
-        //     System.err.println("Invalid entry for arguments");
-        //     System.exit(1);
-        // } // End if statement
+        if (THREAD_POOL_SIZE <= 0 || MATRIX_DIMENSIONS <= 1 || SEED < 0) {
+            System.err.println("Invalid entry for arguments");
+            System.exit(1);
+        } // End if statement
 
         ThreadPool pool = new ThreadPool(THREAD_POOL_SIZE);
         pool.startAllThreads();
@@ -53,8 +53,7 @@ public class MatrixThreads {
 
             for (int column = 0; column < arr.length; ++column) {
                 for (int row = 0; row < arr.length; ++row) {
-                    // int randomValue = 1000 - numberGenerator.nextInt(2000);
-                    int randomValue = numberGenerator.nextInt(10) + 1;
+                    int randomValue = 1000 - numberGenerator.nextInt(2000);
                     arr[column][row] = randomValue;
                 } // End nested for loop
             } // End for loop
@@ -80,12 +79,13 @@ public class MatrixThreads {
         System.out.println("Calculating Matrix Z");
         Matrix z = new Matrix('Z', MATRIX_DIMENSIONS);
         z.data = z.multiplyMatrices(x, y, MATRIX_DIMENSIONS, pool);
+        pool.setStart(false);
 
         double cumulativeTime = x.getTime() + y.getTime() + z.getTime();
        
         String output = String.format("Cumulative time to compute matrices X, Y, and Z using a thread pool of size = %d is : %.3f s", THREAD_POOL_SIZE, cumulativeTime);
         System.out.println(output);
-        pool.stopAllThreads();
+        pool.close();
     } // End main method
     
 } // End MatrixThreads class

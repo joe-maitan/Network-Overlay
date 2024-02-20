@@ -74,6 +74,7 @@ public class Matrix {
 
                 /* TODO: Have to figure out what order we need to add jobs and then start the threads. */
 
+                // System.out.println("Value is: " + pool.getValue());
                 product = pool.getValue();
                 productArr[row][column] = product;
                 
