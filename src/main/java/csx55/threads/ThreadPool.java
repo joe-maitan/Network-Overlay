@@ -10,6 +10,7 @@ public class ThreadPool {
     private ConcurrentLinkedQueue<Job> jobQueue = new ConcurrentLinkedQueue<>();
     private int value;
     private boolean calculatingMatrices = true;
+    private volatile boolean start = false;
     
     public ThreadPool(final int sizeOfPool) {
         threads = new Thread[sizeOfPool];
@@ -55,6 +56,10 @@ public class ThreadPool {
         return this.value;
     } // End getValue() method
 
+    public void setStart(boolean status) {
+        this.start = status;
+    } // End setStart(bool) method
+    
     public void dotProduct(int[] row, int[] col) {
         int  product = 0;
         for (int i = 0; i < row.length; ++i) {
@@ -66,7 +71,11 @@ public class ThreadPool {
         setValue(product);
     } // End product() method
 
-    public void run() {        
+    public void run() { 
+        while(!start) {
+            /* spin and wait for jobs to be added to the queue */
+        }      
+
         while (calculatingMatrices) {
             if (jobQueue.size() != 0) {
                 Job j = removeJob();

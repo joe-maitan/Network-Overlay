@@ -69,7 +69,9 @@ public class MatrixThreads {
 
         Matrix x = new Matrix('X', MATRIX_DIMENSIONS);
         System.out.println("Calcutating Matrix X");
+        pool.setStart(true);
         x.data = x.multiplyMatrices(a, b, MATRIX_DIMENSIONS, pool);
+        pool.setStart(false);
 
         Matrix y = new Matrix('Y', MATRIX_DIMENSIONS);
         System.out.println("Calculating Matrix Y");

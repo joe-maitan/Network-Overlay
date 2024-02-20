@@ -41,13 +41,12 @@ public class Matrix {
         return sum;
     } // End sumOfMatrixElements() method
 
-    public int[] getColumn(int[][] array, int columnIndex) {
-        int[] column = new int[array.length];
+    public void getColumn(int[][] array, int columnIndex, int[] column) {
         for (int i = 0; i < array.length; i++) {
             column[i] = array[i][columnIndex];
         } // End for loop
 
-        return column;
+        // return column; original return type was int[]
     } // End getColumn() method
 
     // public int dotProduct(int[] row, int[] col) {
@@ -76,7 +75,8 @@ public class Matrix {
         for (int row = 0; row < desiredDimensions; ++row) {
             rowArr = arr_one[row];
             for (int column = 0; column < desiredDimensions; ++column) {
-                columnArr = getColumn(arr_two, column);
+                // columnArr = getColumn(arr_two, column);
+                getColumn(arr_two, column, columnArr);
 
                 Job newJob = new Job(rowArr, columnArr);
                 pool.addJob(newJob);
