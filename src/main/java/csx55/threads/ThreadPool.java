@@ -1,12 +1,15 @@
 package csx55.threads;
 
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.SynchronousQueue;
 
 public class ThreadPool {
 
     private Thread[] threads;
-    private volatile SynchronousQueue<Job> jobQueue = new SynchronousQueue<>();
+    // private volatile SynchronousQueue<Job> jobQueue = new SynchronousQueue<>();
+    private ConcurrentLinkedQueue<Job> jobQueue = new ConcurrentLinkedQueue<>();
     private int value;
+    private boolean calculatingMatrices = true;
     
     public ThreadPool(final int sizeOfPool) {
         threads = new Thread[sizeOfPool];
@@ -25,23 +28,19 @@ public class ThreadPool {
     } // End startAllThreads() method
 
     public void addJob(Job j) {
-        System.out.println("Entering addJob() method");
         try {
-            System.out.println("Entering try statement");
-            this.jobQueue.put(j);
-        } catch (InterruptedException err) {
+            this.jobQueue.add(j);
+        } catch (Exception err) {
             System.err.println(err.getMessage());
         } // End try-catch block
     } // End addJob(j) method
 
     public Job removeJob() {
-        System.out.println("Entering removeJob() method");
         Job j = null;
 
         try {
-            System.out.println("Successfully removed a job");
-            j = this.jobQueue.take();
-        } catch (InterruptedException err) {
+            j = this.jobQueue.poll();
+        } catch (Exception err) {
             System.err.println(err.getMessage());
         } // End try-catch block
 
@@ -49,16 +48,14 @@ public class ThreadPool {
     } // End removeJob() method
 
     public void setValue(int value) {
-        System.out.println("Entering setValue(value)");
         this.value = value;
     } // End addValue() method
 
     public int getValue() {
-        System.out.println("Entering getValue()");
         return this.value;
     } // End getValue() method
 
-    public int dotProduct(int[] row, int[] col) {
+    public void dotProduct(int[] row, int[] col) {
         int  product = 0;
         for (int i = 0; i < row.length; ++i) {
             for (int j = 0; j < col.length; ++j) {
@@ -66,24 +63,21 @@ public class ThreadPool {
             } // End nested for loop
         } // End outer for loop
 
-        return product;
+        setValue(product);
     } // End product() method
 
-    public void run() {
-        System.out.println("Entering run method");
-        boolean calculatingMatrices = true;
-        
-        int value = 0;
+    public void run() {        
         while (calculatingMatrices) {
             if (jobQueue.size() != 0) {
-                System.out.println("Thread is taking on a job");
                 Job j = removeJob();
-                value = dotProduct(j.getRowArr(), j.getColArr());
-                setValue(value);
-            }
-        } // End while loop
 
-        // System.out.println("run() - exiting while loop");
+                try {
+                    dotProduct(j.getRowArr(), j.getColArr());
+                } catch (Exception err) {
+                    System.err.println(err.getMessage());
+                } // End try-catch message
+            } // End if statement
+        } // End while loop
     } // End run() method
 
 } // End ThreadPool class

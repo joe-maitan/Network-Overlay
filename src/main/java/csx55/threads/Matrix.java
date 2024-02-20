@@ -62,7 +62,7 @@ public class Matrix {
     // } // End product() method
 
     public int[][] multiplyMatrices(int[][] arr_one, int[][] arr_two, int desiredDimensions, ThreadPool pool) {
-        System.out.println("Entering multiplyingMatrices");
+        // System.out.println("Entering multiplyingMatrices");
         long startTime;
         long endTime;
         int[][] productArr = new int[desiredDimensions][desiredDimensions];
@@ -71,18 +71,18 @@ public class Matrix {
         int[] columnArr = new int[desiredDimensions];
 
         startTime = System.nanoTime();
-        System.out.println("Starting time");
+        // System.out.println("Starting time");
         for (int row = 0; row < desiredDimensions; ++row) {
             rowArr = arr_one[row];
             for (int column = 0; column < desiredDimensions; ++column) {
                 columnArr = getColumn(arr_two, column);
 
-                System.out.println("Creating newJob object");
+                // System.out.println("Creating newJob object");
                 Job newJob = new Job(rowArr, columnArr);
 
-                System.out.println("Adding the newJob to the pools job queue");
+                // System.out.println("Adding the newJob to the pools job queue");
 
-                // TODO: Figure out where the issue is inside of addJob() method
+                // Figure out where the issue is inside of addJob() method
                 pool.addJob(newJob);
                 productArr[row][column] = pool.getValue();
                 
