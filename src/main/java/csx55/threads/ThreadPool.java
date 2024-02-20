@@ -1,13 +1,12 @@
 package csx55.threads;
 
 import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.SynchronousQueue;
+
 
 public class ThreadPool {
 
-    private Thread[] threads;
-    // private volatile SynchronousQueue<Job> jobQueue = new SynchronousQueue<>();
-    private ConcurrentLinkedQueue<Job> jobQueue = new ConcurrentLinkedQueue<>();
+    private Thread[] threads; /* used to hold our threads */
+    private volatile ConcurrentLinkedQueue<Job> jobQueue = new ConcurrentLinkedQueue<>();
     private int value;
     private boolean calculatingMatrices = true;
     private volatile boolean start = false;
@@ -27,6 +26,12 @@ public class ThreadPool {
             threads[i].start();
         }
     } // End startAllThreads() method
+
+    public void stopAllThreads() {
+        for (int i = 0; i < threads.length; ++i) {
+            threads[i].interrupt();
+        }
+    }
 
     public void addJob(Job j) {
         try {
@@ -59,7 +64,7 @@ public class ThreadPool {
     public void setStart(boolean status) {
         this.start = status;
     } // End setStart(bool) method
-    
+
     public void dotProduct(int[] row, int[] col) {
         int  product = 0;
         for (int i = 0; i < row.length; ++i) {
@@ -72,9 +77,11 @@ public class ThreadPool {
     } // End product() method
 
     public void run() { 
-        while(!start) {
-            /* spin and wait for jobs to be added to the queue */
-        }      
+        while(!start) { /* spin and wait for jobs to be added to the queue */
+            if (jobQueue.size() != 0) {
+                start = false;
+            } // End if statement
+        } // End while loop      
 
         while (calculatingMatrices) {
             if (jobQueue.size() != 0) {

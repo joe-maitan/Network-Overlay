@@ -6,7 +6,7 @@ import java.util.Random;
 public class MatrixThreads {
     public static void main(String[] args) {
         final int THREAD_POOL_SIZE = 8;
-        final int MATRIX_DIMENSIONS = 3000;
+        final int MATRIX_DIMENSIONS = 3;
         final int SEED = 31459;
         
         // if (args.length < 3) {
@@ -53,7 +53,8 @@ public class MatrixThreads {
 
             for (int column = 0; column < arr.length; ++column) {
                 for (int row = 0; row < arr.length; ++row) {
-                    int randomValue = 1000 - numberGenerator.nextInt(2000);
+                    // int randomValue = 1000 - numberGenerator.nextInt(2000);
+                    int randomValue = numberGenerator.nextInt(10) + 1;
                     arr[column][row] = randomValue;
                 } // End nested for loop
             } // End for loop
@@ -69,7 +70,6 @@ public class MatrixThreads {
 
         Matrix x = new Matrix('X', MATRIX_DIMENSIONS);
         System.out.println("Calcutating Matrix X");
-        pool.setStart(true);
         x.data = x.multiplyMatrices(a, b, MATRIX_DIMENSIONS, pool);
         pool.setStart(false);
 
@@ -85,6 +85,7 @@ public class MatrixThreads {
        
         String output = String.format("Cumulative time to compute matrices X, Y, and Z using a thread pool of size = %d is : %.3f s", THREAD_POOL_SIZE, cumulativeTime);
         System.out.println(output);
+        pool.stopAllThreads();
     } // End main method
     
 } // End MatrixThreads class

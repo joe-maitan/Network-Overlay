@@ -49,17 +49,6 @@ public class Matrix {
         // return column; original return type was int[]
     } // End getColumn() method
 
-    // public int dotProduct(int[] row, int[] col) {
-    //     int  product = 0;
-    //     for (int i = 0; i < row.length; ++i) {
-    //         for (int j = 0; j < col.length; ++j) {
-    //             product += row[i] * col[j];
-    //         } // End nested for loop
-    //     } // End outer for loop
-
-    //     return product;
-    // } // End product() method
-
     public int[][] multiplyMatrices(Matrix one, Matrix two, int desiredDimensions, ThreadPool pool) {
         long startTime;
         long endTime;
@@ -71,6 +60,8 @@ public class Matrix {
         int[] rowArr = new int[desiredDimensions];
         int[] columnArr = new int[desiredDimensions];
 
+        int product = 0;
+
         startTime = System.nanoTime();
         for (int row = 0; row < desiredDimensions; ++row) {
             rowArr = arr_one[row];
@@ -80,7 +71,11 @@ public class Matrix {
 
                 Job newJob = new Job(rowArr, columnArr);
                 pool.addJob(newJob);
-                productArr[row][column] = pool.getValue();
+
+                /* TODO: Have to figure out what order we need to add jobs and then start the threads. */
+
+                product = pool.getValue();
+                productArr[row][column] = product;
                 
                 // productArr[row][column] = dotProduct(new, columnArr); /* Give one thread a dot product at a time */
                 
