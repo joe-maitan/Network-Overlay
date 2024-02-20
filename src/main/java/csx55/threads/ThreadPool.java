@@ -31,7 +31,7 @@ public class ThreadPool {
         for (int i = 0; i < threads.length; ++i) {
             threads[i].interrupt();
         }
-    }
+    } // End stopAllThreads() method
 
     public void addJob(Job j) {
         try {

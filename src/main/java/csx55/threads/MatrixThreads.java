@@ -6,7 +6,7 @@ import java.util.Random;
 public class MatrixThreads {
     public static void main(String[] args) {
         final int THREAD_POOL_SIZE = 8;
-        final int MATRIX_DIMENSIONS = 3;
+        final int MATRIX_DIMENSIONS = 4;
         final int SEED = 31459;
         
         // if (args.length < 3) {
