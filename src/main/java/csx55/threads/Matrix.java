@@ -61,28 +61,24 @@ public class Matrix {
     //     return product;
     // } // End product() method
 
-    public int[][] multiplyMatrices(int[][] arr_one, int[][] arr_two, int desiredDimensions, ThreadPool pool) {
-        // System.out.println("Entering multiplyingMatrices");
+    public int[][] multiplyMatrices(Matrix one, Matrix two, int desiredDimensions, ThreadPool pool) {
         long startTime;
         long endTime;
+        
+        int[][] arr_one = one.getData();
+        int[][] arr_two = two.getData();
         int[][] productArr = new int[desiredDimensions][desiredDimensions];
         
         int[] rowArr = new int[desiredDimensions];
         int[] columnArr = new int[desiredDimensions];
 
         startTime = System.nanoTime();
-        // System.out.println("Starting time");
         for (int row = 0; row < desiredDimensions; ++row) {
             rowArr = arr_one[row];
             for (int column = 0; column < desiredDimensions; ++column) {
                 columnArr = getColumn(arr_two, column);
 
-                // System.out.println("Creating newJob object");
                 Job newJob = new Job(rowArr, columnArr);
-
-                // System.out.println("Adding the newJob to the pools job queue");
-
-                // Figure out where the issue is inside of addJob() method
                 pool.addJob(newJob);
                 productArr[row][column] = pool.getValue();
                 
@@ -98,8 +94,7 @@ public class Matrix {
 
         double totalTime = (endTime - startTime) / 1e9;
 
-        // TODO: Figure out how to get the names of the matrices that made the product
-        System.out.println("Calculation of matrix " + this.getName() + " (Product of ? and ?) complete - sum of the elements in " + this.getName() + " is: " + sumOfMatrixElements(productArr, desiredDimensions));
+        System.out.println("Calculation of matrix " + this.getName() + " (Product of " + one.getName() + " and " + two.getName() + ") complete - sum of the elements in " + this.getName() + " is: " + sumOfMatrixElements(productArr, desiredDimensions));
         String timeToCompute = String.format("Time to compute matrix " + this.getName() + ": %.3f s", totalTime);
         System.out.println(timeToCompute);
         System.out.println();

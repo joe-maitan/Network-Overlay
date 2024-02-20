@@ -69,15 +69,15 @@ public class MatrixThreads {
 
         Matrix x = new Matrix('X', MATRIX_DIMENSIONS);
         System.out.println("Calcutating Matrix X");
-        x.data = x.multiplyMatrices(a.data, b.data, MATRIX_DIMENSIONS, pool);
+        x.data = x.multiplyMatrices(a, b, MATRIX_DIMENSIONS, pool);
 
         Matrix y = new Matrix('Y', MATRIX_DIMENSIONS);
         System.out.println("Calculating Matrix Y");
-        y.data = y.multiplyMatrices(c.data, d.data, MATRIX_DIMENSIONS, pool);
+        y.data = y.multiplyMatrices(c, d, MATRIX_DIMENSIONS, pool);
 
         System.out.println("Calculating Matrix Z");
         Matrix z = new Matrix('Z', MATRIX_DIMENSIONS);
-        z.data = z.multiplyMatrices(x.data, y.data, MATRIX_DIMENSIONS, pool);
+        z.data = z.multiplyMatrices(x, y, MATRIX_DIMENSIONS, pool);
 
         double cumulativeTime = x.getTime() + y.getTime() + z.getTime();
        

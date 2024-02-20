@@ -70,12 +70,7 @@ public class ThreadPool {
         while (calculatingMatrices) {
             if (jobQueue.size() != 0) {
                 Job j = removeJob();
-
-                try {
-                    dotProduct(j.getRowArr(), j.getColArr());
-                } catch (Exception err) {
-                    System.err.println(err.getMessage());
-                } // End try-catch message
+                dotProduct(j.getRowArr(), j.getColArr());
             } // End if statement
         } // End while loop
     } // End run() method
