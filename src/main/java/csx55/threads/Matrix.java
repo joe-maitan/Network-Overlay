@@ -45,8 +45,6 @@ public class Matrix {
         for (int i = 0; i < array.length; i++) {
             column[i] = array[i][columnIndex];
         } // End for loop
-
-        // return column; original return type was int[]
     } // End getColumn() method
 
     public int[][] multiplyMatrices(Matrix one, Matrix two, int desiredDimensions, ThreadPool pool) {
@@ -66,23 +64,12 @@ public class Matrix {
         for (int row = 0; row < desiredDimensions; ++row) {
             rowArr = arr_one[row];
             for (int column = 0; column < desiredDimensions; ++column) {
-                // columnArr = getColumn(arr_two, column);
                 getColumn(arr_two, column, columnArr);
 
                 Job newJob = new Job(rowArr, columnArr);
                 pool.addJob(newJob);
-
-                /* TODO: Have to figure out what order we need to add jobs and then start the threads. */
-
-                // System.out.println("Value is: " + pool.getValue());
                 product = pool.getValue();
                 productArr[row][column] = product;
-                
-                // productArr[row][column] = dotProduct(new, columnArr); /* Give one thread a dot product at a time */
-                
-                // for (int k = 0; k < desiredDimensions; ++k) {
-                //     productArr[row][column] = (arr_one[row][k] * arr_two[k][column]);
-                // } // End nested for loop
             } // End for loop
         } // End for loop
 

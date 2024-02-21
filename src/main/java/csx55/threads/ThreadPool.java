@@ -65,9 +65,7 @@ public class ThreadPool {
     public void dotProduct(int[] row, int[] col) {
         int  product = 0;
         for (int i = 0; i < row.length; ++i) {
-            for (int j = 0; j < col.length; ++j) {
-                product += row[i] * col[j];
-            } // End nested for loop
+            product += row[i] * col[i];
         } // End outer for loop
 
         setValue(product);

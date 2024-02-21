@@ -5,10 +5,6 @@ import java.util.Random;
 
 public class MatrixThreads {
     public static void main(String[] args) {
-        // final int THREAD_POOL_SIZE = 8;
-        // final int MATRIX_DIMENSIONS = 4;
-        // final int SEED = 31459;
-        
         if (args.length < 3) {
             System.err.println("Invalid # of arguments");
             System.exit(1);
@@ -70,17 +66,15 @@ public class MatrixThreads {
         Matrix x = new Matrix('X', MATRIX_DIMENSIONS);
         System.out.println("Calcutating Matrix X");
         x.data = x.multiplyMatrices(a, b, MATRIX_DIMENSIONS, pool);
-        pool.setStart(false);
-
+        
         Matrix y = new Matrix('Y', MATRIX_DIMENSIONS);
         System.out.println("Calculating Matrix Y");
         y.data = y.multiplyMatrices(c, d, MATRIX_DIMENSIONS, pool);
 
-        System.out.println("Calculating Matrix Z");
         Matrix z = new Matrix('Z', MATRIX_DIMENSIONS);
+        System.out.println("Calculating Matrix Z");
         z.data = z.multiplyMatrices(x, y, MATRIX_DIMENSIONS, pool);
-        pool.setStart(false);
-
+        
         double cumulativeTime = x.getTime() + y.getTime() + z.getTime();
        
         String output = String.format("Cumulative time to compute matrices X, Y, and Z using a thread pool of size = %d is : %.3f s", THREAD_POOL_SIZE, cumulativeTime);
