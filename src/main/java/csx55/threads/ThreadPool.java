@@ -1,5 +1,6 @@
 package csx55.threads;
 
+import java.util.Arrays;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 
@@ -7,7 +8,7 @@ public class ThreadPool {
 
     private Thread[] threads; /* used to hold our threads */
     private volatile ConcurrentLinkedQueue<Job> jobQueue = new ConcurrentLinkedQueue<>();
-    private int value;
+    public volatile int product;
     private static volatile boolean start = false;
     
     public ThreadPool(final int sizeOfPool) {
@@ -50,25 +51,38 @@ public class ThreadPool {
         return j; 
     } // End removeJob() method
 
-    public void setValue(int value) {
-        this.value = value;
-    } // End addValue() method
+    // public void setValue(int value) {
+    //     // System.out.println("Setting value to: " + value);
+    //     this.value = value;
+    // } // End addValue() method
 
-    public int getValue() {
-        return this.value;
-    } // End getValue() method
+    // public int getValue() {
+    //     // System.out.println("Getting value: " + this.value);
+    //     return this.value;
+    // } // End getValue() method
 
     public void setStart(boolean status) {
         start = status;
     } // End setStart(bool) method
 
+    public synchronized void print(int[] row, int[] col) {
+        System.out.println("Row array: " + Arrays.toString(row));
+        System.out.println("Column array: " + Arrays.toString(col));
+
+        System.out.flush();
+    }
+
     public void dotProduct(int[] row, int[] col) {
-        int  product = 0;
+        // System.out.println("Computing the dot product");
+        // print(row, col);
+
+        int prod = 0;
         for (int i = 0; i < row.length; ++i) {
-            product += row[i] * col[i];
+            prod += row[i] * col[i];
         } // End outer for loop
 
-        setValue(product);
+        // System.out.println(prod);
+        this.product = prod;
     } // End product() method
 
     public void run() { 
@@ -77,6 +91,8 @@ public class ThreadPool {
                 Job j = removeJob();
 
                 if (j != null) {
+                    // System.out.println("Removing job from the queue and it is not null");
+                    // print(j.getRowArr(), j.getColArr());
                     dotProduct(j.getRowArr(), j.getColArr());
                 }
             } // End if statement

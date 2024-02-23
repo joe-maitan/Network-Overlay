@@ -29,12 +29,30 @@ public class Matrix {
         return this.timeToComputeSum;
     } // End getTime() method
 
-    public int sumOfMatrixElements(int[][] arr, int dimensions) { /* DO NOT SYNCHRONIZE */
-        int sum = 0;
+    public String toString() {
+        String output = "";
+
+        for (int i = 0; i < this.data.length; ++i) {
+            output += "[";
+            for (int j = 0; j < this.data[0].length; ++j) {
+                if (j == this.data[0].length - 1) {
+                    output += data[i][j];
+                } else {
+                    output += data[i][j] + " ";
+                }
+            }
+            output += "]\n";
+        }
+
+        return output;
+    } // End toString() method
+
+    public long sumOfMatrixElements(int[][] arr, int dimensions) { /* DO NOT SYNCHRONIZE */
+        long sum = 0;
         
         for (int row = 0; row < dimensions; ++row) {
             for (int column = 0; column < dimensions; ++column) {
-                sum += arr[row][column];
+                sum += (long) arr[row][column];
             } // End nested for loop
         } // End for loop
 
@@ -58,8 +76,6 @@ public class Matrix {
         int[] rowArr = new int[desiredDimensions];
         int[] columnArr = new int[desiredDimensions];
 
-        int product = 0;
-
         startTime = System.nanoTime();
         for (int row = 0; row < desiredDimensions; ++row) {
             rowArr = arr_one[row];
@@ -68,8 +84,8 @@ public class Matrix {
 
                 Job newJob = new Job(rowArr, columnArr);
                 pool.addJob(newJob);
-                product = pool.getValue();
-                productArr[row][column] = product;
+                pool.dotProduct(rowArr, columnArr);
+                productArr[row][column] = pool.product;
             } // End for loop
         } // End for loop
 

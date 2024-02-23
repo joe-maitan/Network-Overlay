@@ -5,6 +5,10 @@ import java.util.Random;
 
 public class MatrixThreads {
     public static void main(String[] args) {
+        // final int THREAD_POOL_SIZE = 8;
+        // final int MATRIX_DIMENSIONS = 3;
+        // final int SEED = 31459;
+
         if (args.length < 3) {
             System.err.println("Invalid # of arguments");
             System.exit(1);
@@ -49,6 +53,7 @@ public class MatrixThreads {
 
             for (int column = 0; column < arr.length; ++column) {
                 for (int row = 0; row < arr.length; ++row) {
+                    // int randomValue = numberGenerator.nextInt(10) + 1;
                     int randomValue = 1000 - numberGenerator.nextInt(2000);
                     arr[column][row] = randomValue;
                 } // End nested for loop
@@ -64,15 +69,21 @@ public class MatrixThreads {
         System.out.println();
 
         Matrix x = new Matrix('X', MATRIX_DIMENSIONS);
-        System.out.println("Calcutating Matrix X");
+        // System.out.println("Calcutating Matrix X");
+        // System.out.println(a.toString());
+        // System.out.println(b.toString());
         x.data = x.multiplyMatrices(a, b, MATRIX_DIMENSIONS, pool);
+        // System.out.println(x.toString());
         
         Matrix y = new Matrix('Y', MATRIX_DIMENSIONS);
-        System.out.println("Calculating Matrix Y");
+        // System.out.println("Calculating Matrix Y");
+        // System.out.println(c.toString());
+        // System.out.println(d.toString());
         y.data = y.multiplyMatrices(c, d, MATRIX_DIMENSIONS, pool);
+        // System.out.println(y.toString());
 
         Matrix z = new Matrix('Z', MATRIX_DIMENSIONS);
-        System.out.println("Calculating Matrix Z");
+        // System.out.println("Calculating Matrix Z");
         z.data = z.multiplyMatrices(x, y, MATRIX_DIMENSIONS, pool);
         
         double cumulativeTime = x.getTime() + y.getTime() + z.getTime();
