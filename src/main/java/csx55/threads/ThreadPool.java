@@ -76,6 +76,7 @@ public class ThreadPool {
             if (jobQueue.size() != 0) {
                 Job j = removeJob();
 
+                // System.out.println("Job is being removed from the q");
                 if (j != null) {
                     dotProduct(j.getRowArr(), j.getColArr());
                 }
