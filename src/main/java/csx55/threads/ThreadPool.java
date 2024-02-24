@@ -51,16 +51,6 @@ public class ThreadPool {
         return j; 
     } // End removeJob() method
 
-    // public void setValue(int value) {
-    //     // System.out.println("Setting value to: " + value);
-    //     this.value = value;
-    // } // End addValue() method
-
-    // public int getValue() {
-    //     // System.out.println("Getting value: " + this.value);
-    //     return this.value;
-    // } // End getValue() method
-
     public void setStart(boolean status) {
         start = status;
     } // End setStart(bool) method
@@ -73,15 +63,11 @@ public class ThreadPool {
     }
 
     public void dotProduct(int[] row, int[] col) {
-        // System.out.println("Computing the dot product");
-        // print(row, col);
-
         int prod = 0;
         for (int i = 0; i < row.length; ++i) {
             prod += row[i] * col[i];
         } // End outer for loop
 
-        // System.out.println(prod);
         this.product = prod;
     } // End product() method
 
@@ -91,8 +77,6 @@ public class ThreadPool {
                 Job j = removeJob();
 
                 if (j != null) {
-                    // System.out.println("Removing job from the queue and it is not null");
-                    // print(j.getRowArr(), j.getColArr());
                     dotProduct(j.getRowArr(), j.getColArr());
                 }
             } // End if statement
