@@ -10,6 +10,7 @@ public class ThreadPool implements Runnable {
     private Job work = null;
     // private volatile ConcurrentLinkedQueue<Job> jobQueue = new ConcurrentLinkedQueue<>(); /* used to hold our Jobs */
     private static boolean locked;
+    private static boolean unlocked;
     private static boolean lockMain = true;
     
     /* USED FOR OUR PRIVATE CONSTRUCTOR */
@@ -47,8 +48,20 @@ public class ThreadPool implements Runnable {
         } // End if statement
 
         locked = false;
+        unlocked = true;
         
-        while (lockMain) { /* trap the main thread in the ThreadPool class */ } // End while loop
+        while (lockMain) { /* main thread (MatrixThreads) is waiting */ } // End while loop
+
+        /* Threads have finished, reset them */
+        locked = true;
+        unlocked = false;
+        lockMain = true;
+
+        while (lockMain == true) { /* waiting for reset... */ } // End while loop
+
+        lockMain = true;
+        unlocked = true;
+        // The threads are ready to be unleashed again
     } // End unleashThreads() method
 
     public void startAllThreads() {
