@@ -4,24 +4,35 @@ import java.util.Arrays;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 
-public class ThreadPool {
+public class ThreadPool implements Runnable {
 
     private Thread[] threads; /* used to hold our threads */
-    private volatile ConcurrentLinkedQueue<Job> jobQueue = new ConcurrentLinkedQueue<>();
-    public volatile int product;
+    private volatile ConcurrentLinkedQueue<Job> jobQueue = new ConcurrentLinkedQueue<>(); /* used to hold our Jobs */
+    private int count;
+    private int threadID;
     private static volatile boolean start = false;
+
+    public volatile int product;
+    
+
+    private ThreadPool(int size, int id) {
+        this.count = size;
+        this.threadID = id;
+    } // End private ThreadPool constructor
     
     public ThreadPool(final int sizeOfPool) {
+        this.count = sizeOfPool;
         threads = new Thread[sizeOfPool];
 
         for (int i = 0; i < threads.length; ++i) {
-            threads[i] = new Thread(this::run);
-            String name = Integer.toString(i);
-            threads[i].setName(name);
+            ThreadPool newThread = new ThreadPool(sizeOfPool, i);
+            threads[i] = newThread;
+            // String name = Integer.toString(i);
+            // threads[i].setName(name);
         } // End for loop
     } // End ThreadPool() constrcutor
 
-    public void startAllThreads() {
+    private void startAllThreads() {
         for (int i = 0; i < threads.length; ++i) {
             threads[i].start();
         }
@@ -73,10 +84,11 @@ public class ThreadPool {
 
     public void run() { 
         while(!start) { /* spin and wait for jobs to be added to the queue */
+            System.out.println("Thread is spinning");
             if (jobQueue.size() != 0) {
                 Job j = removeJob();
 
-                // System.out.println("Job is being removed from the q");
+                System.out.println("Thread is working");
                 if (j != null) {
                     dotProduct(j.getRowArr(), j.getColArr());
                 }
