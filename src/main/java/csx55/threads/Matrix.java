@@ -11,7 +11,12 @@ public class Matrix {
     public Matrix(char name, int dimensions) {
         this.name = name;
         this.data = new int[dimensions][dimensions];
-    } // End Matrix() constructor
+    } // End Matrix(name, dimensions) constructor
+
+    public Matrix(char name, Matrix one, Matrix two, int dimensions) {
+        this.name = name;
+        this.data = multiplyMatrices(one, two, dimensions, null);
+    } // End Matrix(one, two, dimensions) constructor
 
     public char getName() {
         return this.name;
