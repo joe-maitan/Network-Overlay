@@ -70,7 +70,7 @@ public class Matrix {
         } // End for loop
     } // End getColumn() method
 
-    public int[][] multiplyMatrices(Matrix one, Matrix two, int desiredDimensions, ThreadPool pool) {
+    public int[][] multiplyMatrices(Matrix one, Matrix two, int desiredDimensions) {
         long startTime;
         long endTime;
         
@@ -81,16 +81,17 @@ public class Matrix {
         int[] rowArr = new int[desiredDimensions];
         int[] columnArr = new int[desiredDimensions];
 
+        Job newJob = new Job();
         startTime = System.nanoTime();
         for (int row = 0; row < desiredDimensions; ++row) {
             rowArr = arr_one[row];
             for (int column = 0; column < desiredDimensions; ++column) {
                 getColumn(arr_two, column, columnArr);
 
-                Job newJob = new Job(rowArr, columnArr);
-                pool.addJob(newJob);
-                pool.dotProduct(rowArr, columnArr);
-                productArr[row][column] = pool.product;
+                newJob.addToQueue(rowArr, columnArr);
+                // pool.addJob(newJob);
+                // pool.dotProduct(rowArr, columnArr);
+                productArr[row][column] = newJob.popFromQueue();
             } // End for loop
         } // End for loop
 

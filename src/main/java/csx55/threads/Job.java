@@ -7,10 +7,12 @@ public class Job {
 
     public Job() {} // End Job() constructor
 
-    public Job(int[] r, int[] c) {
-        this.row = r;
-        this.col = c;
-    } // End Job(r, c) constructor
+    // public Job(int[] r, int[] c) {
+    //     this.row = r;
+    //     this.col = c;
+    // } // End Job(r, c) constructor
+
+    public void addToQueue() {}
 
     public int[] getRowArr() {
         return this.row;

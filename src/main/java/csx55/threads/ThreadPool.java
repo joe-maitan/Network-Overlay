@@ -77,7 +77,7 @@ public class ThreadPool implements Runnable {
 
     public void endPool() {
         finished = true;
-    }
+    } // End endPool() method
 
     public void run() {
         while (!finished) {
