@@ -7,13 +7,18 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 public class ThreadPool implements Runnable {
 
     private Thread[] threads; /* used to hold our threads */
-    private volatile ConcurrentLinkedQueue<Job> jobQueue = new ConcurrentLinkedQueue<>(); /* used to hold our Jobs */
-    private int count;
+    private Job j = null;
+    // private volatile ConcurrentLinkedQueue<Job> jobQueue = new ConcurrentLinkedQueue<>(); /* used to hold our Jobs */
+    private static boolean lock;
+    
+    /* USED FOR OUR PRIVATE CONSTRUCTOR */
+    private int count; /* size of our ThreadPool (number of other threads) */
     private int threadID;
+
+    private static boolean started = false;
     private static volatile boolean start = false;
 
     public volatile int product;
-    
 
     private ThreadPool(int size, int id) {
         this.count = size;
@@ -23,16 +28,15 @@ public class ThreadPool implements Runnable {
     public ThreadPool(final int sizeOfPool) {
         this.count = sizeOfPool;
         threads = new Thread[sizeOfPool];
+        this.threadID = -1; /* set it to -1 so we know it is not a thread */
 
         for (int i = 0; i < threads.length; ++i) {
-            ThreadPool newThread = new ThreadPool(sizeOfPool, i);
-            threads[i] = newThread;
-            // String name = Integer.toString(i);
-            // threads[i].setName(name);
+            Thread t = new Thread(new ThreadPool(sizeOfPool, i));
+            threads[i] = t;
         } // End for loop
     } // End ThreadPool() constrcutor
 
-    private void startAllThreads() {
+    public void startAllThreads() {
         for (int i = 0; i < threads.length; ++i) {
             threads[i].start();
         }
