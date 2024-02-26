@@ -98,13 +98,6 @@ public class ThreadPool implements Runnable {
         } // End while loop
     } // End run() method
     
-    // public void dotProduct(int[] row, int[] col) {
-    //     int prod = 0;
-    //     for (int i = 0; i < row.length; ++i) {
-    //         prod += row[i] * col[i];
-    //     } // End outer for loop
-
-    //     this.product = prod;
-    // } // End product() method
+    
      
 } // End ThreadPool class

@@ -15,7 +15,7 @@ public class Matrix {
 
     public Matrix(char name, Matrix one, Matrix two, int dimensions) {
         this.name = name;
-        this.data = multiplyMatrices(one, two, dimensions, null);
+        this.data = multiplyMatrices(one, two, dimensions);
     } // End Matrix(one, two, dimensions) constructor
 
     public char getName() {
@@ -81,7 +81,7 @@ public class Matrix {
         int[] rowArr = new int[desiredDimensions];
         int[] columnArr = new int[desiredDimensions];
 
-        Job newJob = new Job();
+        Job newJob = new Job(desiredDimensions);
         startTime = System.nanoTime();
         for (int row = 0; row < desiredDimensions; ++row) {
             rowArr = arr_one[row];
@@ -89,8 +89,6 @@ public class Matrix {
                 getColumn(arr_two, column, columnArr);
 
                 newJob.addToQueue(rowArr, columnArr);
-                // pool.addJob(newJob);
-                // pool.dotProduct(rowArr, columnArr);
                 productArr[row][column] = newJob.popFromQueue();
             } // End for loop
         } // End for loop
