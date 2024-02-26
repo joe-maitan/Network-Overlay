@@ -107,40 +107,7 @@ public class ThreadPool implements Runnable {
             if (counter.incrementAndGet() == sizeOfPool) {
                 lockMain = false;
             }
+        }
+    } // End run() method 
 
-<<<<<<< HEAD
-            while (lockFinish) { /* threads are spinning doing nothing */ }
-        } // End while loop
-=======
-    public synchronized void print(int[] row, int[] col) {
-        System.out.println("Row array: " + Arrays.toString(row));
-        System.out.println("Column array: " + Arrays.toString(col));
-
-        System.out.flush();
-    }
-
-    public void dotProduct(int[] row, int[] col) {
-        int prod = 0;
-        for (int i = 0; i < row.length; ++i) {
-            prod += row[i] * col[i];
-        } // End outer for loop
-
-        this.product = prod;
-    } // End product() method
-
-    public void run() { 
-        while(!start) { /* spin and wait for jobs to be added to the queue */
-            if (jobQueue.size() != 0) {
-                Job j = removeJob();
-
-                if (j != null) {
-                    dotProduct(j.getRowArr(), j.getColArr());
-                }
-            } // End if statement
-        } // End while loop      
->>>>>>> parent of 1219045 (fuck)
-    } // End run() method
-    
-    
-     
 } // End ThreadPool class
