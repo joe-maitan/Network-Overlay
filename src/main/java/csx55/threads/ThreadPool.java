@@ -8,14 +8,14 @@ public class ThreadPool implements Runnable {
 
     private Thread[] threads; /* used to hold our threads */
     private String name;
-    private volatile ConcurrentLinkedQueue<Job> jobQueue = new ConcurrentLinkedQueue<>();
-    public volatile int product;
+    private static volatile ConcurrentLinkedQueue<Job> jobQueue = new ConcurrentLinkedQueue<>();
+    private static volatile int product;
     private static volatile boolean start = false;
-    
+
     private ThreadPool(String id) {
         this.name = id;
-    } // End private ThreadPool() constructor
-
+    }
+    
     public ThreadPool(final int sizeOfPool) {
         threads = new Thread[sizeOfPool];
 
@@ -28,20 +28,21 @@ public class ThreadPool implements Runnable {
     public void startAllThreads() {
         for (int i = 0; i < threads.length; ++i) {
             threads[i].start();
+            // System.out.println(threads[i].getName() + " has started");
         }
     } // End startAllThreads() method
-
-    public String getThreadName() {
-        return this.name;
-    }
 
     public void close() {
         start = true;
     } // End close() method
 
+    public String getThreadName() {
+        return this.name;
+    }
+
     public void addJob(Job j) {
         try {
-            this.jobQueue.add(j);
+            jobQueue.add(j);
         } catch (Exception err) {
             System.err.println(err.getMessage());
         } // End try-catch block
@@ -51,7 +52,7 @@ public class ThreadPool implements Runnable {
         Job j = null;
 
         try {
-            j = this.jobQueue.poll();
+            j = jobQueue.poll();
         } catch (Exception err) {
             System.err.println(err.getMessage());
         } // End try-catch block
@@ -70,28 +71,31 @@ public class ThreadPool implements Runnable {
         System.out.flush();
     }
 
-    public void getProduct(int[] r, int[] c) {
-        dotProduct(r, c);
-    } // End getProduct() method
+    public void dotProduct(int[] row, int[] col) {
+        System.out.println(getThreadName() + "is computing a dot product");
 
-    public int dotProduct(int[] row, int[] col) {
         int prod = 0;
-        
         for (int i = 0; i < row.length; ++i) {
             prod += row[i] * col[i];
         } // End outer for loop
 
-        return prod;
+        // System.out.println(prod);
+        product = prod;
     } // End product() method
+
+    public int getProduct() {
+        return product;
+    } // End getProduct() method
 
     public void run() { 
         while(!start) { /* spin and wait for jobs to be added to the queue */
             if (jobQueue.size() != 0) {
                 Job j = removeJob();
 
-                System.out.println(this.getThreadName() + " is taking a job");
                 if (j != null) {
-                    getProduct(j.getRowArr(), j.getColArr());
+                    // System.out.println(getThreadName() + " has got a job");
+                    // print(j.getRowArr(), j.getColArr());
+                    dotProduct(j.getRowArr(), j.getColArr());
                 }
             } // End if statement
         } // End while loop      
