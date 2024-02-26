@@ -90,6 +90,10 @@ public class ThreadPool implements Runnable {
 
             while (lockStart) { /* spin and do nothing */ }
 
+            // DO WORK SECTION
+
+            int stride = (work.getHowManyTasks() + (sizeOfPool - 1)) / sizeOfPool;
+
             if (counter.incrementAndGet() == sizeOfPool) {
                 lockMain = false;
             }

@@ -11,9 +11,13 @@ public class Job {
         this.howManyTasks = numTasks;
     } // End Job() constructor
 
+    public int getHowManyTasks() {
+        return this.howManyTasks;
+    } // End getHowManyTasks() method
+
     public void doDotProduct(int[] row, int[] col) {
         int prod = 0;
-        
+
         for (int i = 0; i < row.length; ++i) {
             prod += row[i] * col[i];
         } // End outer for loop
