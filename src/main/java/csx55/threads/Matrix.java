@@ -11,12 +11,7 @@ public class Matrix {
     public Matrix(char name, int dimensions) {
         this.name = name;
         this.data = new int[dimensions][dimensions];
-    } // End Matrix(name, dimensions) constructor
-
-    public Matrix(char name, Matrix one, Matrix two, int dimensions) {
-        this.name = name;
-        this.data = multiplyMatrices(one, two, dimensions);
-    } // End Matrix(one, two, dimensions) constructor
+    } // End Matrix() constructor
 
     public char getName() {
         return this.name;
@@ -70,7 +65,7 @@ public class Matrix {
         } // End for loop
     } // End getColumn() method
 
-    public int[][] multiplyMatrices(Matrix one, Matrix two, int desiredDimensions) {
+    public int[][] multiplyMatrices(Matrix one, Matrix two, int desiredDimensions, ThreadPool pool) {
         long startTime;
         long endTime;
         
@@ -81,15 +76,16 @@ public class Matrix {
         int[] rowArr = new int[desiredDimensions];
         int[] columnArr = new int[desiredDimensions];
 
-        Job newJob = new Job(desiredDimensions);
         startTime = System.nanoTime();
         for (int row = 0; row < desiredDimensions; ++row) {
             rowArr = arr_one[row];
             for (int column = 0; column < desiredDimensions; ++column) {
                 getColumn(arr_two, column, columnArr);
 
-                newJob.addToQueue(rowArr, columnArr);
-                productArr[row][column] = newJob.popFromQueue();
+                Job newJob = new Job(rowArr, columnArr);
+                pool.addJob(newJob);
+                pool.dotProduct(rowArr, columnArr);
+                productArr[row][column] = pool.product;
             } // End for loop
         } // End for loop
 

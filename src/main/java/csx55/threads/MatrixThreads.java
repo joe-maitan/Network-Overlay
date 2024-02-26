@@ -49,8 +49,7 @@ public class MatrixThreads {
 
             for (int column = 0; column < arr.length; ++column) {
                 for (int row = 0; row < arr.length; ++row) {
-                    int randomValue = numberGenerator.nextInt(10) + 1;
-                    // int randomValue = 1000 - numberGenerator.nextInt(2000);
+                    int randomValue = 1000 - numberGenerator.nextInt(2000);
                     arr[column][row] = randomValue;
                 } // End nested for loop
             } // End for loop
@@ -64,20 +63,20 @@ public class MatrixThreads {
 
         System.out.println();
 
-        Matrix x = new Matrix('X', a, b, MATRIX_DIMENSIONS);
-        // x.data = x.multiplyMatrices(a, b, MATRIX_DIMENSIONS, pool);
+        Matrix x = new Matrix('X', MATRIX_DIMENSIONS);
+        x.data = x.multiplyMatrices(a, b, MATRIX_DIMENSIONS, pool);
         
-        Matrix y = new Matrix('Y', c, d, MATRIX_DIMENSIONS);
-        // y.data = y.multiplyMatrices(c, d, MATRIX_DIMENSIONS, pool);
+        Matrix y = new Matrix('Y', MATRIX_DIMENSIONS);
+        y.data = y.multiplyMatrices(c, d, MATRIX_DIMENSIONS, pool);
 
-        Matrix z = new Matrix('Z', x, y, MATRIX_DIMENSIONS);
-        // z.data = z.multiplyMatrices(x, y, MATRIX_DIMENSIONS, pool);
+        Matrix z = new Matrix('Z', MATRIX_DIMENSIONS);
+        z.data = z.multiplyMatrices(x, y, MATRIX_DIMENSIONS, pool);
         
         double cumulativeTime = x.getTime() + y.getTime() + z.getTime();
        
         String output = String.format("Cumulative time to compute matrices X, Y, and Z using a thread pool of size = %d is : %.3f s", THREAD_POOL_SIZE, cumulativeTime);
         System.out.println(output);
-        // pool.close();
+        pool.close();
     } // End main method
     
 } // End MatrixThreads class

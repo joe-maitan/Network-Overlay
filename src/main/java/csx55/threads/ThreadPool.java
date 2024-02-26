@@ -2,72 +2,28 @@ package csx55.threads;
 
 import java.util.Arrays;
 import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.atomic.AtomicInteger;
 
 
 public class ThreadPool implements Runnable {
 
     private Thread[] threads; /* used to hold our threads */
-    private Job work = null;
-    // private volatile ConcurrentLinkedQueue<Job> jobQueue = new ConcurrentLinkedQueue<>(); /* used to hold our Jobs */
-    private static volatile boolean lockStart;
-    private static volatile boolean lockFinish;
-    private static volatile boolean lockMain;
-    private static volatile boolean finished = false; /* when finished is true */
-
-    private static AtomicInteger counter;
-    
-    /* USED FOR OUR PRIVATE CONSTRUCTOR */
-    private int sizeOfPool; /* size of our ThreadPool (number of other threads) */
-    private int threadID;
-
-    private static boolean started = false;
-
+    private String name;
+    private volatile ConcurrentLinkedQueue<Job> jobQueue = new ConcurrentLinkedQueue<>();
     public volatile int product;
-
-    private ThreadPool(int size, int id) {
-        this.sizeOfPool = size;
-        this.threadID = id;
-    } // End private ThreadPool constructor
+    private static volatile boolean start = false;
     
-    public ThreadPool(final int size) {
-        this.sizeOfPool = size;
+    private ThreadPool(String id) {
+        this.name = id;
+    } // End private ThreadPool() constructor
+
+    public ThreadPool(final int sizeOfPool) {
         threads = new Thread[sizeOfPool];
-        this.threadID = -1; /* set it to -1 so we know it is not a thread */
 
         for (int i = 0; i < threads.length; ++i) {
-            Thread t = new Thread(new ThreadPool(sizeOfPool, i));
+            Thread t = new Thread(new ThreadPool(Integer.toString(i)));
             threads[i] = t;
         } // End for loop
     } // End ThreadPool() constrcutor
-
-    public void setJob(Job j) {
-        this.work = j;
-    } // End setJob(j) method
-
-    public void unleashThreads() {
-        if (!started) {
-            startAllThreads();
-        } // End if statement
-
-        counter.set(0);
-        lockMain = true;
-        lockStart = false; // We allow the threads to do stuff
-        
-        while (lockMain) { /* main thread (MatrixThreads) is waiting */ } // End while loop
-
-        /* Threads have finished, reset them */
-        lockStart = true;
-        counter.set(0);
-        lockFinish = false;
-        lockMain = true;
-
-        while (lockMain == true) { /* waiting for reset... */ } // End while loop
-
-        lockMain = true;
-        lockFinish = true;
-        // The threads are ready to be unleashed again
-    } // End unleashThreads() method
 
     public void startAllThreads() {
         for (int i = 0; i < threads.length; ++i) {
@@ -75,39 +31,70 @@ public class ThreadPool implements Runnable {
         }
     } // End startAllThreads() method
 
-    public void endPool() {
-        finished = true;
-    } // End endPool() method
+    public String getThreadName() {
+        return this.name;
+    }
 
-    public void run() {
-        while (!finished) {
-            if (counter.incrementAndGet() == sizeOfPool) {
-                // Last thread enters
-                // All other threads have passed this
-                // unlock the main thread
-                lockMain = false;
-            } 
+    public void close() {
+        start = true;
+    } // End close() method
 
-            while (lockStart) { /* spin and do nothing */ }
+    public void addJob(Job j) {
+        try {
+            this.jobQueue.add(j);
+        } catch (Exception err) {
+            System.err.println(err.getMessage());
+        } // End try-catch block
+    } // End addJob(j) method
 
-            // DO WORK SECTION
+    public Job removeJob() {
+        Job j = null;
 
-            int stride = (work.getHowManyTasks() + (sizeOfPool - 1)) / sizeOfPool;
-            int start = threadID * stride;
-            int end = start + stride;
+        try {
+            j = this.jobQueue.poll();
+        } catch (Exception err) {
+            System.err.println(err.getMessage());
+        } // End try-catch block
 
-            if (start >= work.getHowManyTasks()) {
-                start = work.getHowManyTasks();
-            }
+        return j; 
+    } // End removeJob() method
 
-            if (end >= work.getHowManyTasks()) {
-                end = work.getHowManyTasks();
-            }
+    public void setStart(boolean status) {
+        start = status;
+    } // End setStart(bool) method
 
-            if (counter.incrementAndGet() == sizeOfPool) {
-                lockMain = false;
-            }
-        }
-    } // End run() method 
+    public synchronized void print(int[] row, int[] col) {
+        System.out.println("Row array: " + Arrays.toString(row));
+        System.out.println("Column array: " + Arrays.toString(col));
+
+        System.out.flush();
+    }
+
+    public void getProduct(int[] r, int[] c) {
+        dotProduct(r, c);
+    } // End getProduct() method
+
+    public int dotProduct(int[] row, int[] col) {
+        int prod = 0;
+        
+        for (int i = 0; i < row.length; ++i) {
+            prod += row[i] * col[i];
+        } // End outer for loop
+
+        return prod;
+    } // End product() method
+
+    public void run() { 
+        while(!start) { /* spin and wait for jobs to be added to the queue */
+            if (jobQueue.size() != 0) {
+                Job j = removeJob();
+
+                System.out.println(this.getThreadName() + " is taking a job");
+                if (j != null) {
+                    getProduct(j.getRowArr(), j.getColArr());
+                }
+            } // End if statement
+        } // End while loop      
+    } // End run() method
 
 } // End ThreadPool class
