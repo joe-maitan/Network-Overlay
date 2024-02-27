@@ -9,7 +9,7 @@ public class ThreadPool implements Runnable {
     private Thread[] threads; /* used to hold our threads */
     private volatile String name;
     private static volatile ConcurrentLinkedQueue<Job> jobQueue = new ConcurrentLinkedQueue<>();
-    private static volatile int product;
+    public static volatile int product;
     private static volatile boolean start = false;
 
     private ThreadPool(String id) {
@@ -75,7 +75,7 @@ public class ThreadPool implements Runnable {
     }
 
     public void dotProduct(int[] row, int[] col) {
-        System.out.println(getThreadName() + " is computing a dot product");
+        // System.out.println(getThreadName() + " is computing a dot product");
 
         int prod = 0;
         for (int i = 0; i < row.length; ++i) {
@@ -83,12 +83,13 @@ public class ThreadPool implements Runnable {
         } // End outer for loop
 
         // System.out.println(prod);
-        setProduct(prod);
+        // setProduct(prod);
+        product = prod;
     } // End product() method
 
-    public void setProduct(int prod) {
-        product = prod;
-    } // setProduct(prod) method
+    // public void setProduct(int prod) {
+    //     product = prod;
+    // } // setProduct(prod) method
 
     public int getProduct() {
         return product;
