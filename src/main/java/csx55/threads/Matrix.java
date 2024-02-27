@@ -84,7 +84,7 @@ public class Matrix {
 
                 Job newJob = new Job(rowArr, columnArr);
                 pool.addJob(newJob);
-                pool.dotProduct(rowArr, columnArr);
+                // pool.dotProduct(rowArr, columnArr);
                 productArr[row][column] = pool.getProduct();
             } // End for loop
         } // End for loop

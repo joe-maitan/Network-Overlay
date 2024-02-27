@@ -7,7 +7,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 public class ThreadPool implements Runnable {
 
     private Thread[] threads; /* used to hold our threads */
-    private String name;
+    private volatile String name;
     private static volatile ConcurrentLinkedQueue<Job> jobQueue = new ConcurrentLinkedQueue<>();
     private static volatile int product;
     private static volatile boolean start = false;
@@ -25,13 +25,13 @@ public class ThreadPool implements Runnable {
             threads[i] = t;
         } // End for loop
 
-        System.out.println("ThreadPool(size) constructor - Created " + i + " threads");
+        // System.out.println("ThreadPool(size) constructor - Created " + i + " threads");
     } // End ThreadPool() constrcutor
 
     public void startAllThreads() {
         for (int i = 0; i < threads.length; ++i) {
             threads[i].start();
-            System.out.println(threads[i].getName() + " has started");
+            // System.out.println(threads[i].getName() + " has started");
         }
     } // End startAllThreads() method
 
