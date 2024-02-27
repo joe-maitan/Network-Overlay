@@ -83,13 +83,12 @@ public class ThreadPool implements Runnable {
         } // End outer for loop
 
         // System.out.println(prod);
-        // setProduct(prod);
-        product = prod;
+        setProduct(prod);
     } // End product() method
 
-    // public void setProduct(int prod) {
-    //     product = prod;
-    // } // setProduct(prod) method
+    public void setProduct(int prod) {
+        product = prod;
+    } // setProduct(prod) method
 
     public int getProduct() {
         return product;
