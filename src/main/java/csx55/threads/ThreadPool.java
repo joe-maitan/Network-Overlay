@@ -19,16 +19,19 @@ public class ThreadPool implements Runnable {
     public ThreadPool(final int sizeOfPool) {
         threads = new Thread[sizeOfPool];
 
-        for (int i = 0; i < threads.length; ++i) {
+        int i;
+        for (i = 0; i < threads.length; ++i) {
             Thread t = new Thread(new ThreadPool(Integer.toString(i)));
             threads[i] = t;
         } // End for loop
+
+        System.out.println("ThreadPool(size) constructor - Created " + i + " threads");
     } // End ThreadPool() constrcutor
 
     public void startAllThreads() {
         for (int i = 0; i < threads.length; ++i) {
             threads[i].start();
-            // System.out.println(threads[i].getName() + " has started");
+            System.out.println(threads[i].getName() + " has started");
         }
     } // End startAllThreads() method
 
@@ -72,6 +75,8 @@ public class ThreadPool implements Runnable {
     }
 
     public void dotProduct(int[] row, int[] col) {
+        // TODO: Figure out why this is printing null, it could be the main thread
+        // TODO: Figure out how to lock the main thread out of computing a dot product
         System.out.println(getThreadName() + " is computing a dot product");
 
         int prod = 0;
