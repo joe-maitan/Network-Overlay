@@ -88,7 +88,7 @@ public class ThreadPool implements Runnable {
 
     public void setProduct(int prod) {
         product = prod;
-    }
+    } // setProduct(prod) method
 
     public int getProduct() {
         return product;

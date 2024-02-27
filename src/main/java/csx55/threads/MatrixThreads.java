@@ -8,19 +8,24 @@ public class MatrixThreads {
 
     private final static ReentrantLock mainThreadLock = new ReentrantLock();
     public static void main(String[] args) {
-        if (args.length < 3) {
-            System.err.println("Invalid # of arguments");
-            System.exit(1);
-        } // End if statement
 
-        final int THREAD_POOL_SIZE = Integer.parseInt(args[0]);
-        final int MATRIX_DIMENSIONS = Integer.parseInt(args[1]);
-        final int SEED = Integer.parseInt(args[2]);
+        final int THREAD_POOL_SIZE = 8;
+        final int MATRIX_DIMENSIONS = 3;
+        final int SEED = 31459;
 
-        if (THREAD_POOL_SIZE <= 0 || MATRIX_DIMENSIONS <= 1 || SEED < 0) {
-            System.err.println("Invalid entry for arguments");
-            System.exit(1);
-        } // End if statement
+        // if (args.length < 3) {
+        //     System.err.println("Invalid # of arguments");
+        //     System.exit(1);
+        // } // End if statement
+
+        // final int THREAD_POOL_SIZE = Integer.parseInt(args[0]);
+        // final int MATRIX_DIMENSIONS = Integer.parseInt(args[1]);
+        // final int SEED = Integer.parseInt(args[2]);
+
+        // if (THREAD_POOL_SIZE <= 0 || MATRIX_DIMENSIONS <= 1 || SEED < 0) {
+        //     System.err.println("Invalid entry for arguments");
+        //     System.exit(1);
+        // } // End if statement
 
         ThreadPool pool = new ThreadPool(THREAD_POOL_SIZE);
         pool.startAllThreads();
