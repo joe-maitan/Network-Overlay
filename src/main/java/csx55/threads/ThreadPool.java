@@ -75,9 +75,7 @@ public class ThreadPool implements Runnable {
     }
 
     public void dotProduct(int[] row, int[] col) {
-        // TODO: Figure out why this is printing null, it could be the main thread
-        // TODO: Figure out how to lock the main thread out of computing a dot product
-        // System.out.println(getThreadName() + " is computing a dot product");
+        System.out.println(getThreadName() + " is computing a dot product");
 
         int prod = 0;
         for (int i = 0; i < row.length; ++i) {
@@ -85,8 +83,12 @@ public class ThreadPool implements Runnable {
         } // End outer for loop
 
         // System.out.println(prod);
-        product = prod;
+        setProduct(prod);
     } // End product() method
+
+    public void setProduct(int prod) {
+        product = prod;
+    }
 
     public int getProduct() {
         return product;

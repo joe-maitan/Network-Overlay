@@ -82,16 +82,16 @@ public class MatrixThreads {
             System.out.println(x.toString());
 
             System.out.println("Calculating Matrix Y");
-            System.out.println(c.toString());
-            System.out.println(d.toString());
+            // System.out.println(c.toString());
+            // System.out.println(d.toString());
             y.data = y.multiplyMatrices(c, d, MATRIX_DIMENSIONS, pool);
-            System.out.println(y.toString());
+            // System.out.println(y.toString());
 
             System.out.println("Calculating Matrix Z");
-            System.out.println(x.toString());
-            System.out.println(y.toString());
+            // System.out.println(x.toString());
+            // System.out.println(y.toString());
             z.data = z.multiplyMatrices(x, y, MATRIX_DIMENSIONS, pool);
-            System.out.println(z.toString());
+            // System.out.println(z.toString());
         } catch (Exception err) {
             System.err.println(err.getMessage());
         } finally {
