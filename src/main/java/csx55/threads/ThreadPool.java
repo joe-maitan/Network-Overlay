@@ -77,7 +77,7 @@ public class ThreadPool implements Runnable {
     public void dotProduct(int[] row, int[] col) {
         // TODO: Figure out why this is printing null, it could be the main thread
         // TODO: Figure out how to lock the main thread out of computing a dot product
-        System.out.println(getThreadName() + " is computing a dot product");
+        // System.out.println(getThreadName() + " is computing a dot product");
 
         int prod = 0;
         for (int i = 0; i < row.length; ++i) {

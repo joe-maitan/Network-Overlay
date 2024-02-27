@@ -2,17 +2,15 @@ package csx55.threads;
 
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.concurrent.*;
-import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class MatrixThreads {
+
+    public static ReentrantLock mainThreadLock = new ReentrantLock();
     public static void main(String[] args) {
         // final int THREAD_POOL_SIZE = 8;
         // final int MATRIX_DIMENSIONS = 3;
         // final int SEED = 31459;
-
-        ReentrantLock lock = new ReentrantLock();
 
         if (args.length < 3) {
             System.err.println("Invalid # of arguments");
@@ -77,7 +75,7 @@ public class MatrixThreads {
         Matrix y = new Matrix('Y', MATRIX_DIMENSIONS);
         Matrix z = new Matrix('Z', MATRIX_DIMENSIONS);
 
-        lock.lock();
+        mainThreadLock.lock();
         try {
             // System.out.println("Calcutating Matrix X");
             // System.out.println(a.toString());
@@ -90,13 +88,12 @@ public class MatrixThreads {
             // System.out.println(d.toString());
             y.data = y.multiplyMatrices(c, d, MATRIX_DIMENSIONS, pool);
             // System.out.println(y.toString())
-            
+
             // System.out.println("Calculating Matrix Z");
             z.data = z.multiplyMatrices(x, y, MATRIX_DIMENSIONS, pool);
         } finally {
-            lock.unlock();
+            mainThreadLock.unlock();
         } // End try-catch statement
-        
         
         double cumulativeTime = x.getTime() + y.getTime() + z.getTime();
        
