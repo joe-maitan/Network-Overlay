@@ -6,16 +6,9 @@ How to run HW1 for CSX55
 
 3. gradle clean - If you need to clear the build directory
 
-Go into this directory for the jar: ~/CS455/csx55/build/libs$
+How to run the Registry code: java -cp build/classes/java/main/ csx55.overlay.node.Registry <port-number>
 
-3. How to run the Registry code: java -cp build/libs/csx55.jar csx55.overlay.node.Registry <port-number>
-
-4. How to run the MessagingNode code: java -cp build/libs/csx55.jar csx55.overlay.node.MessagingNode <hostname> <port-number>
-
-
-java -cp build/libs/csx55.jar csx55.overlay.node.Registry 5505
-
-java -cp build/libs/csx55.jar csx55.overlay.node.MessagingNode shark 5505
+How to run the MessagingNode code: java -cp build/classes/java/main/ csx55.overlay.node.MessagingNode <hostname> <port-number>
 
 Tar command for submission: tar -cvf Joseph_Maitan_HW1.tar src build.gradle README.md
 
