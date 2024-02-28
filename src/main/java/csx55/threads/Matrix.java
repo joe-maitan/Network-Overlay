@@ -34,8 +34,8 @@ public class Matrix {
 
         for (int i = 0; i < this.data.length; ++i) {
             output += "[";
-            for (int j = 0; j < this.data[0].length; ++j) {
-                if (j == this.data[0].length - 1) {
+            for (int j = 0; j < this.data[i].length; ++j) {
+                if (j == this.data[i].length - 1) {
                     output += data[i][j];
                 } else {
                     output += data[i][j] + " ";
@@ -87,6 +87,8 @@ public class Matrix {
                 // pool.dotProduct(rowArr, columnArr);
                 productArr[row][column] = pool.getProduct();
             } // End for loop
+
+            // pool.setStart(true);
         } // End for loop
 
         endTime = System.nanoTime();
