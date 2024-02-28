@@ -75,8 +75,8 @@ public class MatrixThreads {
             System.out.println("Sum of the elements in input matrix " + m.getName() + " = " + m.sumOfMatrixElements(m.data, MATRIX_DIMENSIONS));
         } // End for each loop
 
-        // System.out.println(a.toString());
-        // System.out.println(b.toString());
+        System.out.println(a.toString());
+        System.out.println(b.toString());
         // System.out.println(c.toString());
         // System.out.println(d.toString());
 

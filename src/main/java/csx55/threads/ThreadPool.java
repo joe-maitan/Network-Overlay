@@ -48,7 +48,7 @@ public class ThreadPool implements Runnable {
     public void addJob(Job j) {
         try {
             jobQueue.add(j);
-            setStart(true);
+            // setStart(true);
         } catch (Exception err) {
             System.err.println(err.getMessage());
         } // End try-catch block
@@ -94,23 +94,40 @@ public class ThreadPool implements Runnable {
     } // setProduct(prod) method
 
     public int getProduct() {
+        // setStart(true);
         return product;
     } // End getProduct() method
 
     public void run() { 
-        while (threadPoolLock == false) {
-            while (start == false) { /* spin and wait for jobs to be added to the queue */ }
-                if (!jobQueue.isEmpty()) {
-                    Job j = removeJob();
+        while(!start) { /* spin and wait for jobs to be added to the queue */
+            if (jobQueue.size() != 0) {
+                Job j = removeJob();
 
-                    if (j != null) {
-                        // System.out.println(getThreadName() + " has taken a job");
-                        dotProduct(j.getRowArr(), j.getColArr());
-                    }
-                } else if (jobQueue.isEmpty()) {
-                    setStart(false);
+                if (j != null) {
+                    // System.out.println(getThreadName() + " has got a job");
+                    // print(j.getRowArr(), j.getColArr());
+                    dotProduct(j.getRowArr(), j.getColArr());
                 }
-        } // End while loop     
+            } // End if statement
+        } // End while loop      
     } // End run() method
+
+    // public void run() { 
+    //     while (threadPoolLock == false) {
+    //         while (start == false) { /* spin and wait for jobs to be added to the queue */ }
+    //             if (!jobQueue.isEmpty()) {
+    //                 Job j = removeJob();
+
+    //                 if (j != null) {
+    //                     // System.out.println(getThreadName() + " has taken a job");
+    //                     dotProduct(j.getRowArr(), j.getColArr());
+    //                 }
+    //             } else if (jobQueue.isEmpty()) {
+    //                 setStart(false);
+    //             }
+    //     } // End while loop   
+        
+    //     // System.out.println("Exiting run() method");
+    // } // End run() method
 
 } // End ThreadPool class
