@@ -1,5 +1,7 @@
 package csx55.threads;
 
+import java.util.Random;
+
 public class Matrix {
 
     private char name;
@@ -11,6 +13,20 @@ public class Matrix {
     public Matrix(char name, int dimensions) {
         this.name = name;
         this.data = new int[dimensions][dimensions];
+    } // End Matrix() constructor
+
+    public Matrix(char name, int dimensions, Random gen) {
+        this(name, dimensions);
+
+        for (int column = 0; column < data.length; ++column) {
+            for (int row = 0; row < data.length; ++row) {
+                int randomValue = gen.nextInt(10) + 1;
+                // int randomValue = 1000 - gen.nextInt(2000);
+                data[column][row] = randomValue;
+            } // End nested for loop
+        } // End for loop
+
+        System.out.println("Sum of the elements in input matrix " + getName() + " = " + sumOfMatrixElements(data, dimensions));
     } // End Matrix() constructor
 
     public char getName() {
@@ -82,12 +98,17 @@ public class Matrix {
             for (int column = 0; column < desiredDimensions; ++column) {
                 getColumn(arr_two, column, columnArr);
 
-                Job newJob = new Job(rowArr, columnArr);
+                Job newJob = new Job(arr_one, arr_two, productArr, row, column);
                 pool.addJob(newJob);
                 // pool.dotProduct(rowArr, columnArr);
-                productArr[row][column] = pool.getProduct();
+                // productArr[row][column] = pool.getProduct();
             } // End for loop
         } // End for loop
+
+        while (!pool.isJobQueueEmpty()) { 
+            /* spin and wait for jobs to be done */ 
+            Thread.onSpinWait();
+        }
 
         endTime = System.nanoTime();
 

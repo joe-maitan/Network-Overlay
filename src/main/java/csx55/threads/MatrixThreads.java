@@ -29,7 +29,7 @@ public class MatrixThreads {
 
         ThreadPool pool = new ThreadPool(THREAD_POOL_SIZE);
         pool.startAllThreads();
-        ArrayList<Matrix> matrices = new ArrayList<>();
+        // ArrayList<Matrix> matrices = new ArrayList<>();
         
         System.out.println("Dimensionality of the square matrices is: " + MATRIX_DIMENSIONS);
         System.out.println("The thread pool has been initialized to: " + THREAD_POOL_SIZE);
@@ -40,35 +40,35 @@ public class MatrixThreads {
         *   and 
         *   Y = C * D
         */
-        Matrix a = new Matrix('A', MATRIX_DIMENSIONS);
-        Matrix b = new Matrix('B', MATRIX_DIMENSIONS);
-        Matrix c = new Matrix('C', MATRIX_DIMENSIONS);
-        Matrix d = new Matrix('D', MATRIX_DIMENSIONS);
-
-        matrices.add(a);
-        matrices.add(b);
-        matrices.add(c);
-        matrices.add(d);
-
         Random numberGenerator = new Random(SEED);
-        for (Matrix m : matrices) {
+        Matrix a = new Matrix('A', MATRIX_DIMENSIONS, numberGenerator);
+        Matrix b = new Matrix('B', MATRIX_DIMENSIONS, numberGenerator);
+        Matrix c = new Matrix('C', MATRIX_DIMENSIONS, numberGenerator);
+        Matrix d = new Matrix('D', MATRIX_DIMENSIONS, numberGenerator);
+
+        // matrices.add(a);
+        // matrices.add(b);
+        // matrices.add(c);
+        // matrices.add(d);
+
+        // for (Matrix m : matrices) {
              
-            int[][] arr = new int[MATRIX_DIMENSIONS][MATRIX_DIMENSIONS];
+        //     int[][] arr = new int[MATRIX_DIMENSIONS][MATRIX_DIMENSIONS];
 
-            for (int column = 0; column < arr.length; ++column) {
-                for (int row = 0; row < arr.length; ++row) {
-                    // int randomValue = numberGenerator.nextInt(10) + 1;
-                    int randomValue = 1000 - numberGenerator.nextInt(2000);
-                    arr[column][row] = randomValue;
-                } // End nested for loop
-            } // End for loop
+        //     for (int column = 0; column < arr.length; ++column) {
+        //         for (int row = 0; row < arr.length; ++row) {
+        //             // int randomValue = numberGenerator.nextInt(10) + 1;
+        //             int randomValue = 1000 - numberGenerator.nextInt(2000);
+        //             arr[column][row] = randomValue;
+        //         } // End nested for loop
+        //     } // End for loop
 
-            m.setData(arr);
-        } // End for each loop
+        //     m.setData(arr);
+        // } // End for each loop
 
-        for (Matrix m : matrices) {
-            System.out.println("Sum of the elements in input matrix " + m.getName() + " = " + m.sumOfMatrixElements(m.data, MATRIX_DIMENSIONS));
-        } // End for each loop
+        // for (Matrix m : matrices) {
+        //     System.out.println("Sum of the elements in input matrix " + m.getName() + " = " + m.sumOfMatrixElements(m.data, MATRIX_DIMENSIONS));
+        // } // End for each loop
 
         System.out.println();
 
@@ -81,10 +81,10 @@ public class MatrixThreads {
         try {
             // mainThreadLock.wait();
             System.out.println("Calculating Matrix X");
-            // System.out.println(a.toString());
-            // System.out.println(b.toString());
+            System.out.println(a.toString());
+            System.out.println(b.toString());
             x.data = x.multiplyMatrices(a, b, MATRIX_DIMENSIONS, pool);
-            // System.out.println(x.toString());
+            System.out.println(x.toString());
 
             System.out.println("Calculating Matrix Y");
             // System.out.println(c.toString());

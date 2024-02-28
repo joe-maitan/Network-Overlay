@@ -12,6 +12,8 @@ public class ThreadPool implements Runnable {
     // TODO: Figure out a better way to get jobs and return them?
     private static volatile ConcurrentLinkedQueue<Job> jobQueue = new ConcurrentLinkedQueue<>();
     public static volatile int product;
+
+    private static volatile boolean threadPoolLock = true;
     private static volatile boolean start = false;
 
     private ThreadPool(String id) {
@@ -69,6 +71,10 @@ public class ThreadPool implements Runnable {
         start = status;
     } // End setStart(bool) method
 
+    public boolean isJobQueueEmpty() {
+        return jobQueue.isEmpty();
+    } // End isJobQueueEmpty() method
+
     public synchronized void print(int[] row, int[] col) {
         System.out.println("Row array: " + Arrays.toString(row));
         System.out.println("Column array: " + Arrays.toString(col));
@@ -98,17 +104,20 @@ public class ThreadPool implements Runnable {
     } // End getProduct() method
 
     public void run() { 
-        while(!start) { /* spin and wait for jobs to be added to the queue */
+        while (threadPoolLock == true) {
+            
+            while(!start) { /* spin and wait for jobs to be added to the queue */ }
+            
             if (jobQueue.size() != 0) {
                 Job j = removeJob();
 
                 if (j != null) {
                     // System.out.println(getThreadName() + " has got a job");
                     // print(j.getRowArr(), j.getColArr());
-                    dotProduct(j.getRowArr(), j.getColArr());
+                    dotProduct();
                 }
             } // End if statement
-        } // End while loop      
+        } // End while loop   
     } // End run() method
 
 } // End ThreadPool class
