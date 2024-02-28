@@ -8,6 +8,8 @@ public class ThreadPool implements Runnable {
 
     private Thread[] threads; /* used to hold our threads */
     private volatile String name;
+
+    // TODO: Figure out a better way to get jobs and return them?
     private static volatile ConcurrentLinkedQueue<Job> jobQueue = new ConcurrentLinkedQueue<>();
     public static volatile int product;
     private static volatile boolean start = false;
