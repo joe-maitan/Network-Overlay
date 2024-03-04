@@ -14,27 +14,43 @@ public class TCPServerThread implements Runnable {
     public volatile boolean done = false;
 
     /* THESE TWO STRINGS WILL BE USED TO HELP FILL OUT MESSAGENODE DATA */
-    public int port_number; /* DO NOT DELETE THIS. THIS IS THE PORT OUR NODES SERVER WILL LAUNCH ON */
-    public String ipAddress;
+    private String hostName;
+    private int portNumber; /* DO NOT DELETE THIS. THIS IS THE PORT OUR NODES SERVER WILL LAUNCH ON */
     
-    public Node serverThreadNode;
+    private Node instanceOfNode; /* tells us whether it is a Registry node or a MessagingNode */
 
-    public ArrayList<Socket> socket_connetions = new ArrayList<>();
-    public ArrayList<TCPSender> senders = new ArrayList<>();
-    public ArrayList<TCPReceiverThread> readers = new ArrayList<>();
+    private ArrayList<Socket> socket_connetions = new ArrayList<>();
+    private ArrayList<TCPSender> senders = new ArrayList<>();
+    private ArrayList<TCPReceiverThread> readers = new ArrayList<>();
+
+    public String getHostName() { return this.hostName; }
+
+    public int getPortNumber() { return this.portNumber; }
+
+    public ArrayList<Socket> getPeerSockets() {
+        return this.socket_connetions;
+    } // End getPeerSockets() method
+
+    public ArrayList<TCPSender> getSenders() {
+        return this.senders;
+    } // End getSenders() method
+
+    public ArrayList<TCPReceiverThread> getReaders() {
+        return this.readers;
+    } // End getReaders() method
 
     public TCPServerThread(Node node) {
-        serverThreadNode = node;
-        boolean not_set = false;
+        this.serverThreadNode = node;
+        boolean connectionNotEstablished = false;
 
-            port_number = 1024; /* start at 1024 */
+            port = 1024; /* start at 1024 */
 
-            while (!not_set && port_number < 65536) {
+            while (!connectionNotEstablished && port < 65536) {
                 try {
-                    serverSocket = new ServerSocket(port_number);
-                    not_set = !not_set;
+                    serverSocket = new ServerSocket(port);
+                    connectionNotEstablished = !connectionNotEstablished;
                 } catch (IOException err) {
-                    ++port_number;
+                    ++port;
                 } // End try-catch block
             } // End while loop
     } // End TCPServerThread() default constructor
@@ -66,7 +82,7 @@ public class TCPServerThread implements Runnable {
                 } catch (IOException err) {
                     System.out.println(err.getMessage());
                 } // End try-catch block
-                } // End while loop
+            } // End while loop
             
         } // End if statment
     } // End run() method
@@ -81,32 +97,32 @@ public class TCPServerThread implements Runnable {
         } // End try-catch block
     } // End close_server() method
 
-    public void send_msg(int i, byte[] arr) {
+    public void send_msg(int toIndex, byte[] arr) {
         try {
-            senders.get(i).sendData(arr);
+            getSenders().get(toIndex).sendData(arr);
         } catch (IOException err) {
             System.err.println(err.getMessage());
         }
     } // End send_msg
 
-    public int get_socket_index(Socket s) {
-        return socket_connetions.indexOf(s);
+    public int get_socket_index(Socket search) {
+        return getPeerSockets().indexOf(search);
     } // End get_socket_index() method
 
     public void add_socket(Socket s) {
-        if (!socket_connetions.contains(s)) {
-            socket_connetions.add(s); /* Add the socket to the ArrayList containing them */
+        if (!getPeerSockets().contains(s)) {
+            getPeerSockets().add(s); /* Add the socket to the ArrayList containing them */
 
             try {
                 send = new TCPSender(s, socket_connetions.indexOf(s), serverThreadNode); 
                 read = new TCPReceiverThread(s, socket_connetions.indexOf(s), serverThreadNode);
                 
-                senders.add(send);
-                readers.add(read);
+                getSenders().add(send);
+                getReaders().add(read);
 
                 Thread server_read_thread = new Thread(read); 
             
-                /* starts the TCPReceiver thread and begins to read in information while it has information to read */
+                /* starts the TCPReceiver thread and begins to actively look for information to read */
                 server_read_thread.start(); 
             } catch (IOException err) {
                 System.err.println(err.getMessage());

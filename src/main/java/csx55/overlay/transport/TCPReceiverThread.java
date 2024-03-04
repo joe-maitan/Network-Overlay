@@ -9,18 +9,18 @@ import csx55.overlay.wireformats.*;
 public class TCPReceiverThread implements Runnable {
     private Socket socket;
     private DataInputStream din;
-    public int socketIndex;
+    private int socketIndex;
 
     /* This allows us to know which instance of a Node object this is. 
      * Could be a instanceOf MessagingNode or Registry.
      * Helps with onEvent()
     */
-    public Node referenceNode; 
+    private Node referenceNode; 
     
     public TCPReceiverThread(Socket s, int array_list_index, Node node) throws IOException {
-        socket = s;
-        socketIndex = array_list_index;
-        referenceNode = node;
+        this.socket = s;
+        this.socketIndex = array_list_index;
+        this.referenceNode = node;
     } // End TCPReceiver(socket) constructor
     
     public void run() {

@@ -9,24 +9,24 @@ import java.util.*;
 
 public class MessagingNode extends Node  {
 
-    public String msgNodeHostName;
-    public String msgNodeIP;
-    public int msgNodePortNumber;
-    public int msgNodeIndex; /* This will be important for getting the connections established */
+    // Can probably delete these 3 variables
+    // public String msgNodeHostName;
+    // public String msgNodeIP;
+    // public int msgNodePortNumber;
+    private int msgNodeIndex; /* This will be important for getting the connections established */
 
     /* These are variables used to collect information from a MessagingNodesList message */
-    int numberOfConnections; /* how many nodes we are connecting to */
-    ArrayList<RegisterRequest> peerMsgNodes; /* which nodes we are connecting to */
+    private int numberOfConnections; /* how many nodes we are connecting to */
+    private ArrayList<RegisterRequest> peerMsgNodes; /* which nodes we are connecting to */
 
-    public Socket messaging_node_socket;
+    private Socket messaging_node_socket;
 
-    public ArrayList<String> msgNodeEdges;
-    public HashMap<String, Integer> msgNodeMap;
+    private ArrayList<String> msgNodeEdges;
+    private HashMap<String, Integer> msgNodeMap;
 
-    private RegisterRequest msgNodeRegisterRequest;
+    private RegisterRequest msgNodeRegisterRequest; /* from this RegisterRequest we can get its host name and port # */
 
-    public String shortestPath;
-
+    /* used for Statistics Collection and Display. Is fine if public */
     public int numberOfMsgsSent;
     public int sumOfMsgsSent;
     public int numberOfMsgsReceived;
@@ -36,37 +36,40 @@ public class MessagingNode extends Node  {
     public int sendTracker = 0;
     public int receiveTracker = 0;
 
-    public ArrayList<Socket> peerSockets = new ArrayList<>();
+    private ArrayList<Socket> peerSockets = new ArrayList<>();
+
+    public void setRegisterRequest(RegisterRequest req) {
+        this.msgNodeRegisterRequest = req;
+    } // End setRegisterRequest(req) method
+
+    public RegisterRequest getRegisterRequest() {
+        return this.msgNodeRegisterRequest;
+    } // End getRegisterRequest() method
     
-    public MessagingNode(String machineName, int portNum, int socketIndex) {
-        msgNodeHostName = machineName;
-        msgNodePortNumber = portNum;
-    } // End MessagingNode() constructor
-    
-    public MessagingNode(String hostName, int portNum) {
+    public MessagingNode(String registryHostName, int portNum) {
         super(); /* Creates a Node associated with the MessagingNode */
 
         try {
-            messaging_node_socket = new Socket(hostName, portNum); /* This allows the MessagingNode to connect to the Registry */
+            messaging_node_socket = new Socket(registryHostName, portNum); /* This allows the MessagingNode to connect to the Registry */
             
-            node_server.add_socket(messaging_node_socket); /* Add this socket to our list of connections */
-            msgNodeIndex = node_server.socket_connetions.indexOf(messaging_node_socket);
+            this.nodeServerThread.add_socket(messaging_node_socket); /* Add this socket to our list of connections */
+            msgNodeIndex = nodeServerThread.socket_connetions.indexOf(messaging_node_socket);
 
             // System.out.println("[MsgNode] has connected to [Registry]");
 
-            this.msgNodeIP = InetAddress.getLocalHost().toString();
-            this.msgNodeHostName = msgNodeIP.substring(0, msgNodeIP.indexOf('/'));
-            this.msgNodeIP = msgNodeIP.substring(msgNodeIP.indexOf('/') + 1);
-            this.msgNodePortNumber = node_server.port_number;
+            setHostName(InetAddress.getLocalHost().toString().substring(0, msgNodeIP.indexOf('/')));
+            // this.msgNodeIP = msgNodeIP.substring(msgNodeIP.indexOf('/') + 1);
+            setPortNumber(this.nodeServerThread.getPortNumber());
             
             /* Validation that we have collected the right information */
-            // System.out.println("[MsgNode] Host name: " + msgNodeHostName);
+            System.out.println("[MsgNode] Host name: " + getHostName());
             // System.out.println("[MsgNode] IP Address: " + msgNodeIP + " - Port #: " + messaging_node_socket.getLocalPort());
-            // System.out.println("[MsgNode] Port # of ServerSocket: " + msgNodePortNumber);
+            System.out.println("[MsgNode] Port #: " + messaging_node_socket.getLocalPort());
+            System.out.println("[MsgNode] Port # of ServerSocket: " + getPortNumber());
     
-            RegisterRequest reg_request = new RegisterRequest(msgNodeIP, msgNodePortNumber); /* Created a new registry request */
-            msgNodeRegisterRequest = reg_request;
-            node_server.send_msg(0, reg_request.getBytes());
+            RegisterRequest reg_request = new RegisterRequest(getHostName(), getPortNumber()); /* Created a new registry request */
+            setRegisterRequest(reg_request);
+            this.nodeServerThread.send_msg(0, getRegisterRequest().getBytes());
         } catch (Exception e) {
             System.err.println(e.getMessage());
         } // End try-catch block
