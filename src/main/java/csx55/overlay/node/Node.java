@@ -5,7 +5,7 @@ import java.net.*;
 import csx55.overlay.transport.*;
 import csx55.overlay.wireformats.*;
 
-public abstract class Node { 
+public class Node { 
 
     public String node_ip_address;
     public int node_port_number;
