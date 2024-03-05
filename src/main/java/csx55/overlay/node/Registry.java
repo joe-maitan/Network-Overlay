@@ -281,7 +281,7 @@ public class Registry extends Node {
                 } else {
                     System.out.println("Need to setup overlay");
                 }
-            } else if (line.contains("setup-overlay")) {
+            } else if (line.contains("setup-overlay")) { // TODO: Figure out how to allow another node to join after setting up Overlay and then getting that node in the current overlay
                 int connections_required = 4; /* Connections Required by default are 4 */
             
                 String[] command = line.split(" ");

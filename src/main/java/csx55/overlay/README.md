@@ -12,3 +12,5 @@ How to run the MessagingNode code: java -cp build/classes/java/main/ csx55.overl
 
 Tar command for submission: tar -cvf Joseph_Maitan_HW1.tar src build.gradle README.md
 
+java -cp build/classes/java/main/ csx55.overlay.node.MessagingNode ferrari 5505
+

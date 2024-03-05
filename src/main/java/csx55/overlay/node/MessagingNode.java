@@ -55,17 +55,17 @@ public class MessagingNode extends Node  {
             getNodeServerThread().add_socket(messaging_node_socket); /* Add this socket to our list of connections */
             msgNodeIndex = getNodeServerThread().getPeerSockets().indexOf(messaging_node_socket);
 
-            System.out.println("[MsgNode] has connected to [Registry]");
-            System.out.println("[MsgNode] HostName: " + InetAddress.getLocalHost().toString());
-            // setHostName(InetAddress.getLocalHost().toString().substring(0, msgNodeIP.indexOf('/')));
-            // this.msgNodeIP = msgNodeIP.substring(msgNodeIP.indexOf('/') + 1);
+            
+
+            setHostName(InetAddress.getLocalHost().toString().substring(0, InetAddress.getLocalHost().toString().indexOf('/')));
             setPortNumber(getNodeServerThread().getPortNumber());
             
             /* Validation that we have collected the right information */
-            System.out.println("[MsgNode] Host name: " + getHostName());
+            // System.out.println("[MsgNode] " + getHostName() + " has connected to [Registry]");
+            // System.out.println("[MsgNode] HostName: " + getHostName());
             // System.out.println("[MsgNode] IP Address: " + msgNodeIP + " - Port #: " + messaging_node_socket.getLocalPort());
-            System.out.println("[MsgNode] Port #: " + messaging_node_socket.getLocalPort());
-            System.out.println("[MsgNode] Port # of ServerSocket: " + getPortNumber());
+            // System.out.println("[MsgNode] Port #: " + messaging_node_socket.getLocalPort());
+            // System.out.println("[MsgNode] Port # of ServerSocket: " + getPortNumber());
     
             RegisterRequest reg_request = new RegisterRequest(getHostName(), getPortNumber()); /* Created a new registry request */
             setRegisterRequest(reg_request);
@@ -95,7 +95,7 @@ public class MessagingNode extends Node  {
                 if (status == 1) {
                     System.out.println("[MsgNode] Failed to register.");
                 } else {
-                    System.out.println("[MsgNode] Successfully registered.");
+                    System.out.println("[MsgNode] " + getHostName() + " successfully registered.");
                 } // End if-else statement
 
                 break;
