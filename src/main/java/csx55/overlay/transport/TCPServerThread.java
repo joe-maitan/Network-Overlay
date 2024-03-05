@@ -98,11 +98,11 @@ public class TCPServerThread implements Runnable {
     } // End close_server() method
 
     public void send_msg(int toIndex, byte[] arr) {
-        try {
+        // try {
             getSenders().get(toIndex).sendData(arr);
-        } catch (IOException err) {
-            System.err.println(err.getMessage());
-        }
+        // } catch (IOException err) {
+        //     System.err.println(err.getMessage());
+        // }
     } // End send_msg
 
     public int get_socket_index(Socket search) {

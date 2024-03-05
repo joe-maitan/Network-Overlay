@@ -237,7 +237,7 @@ public class MessagingNode extends Node  {
         final int PORT_NUM = Integer.parseInt(args[1]);
 
         MessagingNode newMessagingNode = new MessagingNode(REGISTRY_HOST_NAME, PORT_NUM);
-        newMessagingNode.getNodeServerThread().start(); /* start our TCPServerThread associated with our new_messaging_node object */
+        newMessagingNode.getServerThread().start(); /* start our TCPServerThread associated with our new_messaging_node object */
 
         Scanner user_in = new Scanner(System.in);
         String line = null;

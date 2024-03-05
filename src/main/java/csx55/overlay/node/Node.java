@@ -5,7 +5,7 @@ import java.net.*;
 import csx55.overlay.transport.*;
 import csx55.overlay.wireformats.*;
 
-public class Node { 
+public abstract class Node { 
 
     private String hostName;
     private int portNumber;
@@ -17,6 +17,9 @@ public class Node {
     private Thread recieverThread;
 
     private TCPSender sender;
+
+    /* Abtract because onEvent will be different for MessagingNode and Registry */
+    public abstract void onEvent(Event event, int socketIndex);
 
     public String getHostName() {
         return this.hostName;
@@ -38,9 +41,17 @@ public class Node {
         return this.nodeServerThread;
     } // End getNodeServerThread() method
 
+    public Thread getServerThread() {
+        return this.serverThread;
+    }
+
     public TCPReceiverThread getNodeRecieverThread() {
         return this.nodeRecieverThread;
     } // End getNodeRecieverThread() method
+
+    public Thread getRecieverThread() {
+        return this.recieverThread;
+    }
 
     public TCPSender getNodeTCPSender() {
         return this.sender;
@@ -51,25 +62,23 @@ public class Node {
         this.serverThread = new Thread(nodeServerThread);
         this.hostName = nodeServerThread.getHostName();
         this.portNumber = nodeServerThread.getPortNumber();
-    }
+    } // End Node() default constructor
 
     public Node(final int PORT_NUMBER) {
         this.nodeServerThread = new TCPServerThread(this, PORT_NUMBER);
         this.serverThread = new Thread(nodeServerThread);
         this.hostName = nodeServerThread.getHostName();
         this.portNumber = nodeServerThread.getPortNumber();
-    }
+    } // End Node(PORT_NUMEBR) constructor
 
-    public abstract void onEvent(Event event, int socketIndex);
-    
     public void send_message(int socketIndex, byte[] arr, String message) {
         this.sender = getNodeServerThread().getSenders().get(socketIndex); /* constructs our TCPSender obj */
             
-        try {
+        // try {
             this.sender.sendData(arr);
-        } catch (IOException err) {
-            System.err.println(err.getMessage());
-        } // End try-catch block
+        // } catch (IOException err) {
+        //     System.err.println(err.getMessage());
+        // } // End try-catch block
     } // End send_message() method
 
     public void addSocket(Socket s) {
