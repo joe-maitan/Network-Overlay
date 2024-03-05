@@ -27,11 +27,11 @@ public class TCPSender {
         } // End try-catch block
     } // End TCPSender(socket) constructor
 
-    public void sendData(byte[] arr) {
+    public void sendData(byte[] dataToSend) {
         int dataLength = 0;
         
         try {
-            dataLength = arr.length;
+            dataLength = dataToSend.length;
             getDout().writeInt(dataLength);
             getDout().write(dataToSend, 0, dataLength);
             getDout().flush();

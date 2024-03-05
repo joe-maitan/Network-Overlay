@@ -45,7 +45,7 @@ public class TCPServerThread implements Runnable {
 
         portNumber = 1024; /* start at 1024 */
 
-        while (!connectionNotEstablished && port < 65536) {
+        while (!connectionNotEstablished && portNumber < 65536) {
             try {
                 serverSocket = new ServerSocket(portNumber);
                 connectionNotEstablished = !connectionNotEstablished;
@@ -60,8 +60,8 @@ public class TCPServerThread implements Runnable {
         
         if (PORT_NUM > 1024 && PORT_NUM < 65536) { /* given a valid port number create the ServerSocket */
             try {
-                port_number = PORT_NUM;
-                serverSocket = new ServerSocket(port_number);
+                portNumber = PORT_NUM;
+                serverSocket = new ServerSocket(portNumber);
             } catch (IOException err) {
                 System.out.println(err.getMessage());
             } // End try-catch block
@@ -109,13 +109,13 @@ public class TCPServerThread implements Runnable {
         return getPeerSockets().indexOf(search);
     } // End get_socket_index() method
 
-    public void add_socket(Socket s) {
-        if (!getPeerSockets().contains(s)) {
-            getPeerSockets().add(s); /* Add the socket to the ArrayList containing them */
+    public void add_socket(Socket newSocket) {
+        if (!getPeerSockets().contains(newSocket)) {
+            getPeerSockets().add(newSocket); /* Add the socket to the ArrayList containing them */
 
             try {
-                send = new TCPSender(s, socket_connetions.indexOf(s), serverThreadNode); 
-                read = new TCPReceiverThread(s, socket_connetions.indexOf(s), serverThreadNode);
+                send = new TCPSender(newSocket, getPeerSockets().indexOf(newSocket), instanceOfNode); 
+                read = new TCPReceiverThread(newSocket, getPeerSockets().indexOf(newSocket), instanceOfNode);
                 
                 getSenders().add(send);
                 getReaders().add(read);

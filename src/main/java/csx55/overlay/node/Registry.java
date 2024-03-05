@@ -49,7 +49,7 @@ public class Registry extends Node {
     public boolean deregister_node(int socket_index, DeregisterRequest dereg_rq) {
         if (registered_messaging_nodes.containsKey(socket_index)) {
             registered_messaging_nodes.remove(socket_index);
-            node_server.socket_connetions.remove(socket_index);
+            getNodeServerThread().getPeerSockets().remove(socket_index);
             // node_server.readers.remove(socket_index);
             // node_server.senders.remove(socket_index);
             --numberOfRegisteredNodes;
@@ -256,10 +256,10 @@ public class Registry extends Node {
             System.exit(1);
         } // End if-statement
         
-        int port = Integer.parseInt(args[0]);
+        final int PORT = Integer.parseInt(args[0]);
 
-        Registry our_registry = new Registry(port); /* creates a new Node object that will host our Registry Server */
-        our_registry.node_server_thread.start(); /* starts our TCPServerThread that was created in our_registry obj */
+        Registry our_registry = new Registry(PORT); /* creates a new Node object that will host our Registry Server */
+        our_registry.getNodeServerThread().start(); /* starts our TCPServerThread that was created in our_registry obj */
         
         System.out.println("[Registry]: Registry Node is up and running"); /* The registry TCPServerThread is up and is looking for active connections */
         
@@ -305,7 +305,7 @@ public class Registry extends Node {
                     our_registry.start(rounds);
                 } // End if-else statement
             } else if (line.equals("exit")) {
-                our_registry.node_server.close_server();
+                our_registry.getNodeServerThread().close_server();
                 break;
             } else {
                 System.out.println("[Registry] Unrecognized command. Please try again");
