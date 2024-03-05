@@ -64,10 +64,10 @@ public class Node {
     public abstract void onEvent(Event event, int socketIndex);
     
     public void send_message(int socketIndex, byte[] arr, String message) {
-        this.node_send = this.node_server.senders.get(socket_index); /* constructs our TCPSender obj */
+        this.sender = getNodeServerThread().getSenders().get(socket_index); /* constructs our TCPSender obj */
             
         try {
-            this.node_send.sendData(arr);
+            this.sender.sendData(arr);
         } catch (IOException err) {
             System.err.println(err.getMessage());
         } // End try-catch block
