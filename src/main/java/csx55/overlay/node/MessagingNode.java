@@ -52,14 +52,14 @@ public class MessagingNode extends Node  {
         try {
             messaging_node_socket = new Socket(registryHostName, portNum); /* This allows the MessagingNode to connect to the Registry */
             
-            this.nodeServerThread.add_socket(messaging_node_socket); /* Add this socket to our list of connections */
-            msgNodeIndex = nodeServerThread.socket_connetions.indexOf(messaging_node_socket);
+            getNodeServerThread().add_socket(messaging_node_socket); /* Add this socket to our list of connections */
+            msgNodeIndex = getNodeServerThread().getPeerSockets().indexOf(messaging_node_socket);
 
-            // System.out.println("[MsgNode] has connected to [Registry]");
-
-            setHostName(InetAddress.getLocalHost().toString().substring(0, msgNodeIP.indexOf('/')));
+            System.out.println("[MsgNode] has connected to [Registry]");
+            System.out.println("[MsgNode] HostName: " + InetAddress.getLocalHost().toString());
+            // setHostName(InetAddress.getLocalHost().toString().substring(0, msgNodeIP.indexOf('/')));
             // this.msgNodeIP = msgNodeIP.substring(msgNodeIP.indexOf('/') + 1);
-            setPortNumber(this.nodeServerThread.getPortNumber());
+            setPortNumber(getNodeServerThread().getPortNumber());
             
             /* Validation that we have collected the right information */
             System.out.println("[MsgNode] Host name: " + getHostName());
@@ -69,7 +69,7 @@ public class MessagingNode extends Node  {
     
             RegisterRequest reg_request = new RegisterRequest(getHostName(), getPortNumber()); /* Created a new registry request */
             setRegisterRequest(reg_request);
-            this.nodeServerThread.send_msg(0, getRegisterRequest().getBytes());
+            getNodeServerThread().send_msg(0, getRegisterRequest().getBytes());
         } catch (Exception e) {
             System.err.println(e.getMessage());
         } // End try-catch block
@@ -109,7 +109,7 @@ public class MessagingNode extends Node  {
                     System.out.println("[MsgNode] Successfully deregistered.");
                 } // End if-else statement
 
-                this.node_server.close_server();
+                getNodeServerThread().close_server();
                 
                 try {
                     this.messaging_node_socket.close();
@@ -176,7 +176,7 @@ public class MessagingNode extends Node  {
                             Message m = new Message(payload);
                             Socket s = peerSockets.get(gen.nextInt(peerSockets.size()));
                             // System.out.println("[MsgNode] Sending message to " + s.getInetAddress().getHostName() + " at index: " + peerSockets.indexOf(s));
-                            send_message(node_server.socket_connetions.indexOf(s), m.getBytes(), "");
+                            send_message(getNodeServerThread().getPeerSockets().indexOf(s), m.getBytes(), "");
 
                             sendTracker++;
                             sumOfMsgsSent += payload;
@@ -187,7 +187,7 @@ public class MessagingNode extends Node  {
 
                 System.out.println("[MsgNode] Task completed. Sending TaskComplete to Registry.");
                 TaskComplete complete = new TaskComplete(getMsgNodeRegisterRequest());
-                send_message(0, complete.getBytes(), node_ip_address);
+                send_message(0, complete.getBytes(), getHostName());
                 break;
             case 9:
                 System.out.println("[MsgNode] Received TaskSummaryRequest");
@@ -237,7 +237,7 @@ public class MessagingNode extends Node  {
         final int PORT_NUM = Integer.parseInt(args[1]);
 
         MessagingNode newMessagingNode = new MessagingNode(REGISTRY_HOST_NAME, PORT_NUM);
-        newMessagingNode.node_server_thread.start(); /* start our TCPServerThread associated with our new_messaging_node object */
+        newMessagingNode.getNodeServerThread().start(); /* start our TCPServerThread associated with our new_messaging_node object */
 
         Scanner user_in = new Scanner(System.in);
         String line = null;
@@ -247,15 +247,15 @@ public class MessagingNode extends Node  {
 
             switch(line) {
                 case "register":
-                    RegisterRequest register = new RegisterRequest(newMessagingNode.msgNodeIP, newMessagingNode.msgNodePortNumber);
-                    newMessagingNode.node_server.send_msg(0, register.getBytes());
+                    RegisterRequest register = new RegisterRequest(newMessagingNode.getHostName(), newMessagingNode.getPortNumber());
+                    newMessagingNode.getNodeServerThread().send_msg(0, register.getBytes());
                     break;
                 case "print-shortest-path":
                     newMessagingNode.printShortestPath();
                     break;
                 case "exit-overlay":
-                    DeregisterRequest deregister = new DeregisterRequest(newMessagingNode.msgNodeIP, newMessagingNode.msgNodePortNumber);
-                    newMessagingNode.node_server.send_msg(0, deregister.getBytes());
+                    DeregisterRequest deregister = new DeregisterRequest(newMessagingNode.getHostName(), newMessagingNode.getPortNumber());
+                    newMessagingNode.getNodeServerThread().send_msg(0, deregister.getBytes());
                     /* the onEvent for DeregisterReponse closes the server thread and the nodes socket */
                     user_in.close();
                     return;

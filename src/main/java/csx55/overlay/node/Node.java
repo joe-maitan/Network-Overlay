@@ -27,7 +27,7 @@ public class Node {
     } // End setHostName() method
 
     public int getPortNumber() {
-        return this.portNumber
+        return this.portNumber;
     } // End getPortNumber() method
 
     public void setPortNumber(int port) {
@@ -60,11 +60,10 @@ public class Node {
         this.portNumber = nodeServerThread.getPortNumber();
     }
 
-    /* Abstract because both Nodes will handle events differently */
     public abstract void onEvent(Event event, int socketIndex);
     
     public void send_message(int socketIndex, byte[] arr, String message) {
-        this.sender = getNodeServerThread().getSenders().get(socket_index); /* constructs our TCPSender obj */
+        this.sender = getNodeServerThread().getSenders().get(socketIndex); /* constructs our TCPSender obj */
             
         try {
             this.sender.sendData(arr);

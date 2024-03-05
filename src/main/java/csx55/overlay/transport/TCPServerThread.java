@@ -40,23 +40,23 @@ public class TCPServerThread implements Runnable {
     } // End getReaders() method
 
     public TCPServerThread(Node node) {
-        this.serverThreadNode = node;
+        this.instanceOfNode = node;
         boolean connectionNotEstablished = false;
 
-            port = 1024; /* start at 1024 */
+        portNumber = 1024; /* start at 1024 */
 
-            while (!connectionNotEstablished && port < 65536) {
-                try {
-                    serverSocket = new ServerSocket(port);
-                    connectionNotEstablished = !connectionNotEstablished;
-                } catch (IOException err) {
-                    ++port;
-                } // End try-catch block
-            } // End while loop
+        while (!connectionNotEstablished && port < 65536) {
+            try {
+                serverSocket = new ServerSocket(portNumber);
+                connectionNotEstablished = !connectionNotEstablished;
+            } catch (IOException err) {
+                ++portNumber;
+            } // End try-catch block
+        } // End while loop
     } // End TCPServerThread() default constructor
 
     public TCPServerThread(Node node, final int PORT_NUM) {
-        serverThreadNode = node;
+        instanceOfNode = node;
         
         if (PORT_NUM > 1024 && PORT_NUM < 65536) { /* given a valid port number create the ServerSocket */
             try {
