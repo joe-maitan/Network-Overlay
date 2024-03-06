@@ -1,6 +1,5 @@
 package csx55.overlay.node;
 
-import csx55.overlay.dijkstra.ShortestPath;
 import csx55.overlay.wireformats.*;
 
 import java.io.*;
@@ -69,10 +68,6 @@ public class MessagingNode extends Node  {
         } // End try-catch block
     } // End MessagingNode() constructor
     
-    public RegisterRequest getMsgNodeRegisterRequest() {
-        return this.msgNodeRegisterRequest;
-    } // End getMsgNodeRegisterRequest() method
-
     @Override
     public void onEvent(Event event, int socketIndex) {
         if (event == null) { return; }
@@ -180,7 +175,7 @@ public class MessagingNode extends Node  {
                 } // End if-else statement
 
                 System.out.println("[MsgNode] Task completed. Sending TaskComplete to Registry.");
-                TaskComplete complete = new TaskComplete(getMsgNodeRegisterRequest());
+                TaskComplete complete = new TaskComplete(getRegisterRequest());
                 send_message(0, complete.getBytes(), getHostName());
                 break;
             case 9:
@@ -215,7 +210,7 @@ public class MessagingNode extends Node  {
     } // End onEvent() method
 
     public void printShortestPath() {
-        ShortestPath calc = new ShortestPath(msgNodeEdges, msgNodeMap);
+        // ShortestPath calc = new ShortestPath(msgNodeEdges, msgNodeMap);
         // shortestPath = calc.getShortestPath()
         // System.out.println(shorestPath)
         System.out.println("Unimplemented method - printShortestPath()");
