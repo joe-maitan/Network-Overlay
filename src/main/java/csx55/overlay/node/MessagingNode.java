@@ -9,10 +9,6 @@ import java.util.*;
 
 public class MessagingNode extends Node  {
 
-    // Can probably delete these 3 variables
-    // public String msgNodeHostName;
-    // public String msgNodeIP;
-    // public int msgNodePortNumber;
     private int msgNodeIndex; /* This will be important for getting the connections established */
 
     /* These are variables used to collect information from a MessagingNodesList message */
@@ -54,8 +50,6 @@ public class MessagingNode extends Node  {
             
             getNodeServerThread().add_socket(messaging_node_socket); /* Add this socket to our list of connections */
             msgNodeIndex = getNodeServerThread().getPeerSockets().indexOf(messaging_node_socket);
-
-            
 
             setHostName(InetAddress.getLocalHost().toString().substring(0, InetAddress.getLocalHost().toString().indexOf('/')));
             setPortNumber(getNodeServerThread().getPortNumber());
@@ -242,10 +236,10 @@ public class MessagingNode extends Node  {
         Scanner user_in = new Scanner(System.in);
         String line = null;
 
-        while (line != "exit-overlay") {
+        while (line != "exit") {
             line = user_in.nextLine();
 
-            switch(line) {
+            switch (line) {
                 case "register":
                     RegisterRequest register = new RegisterRequest(newMessagingNode.getHostName(), newMessagingNode.getPortNumber());
                     newMessagingNode.getNodeServerThread().send_msg(0, register.getBytes());
@@ -257,6 +251,8 @@ public class MessagingNode extends Node  {
                     DeregisterRequest deregister = new DeregisterRequest(newMessagingNode.getHostName(), newMessagingNode.getPortNumber());
                     newMessagingNode.getNodeServerThread().send_msg(0, deregister.getBytes());
                     /* the onEvent for DeregisterReponse closes the server thread and the nodes socket */
+                    break;
+                case "exit":
                     user_in.close();
                     return;
                 default:

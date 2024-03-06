@@ -20,9 +20,6 @@ public class Registry extends Node {
 
     public int linkCount = 0;
 
-    private boolean linksAreAssigned = false;
-    private boolean overlayIsConstructed = false;
-
     public ArrayList<TaskSummaryResponse> statisticList = new ArrayList<>();
     public StatisticsCollectorAndDisplay display;
 
@@ -35,10 +32,12 @@ public class Registry extends Node {
     } // End Registry(PORT) constructor
 
     public boolean register_node(int socket_index, RegisterRequest reg_rq) {
-        if (!registered_messaging_nodes.containsKey(socket_index)) {
-            registered_messaging_nodes.put(socket_index, reg_rq); /* Add the node to the Registry */
+        if (!registered_messaging_nodes.containsKey(socket_index)) { /* Add the node to the Registry */
+            registered_messaging_nodes.put(socket_index, reg_rq); 
             ++numberOfRegisteredNodes;
-            String success = String.format("Registration request successful. The number of messaaging nodes currently constituting the overlay is (%d).", numberOfRegisteredNodes);
+            
+            String success = String.format("Registration request successful. The number of messaging nodes currently constituting the overlay is (%d).", numberOfRegisteredNodes);
+            
             System.out.println(success);
             return true;
         } else { /* We do not add it to the registry */
@@ -50,10 +49,10 @@ public class Registry extends Node {
         if (registered_messaging_nodes.containsKey(socket_index)) {
             registered_messaging_nodes.remove(socket_index);
             getNodeServerThread().getPeerSockets().remove(socket_index);
-            // node_server.readers.remove(socket_index);
-            // node_server.senders.remove(socket_index);
             --numberOfRegisteredNodes;
+
             String success = String.format("Deregistration request successful. The number of messaging nodes currently constituting the overlay is (%d)", numberOfRegisteredNodes);
+            
             System.out.println(success);
             return true;
         } else {
@@ -70,63 +69,57 @@ public class Registry extends Node {
     } // End start() method
 
     public void construct_overlay(int numberOfConnections) {
-        if (overlayIsConstructed == false) {
-            /* This is what connects the other MessagingNodes to one another, given a list of other messaging node sockets, they would connect to each. */
-            Vertex currVertex = new Vertex(0, registered_messaging_nodes.get(0)); /* start at the first messaging node socket */
-        
-            if (numberOfRegisteredNodes <= numberOfConnections || numberOfConnections < 1 || (numberOfConnections*numberOfRegisteredNodes) % 2 != 0 || (numberOfConnections < 2 && numberOfRegisteredNodes > 2)) {
-                System.out.println("Cannot set up overlay.");
-                return;
-            }
+        /* This is what connects the other MessagingNodes to one another, given a list of other messaging node sockets, they would connect to each. */
+        Vertex currVertex = new Vertex(0, registered_messaging_nodes.get(0)); /* start at the first messaging node socket */
+    
+        if (numberOfRegisteredNodes <= numberOfConnections || numberOfConnections < 1 || (numberOfConnections*numberOfRegisteredNodes) % 2 != 0 || (numberOfConnections < 2 && numberOfRegisteredNodes > 2)) {
+            System.out.println("Cannot set up overlay.");
+            return;
+        }
 
-            /* For each vertex, create neighbors for the vertices */
-            for (int j = 1; j < numberOfRegisteredNodes; ++j) {
-                Vertex neighborVertex = new Vertex(j, registered_messaging_nodes.get(j));
-                /* creates an edge between these two vertices */
-                currVertex.addNeighbor(neighborVertex);
-                neighborVertex.addNeighbor(currVertex);
+        /* For each vertex, create neighbors for the vertices */
+        for (int j = 1; j < numberOfRegisteredNodes; ++j) {
+            Vertex neighborVertex = new Vertex(j, registered_messaging_nodes.get(j));
+            /* creates an edge between these two vertices */
+            currVertex.addNeighbor(neighborVertex);
+            neighborVertex.addNeighbor(currVertex);
 
-                linkCount++;
-                
-                vertices.add(currVertex);
-                currVertex = neighborVertex;
-            } // End for loop
-
+            linkCount++;
+            
             vertices.add(currVertex);
+            currVertex = neighborVertex;
+        } // End for loop
 
-            currVertex = vertices.get(0);
+        vertices.add(currVertex);
 
-            for (Vertex v : vertices) {
-                currVertex = v;
+        currVertex = vertices.get(0);
 
-                if (currVertex.getNeighborsSize() < numberOfConnections) {
-                    int neighborIndex = currVertex.getIndex() + 1;
+        for (Vertex v : vertices) {
+            currVertex = v;
+
+            if (currVertex.getNeighborsSize() < numberOfConnections) {
+                int neighborIndex = currVertex.getIndex() + 1;
+                
+                while (currVertex.getNeighborsSize() < numberOfConnections && neighborIndex < vertices.size()) {
+                    Vertex neighbor = vertices.get(neighborIndex);
                     
-                    while (currVertex.getNeighborsSize() < numberOfConnections && neighborIndex < vertices.size()) {
-                        Vertex neighbor = vertices.get(neighborIndex);
-                        
-                        if (currVertex.hasNeighbor(neighborIndex) == false && neighbor.hasNeighbor(currVertex.getIndex()) == false) {
-                            if (neighbor.getNeighborsSize() < numberOfConnections) {
-                                currVertex.addNeighbor(neighbor);
-                                neighbor.addNeighbor(currVertex);
-                                linkCount++;
-                            } // End if statement
+                    if (currVertex.hasNeighbor(neighborIndex) == false && neighbor.hasNeighbor(currVertex.getIndex()) == false) {
+                        if (neighbor.getNeighborsSize() < numberOfConnections) {
+                            currVertex.addNeighbor(neighbor);
+                            neighbor.addNeighbor(currVertex);
+                            linkCount++;
                         } // End if statement
+                    } // End if statement
 
-                        ++neighborIndex;
-                    } // End while loop
-                } // End for loop
-            } // End for-each loop loop
+                    ++neighborIndex;
+                } // End while loop
+            } // End for loop
+        } // End for-each loop loop
 
-            for (Vertex v : vertices) {
-                MessagingNodesList newRequest = new MessagingNodesList(v);
-                send_message(v.getIndex(), newRequest.getBytes(), "");
-            } // End for-each loop
-
-            overlayIsConstructed = true;
-        } else {
-            System.out.println("Overlay is already constructed.");
-        } // End if-else statement
+        for (Vertex v : vertices) {
+            MessagingNodesList newRequest = new MessagingNodesList(v);
+            send_message(v.getIndex(), newRequest.getBytes(), "");
+        } // End for-each loop
     } // End construct_overlay() method
 
     public void list_messaging_nodes() {
@@ -145,23 +138,19 @@ public class Registry extends Node {
 
     public void send_overlay_link_weights() {
         LinkWeights overlayLinkWeights;
-        if (overlayIsConstructed == true) {
-            overlayLinkWeights = new LinkWeights(this.vertices);
-            
-            for (int i = 0; i < numberOfRegisteredNodes; ++i) { 
-                send_message(i, overlayLinkWeights.getBytes(), ""); 
-            } // End for loop
-        } else {
-            System.out.println("Overlay is not setup. Please construct overlay.");
-            return;
-        } // End send_overlay_link_weights() method
-
+        
+        overlayLinkWeights = new LinkWeights(this.vertices);
+        
+        for (int i = 0; i < numberOfRegisteredNodes; ++i) { 
+            send_message(i, overlayLinkWeights.getBytes(), ""); 
+        } // End for loop
+    
         this.edgesOfMessagingNodes = overlayLinkWeights.getEdges();
         this.mapOfEdges = overlayLinkWeights.getMap();
     } // End list_weights() method
 
     public void taskComplete(Event event) {
-        TaskComplete taskComplete = (TaskComplete) event;
+        // TaskComplete taskComplete = (TaskComplete) event;
         int numTasksComp = numberOfTaskCompleted.incrementAndGet();
 
         if (numTasksComp == numberOfRegisteredNodes) {
@@ -246,10 +235,6 @@ public class Registry extends Node {
         // statisticList.clear();
     } // End onEvent() method
 
-    public boolean isOverlayConstructed() {
-        return overlayIsConstructed;
-    }
-
     public static void main(String[] args) {
         if (args.length < 1 || args.length > 1) {
             System.out.println("Registry - Invalid number of arguments. Exiting program.");
@@ -276,11 +261,11 @@ public class Registry extends Node {
                     System.out.println("No Messaging Nodes to list");
                 }
             } else if (line.equals("list-weights")) {
-                if (our_registry.isOverlayConstructed()) {
+                // if (our_registry.isOverlayConstructed()) {
                     our_registry.list_weights();
-                } else {
-                    System.out.println("Need to setup overlay");
-                }
+                // } else {
+                //     System.out.println("Need to setup overlay");
+                // }
             } else if (line.contains("setup-overlay")) { // TODO: Figure out how to allow another node to join after setting up Overlay and then getting that node in the current overlay
                 int connections_required = 4; /* Connections Required by default are 4 */
             
