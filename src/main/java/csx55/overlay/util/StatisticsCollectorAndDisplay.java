@@ -1,6 +1,5 @@
 package csx55.overlay.util;
 
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.*;
 
 import csx55.overlay.wireformats.TaskSummaryResponse;

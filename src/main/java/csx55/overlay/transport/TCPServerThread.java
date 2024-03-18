@@ -93,6 +93,7 @@ public class TCPServerThread implements Runnable {
         try {
             serverSocket.close();
         } catch (IOException err) {
+            System.out.println("error closing socket");
             System.err.println(err.getMessage());
         } // End try-catch block
     } // End close_server() method

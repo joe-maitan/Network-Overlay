@@ -96,15 +96,8 @@ public class MessagingNode extends Node  {
                     System.out.println("[MsgNode] Failed to deregister.");
                 } else {
                     System.out.println("[MsgNode] Successfully deregistered.");
+                    getNodeServerThread().close_server();
                 } // End if-else statement
-
-                getNodeServerThread().close_server();
-                
-                try {
-                    this.messaging_node_socket.close();
-                } catch (IOException err) {
-                    System.err.println(err.getMessage());
-                } // End try-catch block
 
                 break;
             case 4: /* Link weights */
