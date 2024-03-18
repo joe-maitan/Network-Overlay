@@ -3,8 +3,7 @@ package csx55.overlay.node;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import csx55.overlay.transport.TCPSender;
-import csx55.overlay.util.StatisticsCollectorAndDisplay;
+import csx55.overlay.util.*;
 import csx55.overlay.wireformats.*;
 
 public class Registry extends Node {

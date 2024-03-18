@@ -14,8 +14,17 @@ Tar command for submission: tar -cvf Joseph_Maitan_HW1.tar src build.gradle READ
 
 java -cp build/classes/java/main/ csx55.overlay.node.MessagingNode ferrari 5505
 
-Registry Commands
-1. setup-overlay
+Registry Commands (in this order)
+1. setup-overlay <number-of-connections>
 2. send-overlay-link-weights
 3. start <num-rounds>
+
+Extra:
+    list-messaging-nodes
+    list-weights
+
+MessagingNode Commands
+    print-shortest-path
+    exit-overlay
+
 
