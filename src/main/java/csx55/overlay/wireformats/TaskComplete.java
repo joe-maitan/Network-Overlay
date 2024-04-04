@@ -40,7 +40,6 @@ public class TaskComplete implements Event {
         try {
             dout.writeInt(getType());
 
-            /* TODO: Figure out what is going wrong here */
             byte[] ipAddressByte = nodeIPAddress.getBytes();
             int ipAddressLength = ipAddressByte.length;
             dout.writeInt(ipAddressLength);
