@@ -17,5 +17,5 @@ Extra:
     list-messaging-nodes
     list-weights
     
-# MessagingNode Commands
+# Commands for the Messaging Node
 1. exit-overlay
