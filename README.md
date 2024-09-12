@@ -14,3 +14,4 @@ This was one of the hardest programming projects I did as a Computer Science und
 
 ### Notes
 This project was built with Gradle. The CS department did not walk us through the download of Gradle, but instead had us load it as a module.
+**THIS WAS ALSO COMPILED ON A LINUX MACHINE**
