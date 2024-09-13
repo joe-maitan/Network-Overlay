@@ -25,9 +25,15 @@ send-overlay-link-weights
 start <num-rounds>
 ```
 
-Extra:
-    list-messaging-nodes
-    list-weights
+### Extra:
+```
+list-messaging-nodes
+```
+```
+list-weights
+```
     
 # Commands for the Messaging Node
-1. exit-overlay
+```
+exit-overlay
+```
