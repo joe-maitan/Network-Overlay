@@ -1,8 +1,8 @@
 # Network Overlay in Java
 
-The objective was to use Dijkstra’s Shortest Paths to Route Packets in a Network Overlay.
+The objective of this project was to use Dijkstra’s Shortest Paths algorithm to route packets in a Network Overlay.
 
-I did not get to implement Dijkstra's due to the time constraint of the assignment, but it was a great learning experience.
+I did not get to implement Dijkstra's due to the time constraint of the project, but it was a great learning experience.
 
 What I learned about:
 - I learned how to manage multiple threads and libraries.
@@ -13,4 +13,9 @@ This was one of the hardest programming projects I did as a Computer Science und
 
 ### Notes
 This project was built with Gradle. The CS department did not walk us through the download of Gradle, but instead had us load it as a module.
-**THIS WAS ALSO COMPILED ON A LINUX MACHINE**
+
+
+CS SNA Module load of Gradle
+```
+module load dev/gradle
+```
