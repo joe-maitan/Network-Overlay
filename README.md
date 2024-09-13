@@ -19,4 +19,4 @@ CS SNA Module load of Gradle (CSU CS Department command)
 module load dev/gradle
 ```
 
-Else follow Gradle download tools at (here)[https://gradle.org/install/]
+Else follow Gradle download tools here: https://gradle.org/install/
