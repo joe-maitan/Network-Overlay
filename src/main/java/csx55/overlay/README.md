@@ -15,6 +15,7 @@ java -cp build/classes/java/main/ csx55.overlay.node.MessagingNode <hostname> <p
 ```
 
 # Commands for the Registry
+You can specify a number of connections for the nodes to connect to. The default is 4.
 ```
 setup-overlay <number-of-connections>
 ```
