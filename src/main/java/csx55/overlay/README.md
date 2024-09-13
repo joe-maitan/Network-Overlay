@@ -15,9 +15,15 @@ java -cp build/classes/java/main/ csx55.overlay.node.MessagingNode <hostname> <p
 ```
 
 # Commands for the Registry
-1. setup-overlay <number-of-connections>
-2. send-overlay-link-weights
-3. start <num-rounds>
+```
+setup-overlay <number-of-connections>
+```
+```
+send-overlay-link-weights
+```
+```
+start <num-rounds>
+```
 
 Extra:
     list-messaging-nodes
