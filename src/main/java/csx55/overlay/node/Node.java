@@ -42,7 +42,7 @@ public abstract class Node {
 
     public Thread getServerThread() {
         return this.serverThread;
-    }
+    } // End getServerThread() method
 
     public TCPReceiverThread getNodeRecieverThread() {
         return this.nodeRecieverThread;
@@ -50,7 +50,7 @@ public abstract class Node {
 
     public Thread getRecieverThread() {
         return this.recieverThread;
-    }
+    } // End getRecieverThread() method
 
     public TCPSender getNodeTCPSender() {
         return this.sender;
@@ -72,12 +72,7 @@ public abstract class Node {
 
     public void send_message(int socketIndex, byte[] arr, String message) {
         this.sender = getNodeServerThread().getSenders().get(socketIndex); /* constructs our TCPSender obj */
-            
-        // try {
-            this.sender.sendData(arr);
-        // } catch (IOException err) {
-        //     System.err.println(err.getMessage());
-        // } // End try-catch block
+        this.sender.sendData(arr);
     } // End send_message() method
 
     public void addSocket(Socket s) {
