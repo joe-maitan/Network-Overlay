@@ -1,8 +1,13 @@
 # How to run the Network Overlay
+First, we need to build the project.
+```
+gradle build
+```
 
-gradle build - To build the jar file we will be executing
-
-gradle clean - If you need to clear the build directory
+If needed clean the project.
+```
+gradle clean
+```
 
 How to run the Registry (server) code: 
 ```
