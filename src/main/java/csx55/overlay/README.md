@@ -1,5 +1,9 @@
 # How to run the Network Overlay
-First, we need to build the project.
+First, we need to build the project. You can build the project in the directory of the repository. For example,
+```
+winter-park:~/Network-Overlay$
+```
+
 ```
 gradle build
 ```
