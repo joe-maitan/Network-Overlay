@@ -1,15 +1,26 @@
 package csx55.overlay.node;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import csx55.overlay.util.*;
-import csx55.overlay.wireformats.*;
+import csx55.overlay.util.StatisticsCollectorAndDisplay;
+import csx55.overlay.wireformats.DeregisterRequest;
+import csx55.overlay.wireformats.DeregisterResponse;
+import csx55.overlay.wireformats.Event;
+import csx55.overlay.wireformats.LinkWeights;
+import csx55.overlay.wireformats.MessagingNodesList;
+import csx55.overlay.wireformats.RegisterRequest;
+import csx55.overlay.wireformats.RegisterResponse;
+import csx55.overlay.wireformats.TaskInitiate;
+import csx55.overlay.wireformats.TaskSummaryRequest;
+import csx55.overlay.wireformats.TaskSummaryResponse;
 
 public class Registry extends Node {
 
     /* Pairs the index of the Socket with the matching RegisterRequest of the MessagingNode */
-    private HashMap<Integer, RegisterRequest> registered_messaging_nodes = new HashMap<>();
+    private HashMap<Integer, RegisterRequest> registeredMessagingNodes = new HashMap<>();
 
     private ArrayList<Vertex> vertices = new ArrayList<>();
     private ArrayList<String> edgesOfMessagingNodes;
@@ -31,7 +42,7 @@ public class Registry extends Node {
     } // End Registry(PORT) constructor
 
     public HashMap<Integer, RegisterRequest> getRegisteredMessagingNodes() {
-        return registered_messaging_nodes;
+        return registeredMessagingNodes;
     } // End getRegisteredMessagingNodes() method   
 
     public int getNumberOfRegisteredNodes() {
@@ -62,25 +73,21 @@ public class Registry extends Node {
         if (!getRegisteredMessagingNodes().containsKey(socket_index)) { /* Add the node to the Registry */
             getRegisteredMessagingNodes().put(socket_index, reg_rq); 
             ++numberOfRegisteredNodes;
-            
-            String success = String.format("Registration request successful. The number of messaging nodes currently constituting the overlay is (%d).", numberOfRegisteredNodes);
-            
-            System.out.println(success);
+
+            System.out.println(String.format("Registration request successful. The number of messaging nodes currently constituting the overlay is (%d).", numberOfRegisteredNodes));
             return true;
-        } else { /* We do not add it to the registry */
+        } else {
             return false;
         } // End if-else statement
     } // End register_node() method
 
     public boolean deregister_node(int socket_index, DeregisterRequest dereg_rq) {
-        if (registered_messaging_nodes.containsKey(socket_index)) {
-            registered_messaging_nodes.remove(socket_index);
+        if (registeredMessagingNodes.containsKey(socket_index)) {
+            registeredMessagingNodes.remove(socket_index);
             getNodeServerThread().getPeerSockets().remove(socket_index);
             --numberOfRegisteredNodes;
 
-            String success = String.format("Deregistration request successful. The number of messaging nodes currently constituting the overlay is (%d)", numberOfRegisteredNodes);
-            
-            System.out.println(success);
+            System.out.println(String.format("Deregistration request successful. The number of messaging nodes currently constituting the overlay is (%d)", numberOfRegisteredNodes));
             return true;
         } else {
             return false;
@@ -155,8 +162,8 @@ public class Registry extends Node {
 
     public void list_messaging_nodes() {
         RegisterRequest temp;
-        for (int i = 0; i < registered_messaging_nodes.size(); ++i) {
-            temp = registered_messaging_nodes.get(i);
+        for (int i = 0; i < registeredMessagingNodes.size(); ++i) {
+            temp = registeredMessagingNodes.get(i);
             System.out.println(temp.getAddress() + " - " + temp.getPort());
         } // End for loop
     } // End list_messaging_nodes() method
@@ -256,13 +263,10 @@ public class Registry extends Node {
             case 10: /* Task Summary Response */
                 numberOfTaskCompleted.set(0);
                 taskSummary(event);
-                // statisticList.clear();
                 break;
             default:
                 System.out.println("Registry.java - Unrecognized Event.");
         } // End switch statement
-
-        // statisticList.clear();
     } // End onEvent() method
 
     public static void main(String[] args) {
@@ -281,7 +285,7 @@ public class Registry extends Node {
         Scanner user_in = new Scanner(System.in);
         String line = null;
         
-        while (line != "exit") {
+        while (!line.equals("exit")) {
             line = user_in.nextLine();
  
             if (line.equals("list-messaging-nodes")) {

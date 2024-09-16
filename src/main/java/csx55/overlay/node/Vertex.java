@@ -1,14 +1,13 @@
 package csx55.overlay.node;
 
-import java.util.*;
+import java.util.ArrayList;
 
-import csx55.overlay.wireformats.*;
+import csx55.overlay.wireformats.RegisterRequest;
 
 public class Vertex {
 
     /* Every MessagingNode correlates to a Vertex. This class will keep track of a Nodes neighbors
-     * and the weight on those connections
-     */
+     * and the weight on those connections */
     private int vertexIndex; /* where it is in our vertices ArrayList in Registry.java */
     // private int weight = 0;
     private ArrayList<Vertex> neighbors = new ArrayList<>();
@@ -16,7 +15,7 @@ public class Vertex {
 
     private RegisterRequest registerRequest;
 
-    Random linkWeightGenerator = new Random();
+    // Random linkWeightGenerator = new Random();
 
     public Vertex(int index, RegisterRequest msgNodeRegisterRequest) {
         this.vertexIndex = index;

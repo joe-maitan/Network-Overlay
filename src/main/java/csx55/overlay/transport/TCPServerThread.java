@@ -1,10 +1,11 @@
 package csx55.overlay.transport;
 
-import java.net.*;
-import java.io.*;
-import java.util.*;
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.ArrayList;
 
-import csx55.overlay.node.*;
+import csx55.overlay.node.Node;
 
 public class TCPServerThread implements Runnable {
 
@@ -13,9 +14,8 @@ public class TCPServerThread implements Runnable {
     private static TCPReceiverThread read = null;
     public volatile boolean done = false;
 
-    /* THESE TWO STRINGS WILL BE USED TO HELP FILL OUT MESSAGENODE DATA */
     private String hostName;
-    private int portNumber; /* DO NOT DELETE THIS. THIS IS THE PORT OUR NODES SERVER WILL LAUNCH ON */
+    private int portNumber;
     
     private Node instanceOfNode; /* tells us whether it is a Registry node or a MessagingNode */
 
@@ -74,8 +74,8 @@ public class TCPServerThread implements Runnable {
                 try {
                     Socket clientSocket = serverSocket.accept();
                     
-                    String clientIPAddress = clientSocket.getInetAddress().toString();
-                    clientIPAddress = clientIPAddress.substring(clientIPAddress.indexOf('/') + 1);
+                    // String clientIPAddress = clientSocket.getInetAddress().toString();
+                    // clientIPAddress = clientIPAddress.substring(clientIPAddress.indexOf('/') + 1);
                     // System.out.println("[TCPServerThread]: " + clientIPAddress + " has connected at port: " + clientSocket.getPort()); /* validation that something that has connected to the registry */
                     
                     add_socket(clientSocket);
@@ -83,7 +83,6 @@ public class TCPServerThread implements Runnable {
                     System.out.println(err.getMessage());
                 } // End try-catch block
             } // End while loop
-            
         } // End if statment
     } // End run() method
 
@@ -99,11 +98,7 @@ public class TCPServerThread implements Runnable {
     } // End close_server() method
 
     public void send_msg(int toIndex, byte[] arr) {
-        // try {
-            getSenders().get(toIndex).sendData(arr);
-        // } catch (IOException err) {
-        //     System.err.println(err.getMessage());
-        // }
+        getSenders().get(toIndex).sendData(arr);
     } // End send_msg
 
     public int get_socket_index(Socket search) {
@@ -128,7 +123,7 @@ public class TCPServerThread implements Runnable {
             } catch (IOException err) {
                 System.err.println(err.getMessage());
             } // End try-catch block
-        }            
+        } // End if-statement          
     } // End add_socket() method
     
 } // End TCPServerThread class
