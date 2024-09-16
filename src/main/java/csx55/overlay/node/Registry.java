@@ -285,7 +285,7 @@ public class Registry extends Node {
         Scanner user_in = new Scanner(System.in);
         String line = null;
         
-        while (!line.equals("exit")) {
+        while (line != "exit") {
             line = user_in.nextLine();
  
             if (line.equals("list-messaging-nodes")) {
