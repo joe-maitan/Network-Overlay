@@ -50,3 +50,9 @@ register
 ```
 exit-overlay
 ```
+or
+```
+exit
+```
+
+

@@ -203,9 +203,6 @@ public class MessagingNode extends Node  {
     } // End onEvent() method
 
     public void printShortestPath() {
-        // ShortestPath calc = new ShortestPath(msgNodeEdges, msgNodeMap);
-        // shortestPath = calc.getShortestPath()
-        // System.out.println(shorestPath)
         System.out.println("Unimplemented method - printShortestPath()");
     } // End printShortestPath()
 
