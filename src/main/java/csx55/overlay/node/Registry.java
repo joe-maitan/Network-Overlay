@@ -1,21 +1,10 @@
 package csx55.overlay.node;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Scanner;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import csx55.overlay.util.StatisticsCollectorAndDisplay;
-import csx55.overlay.wireformats.DeregisterRequest;
-import csx55.overlay.wireformats.DeregisterResponse;
-import csx55.overlay.wireformats.Event;
-import csx55.overlay.wireformats.LinkWeights;
-import csx55.overlay.wireformats.MessagingNodesList;
-import csx55.overlay.wireformats.RegisterRequest;
-import csx55.overlay.wireformats.RegisterResponse;
-import csx55.overlay.wireformats.TaskInitiate;
-import csx55.overlay.wireformats.TaskSummaryRequest;
-import csx55.overlay.wireformats.TaskSummaryResponse;
+import csx55.overlay.wireformats.*;
 
 public class Registry extends Node {
 

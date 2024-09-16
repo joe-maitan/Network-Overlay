@@ -235,13 +235,11 @@ public class MessagingNode extends Node  {
                 case "print-shortest-path":
                     newMessagingNode.printShortestPath();
                     break;
+                case "exit":
                 case "exit-overlay":
                     DeregisterRequest deregister = new DeregisterRequest(newMessagingNode.getHostName(), newMessagingNode.getPortNumber());
                     newMessagingNode.getNodeServerThread().send_msg(0, deregister.getBytes());
                     /* the onEvent for DeregisterReponse closes the server thread and the nodes socket */
-                    break;
-                case "exit":
-                    user_in.close();
                     return;
                 default:
                     System.out.println("[MsgNode] Unrecognized command. Please try again");
