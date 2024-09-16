@@ -1,4 +1,6 @@
 # How to run the Network Overlay
+You must have Java version 8 or higher to build and run the program.
+
 First, we need to build the project. You can build the project in the directory of the repository. For example,
 ```
 winter-park:~/Network-Overlay$
