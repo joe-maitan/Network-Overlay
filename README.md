@@ -17,5 +17,10 @@ This command will load gradle version 8.3 or higher.
 ```
 module load dev/gradle
 ```
+```
+module load java/11
+```
 
 Else follow Gradle download tools here: https://gradle.org/install/
+
+and Java download tools here: https://www.oracle.com/java/technologies/downloads/
