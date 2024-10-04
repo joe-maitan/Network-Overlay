@@ -76,7 +76,7 @@ public class TCPServerThread implements Runnable {
                     
                     // String clientIPAddress = clientSocket.getInetAddress().toString();
                     // clientIPAddress = clientIPAddress.substring(clientIPAddress.indexOf('/') + 1);
-                    // System.out.println("[TCPServerThread]: " + clientIPAddress + " has connected at port: " + clientSocket.getPort()); /* validation that something that has connected to the registry */
+                    System.out.println("[TCPServerThread]: " + clientIPAddress + " has connected at port: " + clientSocket.getPort()); /* validation that something that has connected to the registry */
                     
                     add_socket(clientSocket);
                 } catch (IOException err) {
